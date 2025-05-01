@@ -4,11 +4,13 @@ import { CiSearch } from "react-icons/ci";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { MdOutlineAddComment } from "react-icons/md";
 import { FaInstagram } from "react-icons/fa";
+import { Link } from "react-router-dom";
 const Sidebar = () => {
   const sideBarItems = [
     {
       icon: <MdHomeFilled className="text-3xl" />,
       text: "Trang chủ",
+      link: "/"
     },
     {
       icon: <CiSearch className="text-3xl" />,
@@ -30,6 +32,7 @@ const Sidebar = () => {
           className="w-[2rem] h-[2rem] rounded-full object-cover "
         />
       ),
+      link:"quangdat.ng",
       text: "Trang cá nhân",
     },
   ];
@@ -41,12 +44,14 @@ const Sidebar = () => {
       </div>
       <div className="flex flex-col gap-y-5 max-lg:items-center">
         {sideBarItems.map((item, index) => (
+          <Link to={item.link || null}>
           <div className="flex items-center max-lg:justify-between gap-5 cursor-pointer hover:bg-color-dash duration-200 rounded-sm py-2 px-2"
            key={index}
           >
             {item.icon}
             <p className={`${index === 0 ? "font-bold" : ""} max-lg:hidden`}>{item.text}</p>
           </div>
+          </Link>
         ))}
       </div>
     </div>

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @theme {
-  --color-color-dash: #353535; 
+  --color-color-dash: #212020; 
   --color-color-text-gray: #7A7A7A; 
+  --color-color-btn-gray: #85848496;
+  --color-color-note: #373636;
 }
