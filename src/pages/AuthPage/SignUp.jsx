@@ -19,12 +19,24 @@ const SignUp = () => {
       <form className="space-y-4"
        onSubmit={(e) => {
         e.preventDefault();
-        // if(error) setErrorMessage({...errorMessage, errorEmail: "Email không hợp lệ"})
+        let hasError = false;
+        let newErrorMessage = { errorEmail: "", errorPassword: "" };
+        
         if(inputSign.password !== inputSign.confirmPassword){
-          setErrorMessage({...errorMessage, errorPassword: "Mật khẩu không trùng khớp"})
-          return;
+          newErrorMessage.errorPassword = "Mật khẩu không trùng khớp";
+          hasError = true;
         }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(inputSign.email)) {
+          newErrorMessage.errorEmail = "Email không hợp lệ";
+          hasError = true;
+        }
+        
+        setErrorMessage(newErrorMessage);
+        
+        if(hasError) return;
         signUp(inputSign);
+        console.log(localStorage.getItem('user'))
        }}
       >
         <input
@@ -35,11 +47,15 @@ const SignUp = () => {
             setInputSign({ ...inputSign, email: e.target.value })
           }
           placeholder="Email của bạn"
-          className="w-full bg-black text-white border border-gray-700 rounded px-4 py-2 focus:outline-none placeholder:text-[10px]"
+          className={`w-full bg-black text-white border rounded-xs px-4 py-2 focus:outline-none placeholder:text-[10px] ${errorMessage.errorEmail ? "border-red-500": "border-gray-700 rounded"}`}
         />
         {
-          error && errorMessage.errorEmail && (
+          errorMessage.errorEmail && (
             <div className="px-4 mt-[-12px] text-xs text-red-500">{errorMessage.errorEmail}</div>
+          )
+        }
+        {error && (
+            <div className="px-4 mt-[-12px] text-xs text-red-500">Email đã tồn tại</div>
           )
         }
         <input
@@ -61,7 +77,7 @@ const SignUp = () => {
               setInputSign({ ...inputSign, password: e.target.value })
             }
             placeholder="Mật khẩu"
-            className="w-full bg-black text-white border border-gray-700 rounded px-4 py-2 focus:outline-none placeholder:text-[10px]"
+            className={`w-full bg-black text-white border rounded-xs px-4 py-2 focus:outline-none placeholder:text-[10px] ${errorMessage.errorPassword ? "border-red-500": "border-gray-700 rounded"}`}
           />
           {inputSign.password && (
             <span
@@ -72,6 +88,11 @@ const SignUp = () => {
             </span>
           )}
         </div>
+        {
+           errorMessage.errorPassword && (
+            <div className="px-4 mt-[-12px] text-xs text-red-500">{errorMessage.errorPassword}</div>
+          )
+        }
         <div className="flex">
           <input
             type={`${displayPass ? "password" : "text"}`}
@@ -81,15 +102,14 @@ const SignUp = () => {
               setInputSign({ ...inputSign, confirmPassword: e.target.value })
             }
             placeholder="Nhập lại mật khẩu"
-            className="w-full bg-black text-white border border-gray-700 rounded px-4 py-2 focus:outline-none placeholder:text-[10px]"
+            className={`w-full bg-black text-white border rounded-xs px-4 py-2 focus:outline-none placeholder:text-[10px] ${errorMessage.errorPassword ? "border-red-500": "border-gray-700 rounded"}`}
           />
-          {inputSign.password && (
-            <span
-              className="bg-black py-1  absolute top-1 right-1 px-2 text-white cursor-pointer font-semibold select-none"
-              onClick={() => setDisplayPass(!displayPass)}
-            ></span>
-          )}
         </div>
+        {
+          errorMessage.errorPassword && (
+            <div className="px-4 mt-[-12px] text-xs text-red-500">{errorMessage.errorPassword}</div>
+          )
+        }
         <button
           type="submit"
           className={`w-full bg-blue-400 ${
@@ -99,9 +119,12 @@ const SignUp = () => {
             inputSign.confirmPassword
               ? "opacity-100"
               : "opacity-60"
-          } text-white font-medium py-1 rounded transition duration-200 cursor-pointer`}
+          } text-white font-medium py-1 rounded transition duration-200 cursor-pointer flex justify-center`
+        }
+        disabled={!(inputSign.email && inputSign.password && inputSign.userName && inputSign.confirmPassword)}
         >
-          Đăng kí
+          
+          {loading ? <img className="object-cover w-7 h-7 rounded-full" src="loading.gif" alt="loading" /> : "Đăng kí"}
         </button>
       </form>
     </div>

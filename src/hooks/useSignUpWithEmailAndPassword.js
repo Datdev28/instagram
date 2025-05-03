@@ -9,11 +9,6 @@ const useSignUpWithEmailAndPassword = () => {
     error,
   ] = useCreateUserWithEmailAndPassword(auth);
   const signUp = async (inputs) => {
-    if(!inputs.email || !inputs.userName || !inputs.password || !inputs.confirmPassword){
-      console.log("Bạn phải điền đầy đủ thông tin")
-      return;
-    }
-    console.log(error);
     try {
       const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
       if(!newUser && error){
@@ -33,7 +28,7 @@ const useSignUpWithEmailAndPassword = () => {
           createAt: Date.now(),
         }
       await setDoc(doc(fireStore, "users", newUser.user.uid), userDoc);
-      localStorage.setItem("users", JSON.stringify(userDoc))
+      localStorage.setItem("user", JSON.stringify(userDoc))
       }
     } catch (error) {
       console.log(error)

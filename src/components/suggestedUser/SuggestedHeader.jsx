@@ -1,11 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-
+import useLogOut from "../../hooks/useLogOut";
 const SuggestedHeader = () => {
-  const navigate = useNavigate()
-  const handleClickLogOut = () => {
-    navigate("/auth")
-  }
+  const {handleLogOut, isLoginOut} = useLogOut()
   return (
     <div className="flex items-center justify-between text-sm">
       <div className="flex items-center gap-x-2">
@@ -19,7 +15,7 @@ const SuggestedHeader = () => {
           <p className="text-color-text-gray">Quang Đạt</p>
         </div>
       </div>
-      <span className="text-blue-400 text-xs cursor-pointer" onClick={handleClickLogOut}>Đăng xuất</span>
+      <button className="text-blue-400 text-xs cursor-pointer" onClick={handleLogOut}>Đăng xuất</button>
     </div>
   );
 };
