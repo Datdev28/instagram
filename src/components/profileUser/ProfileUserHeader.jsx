@@ -2,9 +2,11 @@ import React from "react";
 import { RiSettings4Fill } from "react-icons/ri";
 import { useState } from "react";
 import ModalNote from "../modal/modalNoteProfile";
+import userProfileStore from "../../store/userProfileStore";
 
 const ProfileUserHeader = () => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
+  const {useProfile} = userProfileStore();
   return (
     <div className="flex flex-col w-full">
       <div className="flex px-10 w-full items-center justify-center gap-x-10 max-md:px-2 mb-10">

@@ -5,7 +5,9 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { MdOutlineAddComment } from "react-icons/md";
 import { FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useAuthStore from "../../store/authStore";
 const Sidebar = () => {
+  const user = useAuthStore(state => state.user) 
   const sideBarItems = [
     {
       icon: <MdHomeFilled className="text-3xl" />,
@@ -32,7 +34,7 @@ const Sidebar = () => {
           className="w-[2rem] h-[2rem] rounded-full object-cover "
         />
       ),
-      link:"quangdat.ng",
+      link: user.userName,
       text: "Trang cá nhân",
     },
   ];

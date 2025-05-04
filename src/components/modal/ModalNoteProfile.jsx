@@ -9,7 +9,6 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
   const [showEmoj, setShowEmoj] = useState(false)
   const handleOnChange = (e) => {
     setValueText(e.target.value);
-    console.log(valueText);
   }
   const handleClickEmoj = (emojiData) => {
     setValueText((prev) => prev + emojiData.emoji)

@@ -5,22 +5,26 @@ const SignUp = () => {
   const [inputSign, setInputSign] = useState({
     email: "",
     userName: "",
+    fullName: "",
     password: "",
     confirmPassword: "",
   });
   const [errorMessage, setErrorMessage] = useState({
     errorEmail: "",
     errorPassword:"",
+    userName: "",
+    fullName: "",
   });
   const [displayPass, setDisplayPass] = useState(true);
-  const { loading, error, signUp } = useSignUpWithEmailAndPassword();
+  const { loading, error, signUp, errorUsername} = useSignUpWithEmailAndPassword();
+  console.log(errorUsername);
   return (
     <div>
       <form className="space-y-4"
        onSubmit={(e) => {
         e.preventDefault();
         let hasError = false;
-        let newErrorMessage = { errorEmail: "", errorPassword: "" };
+        let newErrorMessage = { errorEmail: "", errorPassword: "", userName: "", fullName: ""};
         
         if(inputSign.password !== inputSign.confirmPassword){
           newErrorMessage.errorPassword = "Mật khẩu không trùng khớp";
@@ -31,7 +35,11 @@ const SignUp = () => {
           newErrorMessage.errorEmail = "Email không hợp lệ";
           hasError = true;
         }
-        
+        const userNameRegex = /^[a-z0-9_.-]+$/;
+        if (!userNameRegex.test(inputSign.userName)) {
+          newErrorMessage.errorUserName = "Tên người dùng chỉ được chứa chữ thường, số, và các ký tự (_ . -),không dấu, không khoảng trắng";
+          hasError = true;
+        }
         setErrorMessage(newErrorMessage);
         
         if(hasError) return;
@@ -67,6 +75,10 @@ const SignUp = () => {
           placeholder="Tên của bạn"
           className="w-full bg-black text-white border border-gray-700 rounded px-4 py-2 focus:outline-none placeholder:text-[10px]"
         />
+          {errorUsername && (
+            <div className="px-4 mt-[-12px] text-xs text-red-500">Tên người dùng đã tồn tại</div>
+          )
+        }
         <div className="flex relative">
           <input
             type={`${displayPass ? "password" : "text"}`}

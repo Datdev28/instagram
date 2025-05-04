@@ -1,15 +1,24 @@
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth, fireStore } from '../firebase/firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import useAuthStore from '../store/authStore';
+import { useState } from 'react';
 const useSignUpWithEmailAndPassword = () => {
+  const [errorUsername, setErrorUsername] = useState(false);
   const [
     createUserWithEmailAndPassword,
+    user ,
     loading,
     error,
   ] = useCreateUserWithEmailAndPassword(auth);
   const loginUser = useAuthStore(state => state.login)
   const signUp = async (inputs) => {
+    const q = query(collection(fireStore, "users"), where("userName", "==", inputs.userName));
+    const querySnapShot = await getDocs(q);
+    if(!querySnapShot.empty){
+      setErrorUsername(true);
+      return 
+    }
     try {
       const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
       if(!newUser && error){
@@ -36,7 +45,7 @@ const useSignUpWithEmailAndPassword = () => {
       console.log(error)
     }
   }
-  return {loading, error, signUp}
+  return {loading, error, signUp, errorUsername}
 }
 
 export default useSignUpWithEmailAndPassword
