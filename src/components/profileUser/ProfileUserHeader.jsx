@@ -4,12 +4,12 @@ import { useState } from "react";
 import ModalNote from "../modal/modalNoteProfile";
 
 const ProfileUserHeader = () => {
-  const [modalIsOpenNote, setModalIsOpenNote] = useState(true);
+  const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   return (
     <div className="flex flex-col w-full">
-      <div className="flex px-10 items-center justify-center gap-x-10 max-md:px-0 mb-10">
+      <div className="flex px-10 w-full items-center justify-center gap-x-10 max-md:px-2 mb-10">
         <div className="relative flex flex-col justify-center">
-          <img
+          <img  
             className="w-[10rem] max-md:w-[77px] aspect-square object-cover rounded-full cursor-pointer"
             src="profile.jpg"
             alt="avatar"

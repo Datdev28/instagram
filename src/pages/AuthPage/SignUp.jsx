@@ -36,7 +36,6 @@ const SignUp = () => {
         
         if(hasError) return;
         signUp(inputSign);
-        console.log(localStorage.getItem('user'))
        }}
       >
         <input

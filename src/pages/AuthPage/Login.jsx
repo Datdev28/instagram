@@ -1,15 +1,21 @@
 import React from "react";
 import { useState } from "react";
+import useLogin from "../../hooks/useLogin";
 const Login = () => {
   const [login, setLogin] = useState({
     email: "",
     password: "",
   });
   const [displayPass, setDisplayPass] = useState(true);
-
+  const { signIn, loading, error } = useLogin();
   return (
     <div>
-      <form className="space-y-4">
+      <form
+        className="space-y-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <input
           type="text"
           name="username"
@@ -40,11 +46,26 @@ const Login = () => {
           type="submit"
           className={`w-full bg-blue-400 ${
             login.email && login.password ? "opacity-100" : "opacity-60"
-          } text-white font-medium py-1 rounded transition duration-200 cursor-pointer`}
+          } text-white font-medium py-1 rounded transition duration-200 cursor-pointer flex justify-center`}
+          onClick={() => signIn(login)}
         >
-          Đăng nhập
+          {loading ? (
+            <img
+              className="object-cover w-7 h-7 rounded-full"
+              src="loading.gif"
+              alt="loading"
+            />
+          ) : (
+            "Đăng nhập"
+          )}
         </button>
       </form>
+      {error && (
+        <p className="text-center text-red-500 text-sm whitespace-nowrap pt-6">
+          Rất tiếc, mật khẩu của bạn không đúng. <br /> Vui lòng kiểm tra lại
+          mật khẩu.
+        </p>
+      )}
     </div>
   );
 };

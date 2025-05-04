@@ -5,7 +5,6 @@ import GoogleAuth from "./GoogleAuth";
 const AuthPage = () => {
 
   const [sign, setSign] = useState(false);
-
   return (
     <div className="flex justify-center items-center h-screen bg-black mx-auto max-w-6xl text-white">
       <div className="flex justify-center w-full h-full px-20 max-lg:px-0 items-start">
@@ -23,7 +22,7 @@ const AuthPage = () => {
               <span className="px-3 text-gray-500">Hoặc</span>
               <hr className="border-gray-600 w-full" />
             </div>
-            <GoogleAuth/>
+            <GoogleAuth/>          
           </div>
           <div className="h-[4rem] w-[20rem] flex justify-center items-center border border-gray-600 rounded-xs">
             <p>
