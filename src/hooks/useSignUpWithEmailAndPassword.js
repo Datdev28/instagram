@@ -4,7 +4,7 @@ import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firesto
 import useAuthStore from '../store/authStore';
 import { useState } from 'react';
 const useSignUpWithEmailAndPassword = () => {
-  const [errorUsername, setErrorUsername] = useState(false);
+  const [existsUserName, setExistsUserName] = useState(false);
   const [
     createUserWithEmailAndPassword,
     user ,
@@ -16,7 +16,7 @@ const useSignUpWithEmailAndPassword = () => {
     const q = query(collection(fireStore, "users"), where("userName", "==", inputs.userName));
     const querySnapShot = await getDocs(q);
     if(!querySnapShot.empty){
-      setErrorUsername(true);
+      setExistsUserName(true);
       return 
     }
     try {
@@ -30,6 +30,7 @@ const useSignUpWithEmailAndPassword = () => {
           uid: newUser.user.uid,
           email:inputs.email,
           userName:inputs.userName,
+          fullName:inputs.fullName,
           bio:"",
           profilePicURL:"",
           followers: [],
@@ -45,7 +46,7 @@ const useSignUpWithEmailAndPassword = () => {
       console.log(error)
     }
   }
-  return {loading, error, signUp, errorUsername}
+  return {loading, error, signUp, existsUserName}
 }
 
 export default useSignUpWithEmailAndPassword

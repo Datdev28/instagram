@@ -12,19 +12,18 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState({
     errorEmail: "",
     errorPassword:"",
-    userName: "",
-    fullName: "",
+    errorUserName: "",
+    errorFullName: "",
   });
   const [displayPass, setDisplayPass] = useState(true);
-  const { loading, error, signUp, errorUsername} = useSignUpWithEmailAndPassword();
-  console.log(errorUsername);
+  const { loading, error, signUp, existsUserName} = useSignUpWithEmailAndPassword();
   return (
     <div>
       <form className="space-y-4"
        onSubmit={(e) => {
         e.preventDefault();
         let hasError = false;
-        let newErrorMessage = { errorEmail: "", errorPassword: "", userName: "", fullName: ""};
+        let newErrorMessage = { errorEmail: "", errorPassword: "", errorUserName: "", errorFullName: ""};
         
         if(inputSign.password !== inputSign.confirmPassword){
           newErrorMessage.errorPassword = "Mật khẩu không trùng khớp";
@@ -40,8 +39,12 @@ const SignUp = () => {
           newErrorMessage.errorUserName = "Tên người dùng chỉ được chứa chữ thường, số, và các ký tự (_ . -),không dấu, không khoảng trắng";
           hasError = true;
         }
+        const fullNameRegex = /^(?!.* {2})[\p{L}]+(?: [\p{L}]+)*$/u;
+        if (!fullNameRegex.test(inputSign.fullName.trim())) {
+          newErrorMessage.errorFullName = "Tên chỉ được chứa chữ cái, tối đa 1 khoảng trắng giữa các từ, không ký tự đặc biệt.";
+          hasError = true;
+        }
         setErrorMessage(newErrorMessage);
-        
         if(hasError) return;
         signUp(inputSign);
        }}
@@ -72,13 +75,33 @@ const SignUp = () => {
           onChange={(e) =>
             setInputSign({ ...inputSign, userName: e.target.value })
           }
-          placeholder="Tên của bạn"
+          placeholder="Tên người dùng"
           className="w-full bg-black text-white border border-gray-700 rounded px-4 py-2 focus:outline-none placeholder:text-[10px]"
         />
-          {errorUsername && (
+        {
+          errorMessage.errorUserName && (
+            <div className="px-4 mt-[-12px] text-xs text-red-500">{errorMessage.errorUserName}</div>
+          )
+        }
+          {existsUserName && (
             <div className="px-4 mt-[-12px] text-xs text-red-500">Tên người dùng đã tồn tại</div>
           )
         }
+         <input
+          type="text"
+          name="name"
+          value={inputSign.fullName}
+          onChange={(e) =>
+            setInputSign({ ...inputSign, fullName: e.target.value })
+          }
+          placeholder="Tên của bạn"
+          className="w-full bg-black text-white border border-gray-700 rounded px-4 py-2 focus:outline-none placeholder:text-[10px]"
+        />
+          {
+          errorMessage.errorFullName && (
+            <div className="px-4 mt-[-12px] text-xs text-red-500">{errorMessage.errorFullName}</div>
+          )
+         }
         <div className="flex relative">
           <input
             type={`${displayPass ? "password" : "text"}`}
@@ -127,12 +150,13 @@ const SignUp = () => {
             inputSign.email &&
             inputSign.password &&
             inputSign.userName &&
+            inputSign.fullName &&
             inputSign.confirmPassword
               ? "opacity-100"
               : "opacity-60"
           } text-white font-medium py-1 rounded transition duration-200 cursor-pointer flex justify-center`
         }
-        disabled={!(inputSign.email && inputSign.password && inputSign.userName && inputSign.confirmPassword)}
+        disabled={!(inputSign.email && inputSign.password && inputSign.userName && inputSign.fullName && inputSign.confirmPassword)}
         >
           
           {loading ? <img className="object-cover w-7 h-7 rounded-full" src="loading.gif" alt="loading" /> : "Đăng kí"}

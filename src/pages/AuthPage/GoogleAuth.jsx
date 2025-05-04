@@ -21,6 +21,7 @@ const GoogleAuth = () => {
             uid: newUser.user.uid,
             email: newUser.user.email,
             userName: newUser.user.email.split("@")[0],
+            fullName:newUser.user.displayName,
             bio: "",
             profilePicURL: newUser.user.photoURL,
             followers: [],
