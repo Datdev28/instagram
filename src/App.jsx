@@ -6,12 +6,20 @@ import HomePage from "./pages/HomePage/HomePage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase/firebase";
+import LoadingBar from "react-top-loading-bar";
+import useLoadingBarStore from "./store/loadingBarStore";
 function App() {
   const [authUser, loading] = useAuthState(auth);
+  const {progress} = useLoadingBarStore();
   if(loading) return <LoadingPage/>
   return (
     <>
      <PageLayout>
+      <LoadingBar
+       height={3}
+       color='#b6640d'
+       progress={progress}
+      />
       <Routes>
         <Route path="/auth" element={authUser ? <Navigate to="/"/> : <AuthPage/>}/>
         <Route path="/" element={authUser ? <HomePage/> : <Navigate to="/auth"/>}/>

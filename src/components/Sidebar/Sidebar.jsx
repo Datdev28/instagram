@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 const Sidebar = () => {
   const user = useAuthStore(state => state.user) 
-  console.log(user);
   const sideBarItems = [
     {
       icon: <MdHomeFilled className="text-3xl" />,
@@ -30,7 +29,7 @@ const Sidebar = () => {
     {
       icon: (
         <img
-          src="profile.jpg"
+          src={`${user?.profilePicURL}`}
           alt="avatar"
           className="w-[2rem] h-[2rem] rounded-full object-cover "
         />
