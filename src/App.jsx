@@ -17,7 +17,7 @@ function App() {
      <PageLayout>
       <LoadingBar
        height={3}
-       color='#b6640d'
+       color='#df9547'
        progress={progress}
       />
       <Routes>

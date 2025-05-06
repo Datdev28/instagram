@@ -15,7 +15,7 @@ const ProfileUserHeader = () => {
           <div className="relative flex flex-col justify-center">
             <img
               className="w-[10rem] max-md:w-[77px] aspect-square object-cover rounded-full cursor-pointer"
-              src={userProfile.profilePicURL}
+              src={userProfile?.profilePicURL || "defaultProfilePic.jpg"}
               alt="avatar"
             />
             <div

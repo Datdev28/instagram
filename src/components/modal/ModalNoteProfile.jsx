@@ -4,7 +4,9 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
+import useAuthStore from "../../store/authStore";
 const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
+  const {user} = useAuthStore();
   const [valueText, setValueText] = useState("");
   const [showEmoj, setShowEmoj] = useState(false)
   const handleOnChange = (e) => {
@@ -75,7 +77,7 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
           <div className="w-[10rem] h-[10rem] relative">
             <img
               className="w-full h-full object-cover rounded-full cursor-pointer"
-              src="profile.jpg"
+              src={user?.profilePicURL || "defaultProfilePic.jpg"}
               alt="avatar"
             />
             <div className="absolute top-[-2.5rem] bg-color-note h-[4rem] w-full rounded-2xl flex items-center px-2">

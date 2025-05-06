@@ -1,22 +1,27 @@
 import React from "react";
 import useLogOut from "../../hooks/useLogOut";
+import useAuthStore from "../../store/authStore";
 const SuggestedHeader = () => {
-  const {handleLogOut, isLoginOut} = useLogOut()
+  const {handleLogOut} = useLogOut()
+  const {user} = useAuthStore();
+  
   return (
-    <div className="flex items-center justify-between text-sm">
+    user && (
+      <div className="flex items-center justify-between text-sm">
       <div className="flex items-center gap-x-2">
         <img
-          src="profile.jpg"
+          src={user?.profilePicURL || "defaultProfilePic.jpg"}
           className="w-[2.8rem] h-[2.8rem] rounded-full object-cover"
           alt="avatar"
         />
         <div className="flex flex-col justify-center">
-          <p>quangdat.ng</p>
-          <p className="text-color-text-gray">Quang Đạt</p>
+          <p>{user.userName}</p>
+          <p className="text-color-text-gray">{user.fullName}</p>
         </div>
       </div>
       <button className="text-blue-400 text-xs cursor-pointer" onClick={handleLogOut}>Đăng xuất</button>
     </div>
+    )
   );
 };
 

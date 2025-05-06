@@ -29,7 +29,7 @@ const Sidebar = () => {
     {
       icon: (
         <img
-          src={`${user?.profilePicURL}`}
+          src={user?.profilePicURL || "defaultProfilePic.jpg"}
           alt="avatar"
           className="w-[2rem] h-[2rem] rounded-full object-cover "
         />
