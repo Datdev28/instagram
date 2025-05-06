@@ -1,12 +1,14 @@
 import React from "react";
 import useLogOut from "../../hooks/useLogOut";
 import useAuthStore from "../../store/authStore";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/firebase";
 const SuggestedHeader = () => {
   const {handleLogOut} = useLogOut()
+  const [userAuth] = useAuthState(auth);
   const {user} = useAuthStore();
-  
   return (
-    user && (
+    userAuth &&  user && (
       <div className="flex items-center justify-between text-sm">
       <div className="flex items-center gap-x-2">
         <img
