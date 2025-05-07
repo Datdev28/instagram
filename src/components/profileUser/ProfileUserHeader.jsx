@@ -5,8 +5,10 @@ import ModalNote from "../modal/modalNoteProfile";
 import userProfileStore from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
 import { HiDotsHorizontal } from "react-icons/hi";
+import ModalIsOpenEditProfile from '../../components/modal/ModalEditProfile'
 const ProfileUserHeader = () => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
+  const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
   const { userProfile } = userProfileStore();
   const userAuth = useAuthStore(state => state.user)
   const isOwnProfile = userAuth && userAuth.userName === userProfile.userName
@@ -46,7 +48,9 @@ const ProfileUserHeader = () => {
               {
                 isOwnProfile ? ( 
                 <div className="flex items-center break-words gap-x-2">
-                  <button className="px-4 py-1 bg-color-btn-gray rounded-sm cursor-pointer hover:bg-color-dash max-xl:px-1">
+                  <button className="px-4 py-1 bg-color-btn-gray rounded-sm cursor-pointer hover:bg-color-dash max-xl:px-1"
+                   onClick={() => setModalIsOpenEditProfile(!modalIsOpenEditProfile)}                  
+                  >
                     Chỉnh sửa trang cá nhân
                   </button>
                   <button className="px-4 py-1 bg-color-btn-gray rounded-sm hover:bg-color-dash cursor-pointer max-xl:px-1">
@@ -83,6 +87,10 @@ const ProfileUserHeader = () => {
           <ModalNote
             modalIsOpenNote={modalIsOpenNote}
             setModalIsOpenNote={setModalIsOpenNote}
+          />
+          <ModalIsOpenEditProfile
+           modalIsOpenEditProfile={modalIsOpenEditProfile}
+           setModalIsOpenEditProfile={setModalIsOpenEditProfile}
           />
         </div>
         <div className="hidden max-md:flex flex-col w-full">

@@ -55,7 +55,6 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
           },
         }}
       >
-        {user && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -78,7 +77,7 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
           <div className="w-[10rem] h-[10rem] relative">
             <img
               className="w-full h-full object-cover rounded-full cursor-pointer"
-              src={user.profilePicURL || "defaultProfilePic.jpg"}
+              src={user?.profilePicURL || "defaultProfilePic.jpg"}
               alt="avatar"
             />
             <div className="absolute top-[-2.5rem] bg-color-note h-[4rem] w-full rounded-2xl flex items-center px-2">
@@ -103,7 +102,6 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
               )}
           </div>
         </motion.div>
-        )}
       </Modal>
     </div>
     )

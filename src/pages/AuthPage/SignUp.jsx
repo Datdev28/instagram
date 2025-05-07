@@ -20,7 +20,7 @@ const SignUp = () => {
   return (
     <div>
       <form className="space-y-4"
-       onSubmit={(e) => {
+      onSubmit={(e) => {
         e.preventDefault();
         let hasError = false;
         let newErrorMessage = { errorEmail: "", errorPassword: "", errorUserName: "", errorFullName: ""};
@@ -29,25 +29,44 @@ const SignUp = () => {
           newErrorMessage.errorPassword = "Mật khẩu không trùng khớp";
           hasError = true;
         }
+        
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(inputSign.email)) {
           newErrorMessage.errorEmail = "Email không hợp lệ";
           hasError = true;
         }
-        const userNameRegex = /^[a-z0-9_.-]+$/;
-        if (!userNameRegex.test(inputSign.userName)) {
-          newErrorMessage.errorUserName = "Tên người dùng chỉ được chứa chữ thường, số, và các ký tự (_ . -),không dấu, không khoảng trắng";
+        if (inputSign.email.length > 40) {
+          newErrorMessage.errorEmail = "Email không được quá 40 ký tự";
           hasError = true;
         }
+        
+        const userNameRegex = /^[a-z0-9_.-]+$/;
+        if (!userNameRegex.test(inputSign.userName)) {
+          newErrorMessage.errorUserName = "Tên người dùng chỉ được chứa chữ thường, số, và các ký tự (_ . -), không dấu, không khoảng trắng";
+          hasError = true;
+        }
+        if (inputSign.userName.length > 16) {
+          newErrorMessage.errorUserName = "Tên người dùng không được quá 16 ký tự";
+          hasError = true;
+        }
+      
         const fullNameRegex = /^(?!.* {2})[\p{L}]+(?: [\p{L}]+)*$/u;
         if (!fullNameRegex.test(inputSign.fullName.trim())) {
           newErrorMessage.errorFullName = "Tên chỉ được chứa chữ cái, tối đa 1 khoảng trắng giữa các từ, không ký tự đặc biệt.";
           hasError = true;
         }
+        if (inputSign.fullName.trim().length > 20) {
+          newErrorMessage.errorFullName = "Tên đầy đủ không được quá 20 ký tự";
+          hasError = true;
+        }
+      
         setErrorMessage(newErrorMessage);
-        if(hasError) return;
+        
+        if (hasError) return;
+        
         signUp(inputSign);
-       }}
+      }}
+      
       >
         <input
           type="text"
