@@ -2,6 +2,9 @@ import React, { useRef, useState, useEffect } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import useAuthStore from "../../store/authStore";
+import usePreviewImage from "../../hooks/usePreviewImage";
+import useUpAndGetImage from "../../hooks/useUpAndGetImage";
+import useEditProfile from "../../hooks/useEditProfile";
 
 const ModalEditProfile = ({
   modalIsOpenEditProfile,
@@ -10,8 +13,8 @@ const ModalEditProfile = ({
   const refInputs = useRef(null);
   const { user } = useAuthStore();
   const [inputs, setInputs] = useState({
-    fullName: user?.fullName || "",
-    userName: user?.userName || "",
+    fullName: user?.fullName,
+    userName: user?.userName,
     bio: user?.bio || "",
   });
   
@@ -20,12 +23,16 @@ const ModalEditProfile = ({
     errorFullName: "",
     errorBio: "",
   });
-
+  const {selectedFile, handleImageChange} = usePreviewImage();
+  const {handleImageUpload} = useUpAndGetImage();
+  const {editProfile} = useEditProfile();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [errorExitsUserName, setErrorExitsUserName] = useState(false);
   useEffect(() => {
     if (!modalIsOpenEditProfile) {
       setInputs({
-        fullName: user?.fullName || "",
-        userName: user?.userName || "",
+        fullName: user?.fullName,
+        userName: user?.userName,
         bio: user?.bio || "",
       });
       setErrorMessage({
@@ -35,7 +42,6 @@ const ModalEditProfile = ({
       });
     }
   }, [modalIsOpenEditProfile, user]);
-
   const validateInputs = () => {
     let hasError = false;
     let newErrorMessage = { errorUserName: "", errorFullName: "", errorBio: "" };
@@ -45,8 +51,8 @@ const ModalEditProfile = ({
       newErrorMessage.errorUserName = "Tên người dùng chỉ được chứa chữ thường, số, và các ký tự (_ . -), không dấu, không khoảng trắng";
       hasError = true;
     }
-    if (inputs.userName && inputs.userName.length > 16) {
-      newErrorMessage.errorUserName = "Tên người dùng không được quá 16 ký tự";
+    if (inputs.userName && inputs.userName.length > 20) {
+      newErrorMessage.errorUserName = "Tên người dùng không được quá 20 ký tự";
       hasError = true;
     }
 
@@ -69,14 +75,23 @@ const ModalEditProfile = ({
     return !hasError;
   };
 
-  const handleSaveProfile = () => {
-    if (validateInputs()) {
-      // Xử lý lưu thông tin vào DB hoặc state
-      console.log("Lưu thông tin:", inputs);
-      // Thêm code lưu thông tin vào đây
-      
-      // Đóng modal sau khi lưu
-      setModalIsOpenEditProfile(false);
+  const handleSaveProfile = async() => {
+    if(!validateInputs()) return 
+    try {
+      setIsUpdating(true)
+      const imageUrl = await handleImageUpload(selectedFile);
+      const exitsUserName = await editProfile(inputs, imageUrl);
+      setIsUpdating(false)
+      if(exitsUserName){
+        setErrorExitsUserName(true)
+        setModalIsOpenEditProfile(true);
+      }else {
+        setErrorExitsUserName(false)
+        setModalIsOpenEditProfile(false);
+      }
+    } catch (error) {
+     console.log(error);
+     setIsUpdating(false)
     }
   };
 
@@ -122,17 +137,17 @@ const ModalEditProfile = ({
           <h3 className="font-bold text-md">Chỉnh sửa trang cá nhân</h3>
           <div className="flex flex-col gap-y-4">
             <img
-              className="w-[80px] h-[80px] rounded-full"
-              src={user?.profilePicURL || "defaultProfilePic.jpg"}
+              className="w-[80px] h-[80px] rounded-full object-cover"
+              src={selectedFile || user?.profilePicURL || "defaultProfilePic.jpg"}
               alt="avatar"
             />
             <p
               className="text-blue-600 cursor-pointer"
               onClick={() => refInputs.current.click()}
             >
-              Chỉnh sửa ảnh hoặc avatar{" "}
+              Chỉnh sửa ảnh{" "}
             </p>
-            <input type="file" className="hidden" ref={refInputs} />
+            <input type="file" className="hidden" ref={refInputs} onChange={(e) => {handleImageChange(e)}}/>
           </div>
           <div className="flex flex-col w-full gap-y-1">
             <hr className="border-white w-full mb-2" />
@@ -142,7 +157,7 @@ const ModalEditProfile = ({
                 <input
                   placeholder="Tên đầy đủ"
                   className={`outline-none w-full   text-white px-2 py-1 border ${
-                    errorMessage.errorFullName ? "border-red-500" : "border-gray-700"
+                    errorMessage.errorFullName  ? "border-red-500" : "border-gray-700"
                   }`}
                   type="text"
                   value={inputs.fullName}
@@ -161,7 +176,7 @@ const ModalEditProfile = ({
                 <input
                   placeholder="Tên người dùng"
                   className={`outline-none w-full   text-white px-2 py-1 border ${
-                    errorMessage.errorUserName ? "border-red-500" : "border-gray-700"
+                    errorMessage.errorUserName || errorExitsUserName ? "border-red-500" : "border-gray-700"
                   }`}
                   type="text"
                   value={inputs.userName}
@@ -172,6 +187,7 @@ const ModalEditProfile = ({
                 {errorMessage.errorUserName && (
                   <div className="text-xs text-red-500 mt-1">{errorMessage.errorUserName}</div>
                 )}
+                {errorExitsUserName ? "Tên người dùng đã tồn tại" : ""}
               </div>
             </div>
             <div className="w-full flex items-center gap-x-6 mt-2">
@@ -206,7 +222,8 @@ const ModalEditProfile = ({
               onClick={handleSaveProfile}
               className="px-4 py-2 text-white bg-blue-400 rounded hover:bg-blue-500"
             >
-              Lưu
+              
+              {isUpdating ? <img className="object-cover w-7 h-7 rounded-full" src="loading.gif" alt="gif" /> : "Lưu"}
             </button>
           </div>
         </motion.div>

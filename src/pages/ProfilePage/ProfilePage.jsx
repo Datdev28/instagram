@@ -9,10 +9,9 @@ const ProfilePage = () => {
   const { username } = useParams();
   const { isLoading, userProfile } = useGetProfileUserByUsername(username);
   const findUserInfo = !userProfile && isLoading;
-  console.log(userProfile);
   if (findUserInfo) return <UserNotFound />;
   return (
-    userProfile && (
+    userProfile &&  (
       <div className="text-white flex flex-col w-full items-center pt-16 overflow-y-auto">
         <div className="flex  w-full flex-col items-center">
           <ProfileUserHeader />

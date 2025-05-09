@@ -45,8 +45,8 @@ const SignUp = () => {
           newErrorMessage.errorUserName = "Tên người dùng chỉ được chứa chữ thường, số, và các ký tự (_ . -), không dấu, không khoảng trắng";
           hasError = true;
         }
-        if (inputSign.userName.length > 16) {
-          newErrorMessage.errorUserName = "Tên người dùng không được quá 16 ký tự";
+        if (inputSign.userName.length > 20) {
+          newErrorMessage.errorUserName = "Tên người dùng không được quá 20 ký tự";
           hasError = true;
         }
       

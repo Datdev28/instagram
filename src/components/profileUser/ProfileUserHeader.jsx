@@ -83,6 +83,7 @@ const ProfileUserHeader = () => {
               </p>
             </div>
             <p className="font-semibold max-md:hidden">{userProfile.fullName}</p>
+            <p className="whitespace-nowrap mt-[-1rem] text-xs">{userProfile.bio}</p>
           </div>
           <ModalNote
             modalIsOpenNote={modalIsOpenNote}

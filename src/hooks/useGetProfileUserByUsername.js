@@ -16,15 +16,14 @@ const useGetProfileUserByUsername = (userName) => {
           where("userName", "==", userName)
         );
         const querySnapShot = await getDocs(q);
-        if (querySnapShot.empty) {
+        const doc = querySnapShot.docs[0];
+        if (!doc) {
           setProgress(100);
           setIsLoading(true);
-          return setUserProfile(null);
+          setUserProfile(null);
+          return;
         }
-        let userDoc;
-        querySnapShot.forEach((doc) => {
-          userDoc = doc.data();
-        });
+        const userDoc = doc.data();
         setUserProfile(userDoc);
         setIsLoading(false);
         setProgress(100);
@@ -33,7 +32,7 @@ const useGetProfileUserByUsername = (userName) => {
       }
     };
     getUserProfile();
-  }, [setUserProfile, userName]);
+  }, [userName]);
   return { isLoading, userProfile };
 };
 

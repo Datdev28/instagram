@@ -19,6 +19,7 @@ const useSignUpWithEmailAndPassword = () => {
       setExistsUserName(true);
       return 
     }
+      setExistsUserName(false);
     try {
       const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
       if(!newUser && error){
