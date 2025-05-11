@@ -6,12 +6,14 @@ import userProfileStore from "../../store/userProfileStore";
 import useAuthStore from "../../store/authStore";
 import { HiDotsHorizontal } from "react-icons/hi";
 import ModalIsOpenEditProfile from '../../components/modal/ModalEditProfile'
+import useFollowUser from "../../hooks/useFollowUser";
 const ProfileUserHeader = () => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
   const { userProfile } = userProfileStore();
-  const userAuth = useAuthStore(state => state.user)
-  const isOwnProfile = userAuth && userAuth.userName === userProfile.userName
+  const userAuth = useAuthStore(state => state.user);
+  const {isLoading, isFollowing, handleFollowUser} = useFollowUser(userAuth?.uid);
+  const isOwnProfile = userAuth && userAuth.userName === userProfile.userName;
   return (
     userProfile && (
       <div className="flex flex-col w-full">
@@ -34,8 +36,8 @@ const ProfileUserHeader = () => {
               <div className="absolute top-[1rem] left-[0.5rem] rounded-full  bg-color-note  w-[0.5rem] h-[0.5rem]"></div>
             </div>
           </div>
-            )
-             : ""
+            ) : ""
+             
             }
 
             <p className="font-semibold hidden max-md:block whitespace-nowrap text-center ">
@@ -46,7 +48,8 @@ const ProfileUserHeader = () => {
             <div className="flex items-center gap-x-5 max-sm:flex-col max-sm:gap-y-4 max-sm:items-start max-sm:justify-start">
               <p>{userProfile.userName}</p>
               {
-                isOwnProfile ? ( 
+                isOwnProfile ? 
+                ( 
                 <div className="flex items-center break-words gap-x-2">
                   <button className="px-4 py-1 bg-color-btn-gray rounded-sm cursor-pointer hover:bg-color-dash max-xl:px-1"
                    onClick={() => setModalIsOpenEditProfile(!modalIsOpenEditProfile)}                  
@@ -57,17 +60,28 @@ const ProfileUserHeader = () => {
                     Xem kho lưu trữ
                   </button>
                   <RiSettings4Fill className="text-3xl text-white cursor-pointer" />
-                </div>) : 
+                </div>
+                ) : 
                 ( 
                   <div className="flex items-center break-words gap-x-2">
-                    <button className="px-4 py-1 bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 max-xl:px-2">
-                      Theo dõi
+                    <button className="px-4 py-1 bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 max-xl:px-2"
+                     onClick={handleFollowUser}                    
+                    >
+                     {isLoading ?  
+                        <img
+                          className="object-cover w-7 h-7 rounded-full"
+                          src="loading.gif"
+                          alt="loading"
+                        />
+                        : (isFollowing ? "Đang theo dõi" : "Theo dõi" )
+                      }
                     </button>
                     <button className="px-4 py-1 bg-color-btn-gray rounded-sm hover:bg-color-dash cursor-pointer max-xl:px-2">
                       Nhắn tin
                     </button>
                   <HiDotsHorizontal className="text-2xl text-white cursor-pointer" />
-                  </div>)
+                  </div>
+                )
               }
 
             </div>

@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import GoogleAuth from "./GoogleAuth";
+import userProfileStore from "../../store/userProfileStore";
 const AuthPage = () => {
    const [sign, setSign] = useState(false);
+   const {userProfile, setUserProfile} = userProfileStore()
+    if(userProfile){
+      setUserProfile(null);
+    }
   return (
     <div className="flex justify-center items-center h-screen bg-black mx-auto max-w-6xl text-white">
       <div className="flex justify-center w-full h-full px-20 max-lg:px-0 items-start">

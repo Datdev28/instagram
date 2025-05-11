@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-const Navbar = () => {
+const NavbarLogout = () => {
   return (
     <div className='flex fixed top-0 w-full justify-center py-4 bg-black z-10 border border-b-color-dash'>
       <div className='max-w-4xl w-full flex items-center max-md:px-10 max-sm:px-2'>
@@ -18,4 +18,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default NavbarLogout

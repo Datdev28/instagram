@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/firebase";
-import Navbar from "../../components/navbar/Navbar";
+import NavbarLogout from "../../components/navbar/NavbarLogout";
 const PageLayout = ({ children }) => {
   const { pathname } = useLocation();
   const [user, loading] = useAuthState(auth);
@@ -16,7 +16,7 @@ const PageLayout = ({ children }) => {
           <Sidebar />
         </div>
       ) : null}
-      {renderNavbar ? <Navbar /> : null}
+      {renderNavbar ? <NavbarLogout /> : null}
       <div className="flex-1 pb-10 mt-10">{children}</div>
     </div>
   );
