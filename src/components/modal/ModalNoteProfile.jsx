@@ -51,7 +51,8 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
             background: "transparent",
             borderRadius: "0.5rem",
             overflow: "visible",
-            width: "600px",
+            maxWidth: "600px",
+            width: "100%",
           },
         }}
       >
@@ -62,7 +63,7 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
             duration: 0.3,
             ease: "easeInOut",
           }}
-          className="bg-color-dash text-white p-4 rounded-lg w-full flex flex-col items-center gap-y-14 select-none"
+          className="bg-color-dash text-white p-4 rounded-3xl w-full flex flex-col items-center gap-y-14 select-none"
         >
           <div className="w-full flex justify-between items-center">
             <span

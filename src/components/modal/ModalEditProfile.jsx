@@ -120,10 +120,10 @@ const ModalEditProfile = ({
             background: "transparent",
             borderRadius: "0.5rem",
             overflow: "visible",
-            width: "600px",
+            width: "100%",
+            maxWidth: "600px"
           },
         }}
-        className="max-sm: w-full"
       >
         <motion.div
           initial={{ opacity: 0 }}
@@ -132,10 +132,10 @@ const ModalEditProfile = ({
             duration: 0.3,
             ease: "easeInOut",
           }}
-          className="bg-color-dash text-white p-4 rounded-lg w-full flex flex-col items-center gap-y-6 select-none"
+          className="bg-color-dash text-white p-4 rounded-3xl w-full flex flex-col items-center gap-y-6 select-none"
         >
           <h3 className="font-bold text-md">Chỉnh sửa trang cá nhân</h3>
-          <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-4 items-center">
             <img
               className="w-[80px] h-[80px] rounded-full object-cover"
               src={selectedFile || user?.profilePicURL || "defaultProfilePic.jpg"}
