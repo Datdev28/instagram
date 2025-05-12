@@ -13,7 +13,7 @@ const ProfilePage = () => {
   return (
     userProfile &&  (
       <div className="text-white flex flex-col w-full items-center pt-16 overflow-y-auto">
-        <div className="flex  w-full flex-col items-center">
+        <div className="flex w-full flex-col items-center">
           <ProfileUserHeader />
         </div>
         <div className="flex w-full max-w-4xl flex-col">

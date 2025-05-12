@@ -119,19 +119,19 @@ const ProfileUserHeader = () => {
               {userProfile.bio}
             </p>
           </div>
-          <ModalNote
-            modalIsOpenNote={modalIsOpenNote}
-            setModalIsOpenNote={setModalIsOpenNote}
-          />
-          <ModalIsOpenEditProfile
-            modalIsOpenEditProfile={modalIsOpenEditProfile}
-            setModalIsOpenEditProfile={setModalIsOpenEditProfile}
-          />
-          <ModalNotifiAuth
-            modalIsOpenNotifiAuth={modalIsOpenNotifiAuth}
-            setModalIsOpenNotifiAuth={setModalIsOpenNotifiAuth}
-          />
         </div>
+        <ModalNote
+          modalIsOpenNote={modalIsOpenNote}
+          setModalIsOpenNote={setModalIsOpenNote}
+        />
+        <ModalIsOpenEditProfile
+          modalIsOpenEditProfile={modalIsOpenEditProfile}
+          setModalIsOpenEditProfile={setModalIsOpenEditProfile}
+        />
+        <ModalNotifiAuth
+          modalIsOpenNotifiAuth={modalIsOpenNotifiAuth}
+          setModalIsOpenNotifiAuth={setModalIsOpenNotifiAuth}
+        />
         <div className="hidden max-md:flex flex-col w-full">
           <hr className="border-color-dash w-full" />
           <div className="flex items-center gap-x-12 justify-center">

@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const usePreviewImage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const maxSizeFile = 2 * 1024 * 1024;
+  const maxSizeFile = 5 * 1024 * 1024;
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if(file && file.type.startsWith("image/")){
