@@ -6,10 +6,11 @@ import { auth } from "../../firebase/firebase";
 import NavbarLogout from "../../components/navbar/NavbarLogout";
 import NavbarFooter from "../../components/navbar/NavbarFooter";
 import NavbarHeader from "../../components/navbar/NavbarHeader";
+
 const PageLayout = ({ children }) => {
   const { pathname } = useLocation();
   const [user, loading] = useAuthState(auth);
-  const renderSideBar = pathname !== "/auth" && user;
+  const renderSideBar = pathname !== "/auth" && user && pathname!=="/qr";
   const renderNavbar = !user && !loading && pathname !== "/auth";
 
   return (

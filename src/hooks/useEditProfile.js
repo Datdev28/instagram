@@ -13,7 +13,6 @@ const useEditProfile = () => {
 	const editProfile = async (inputs, imageURL) => {
 		if (isUpdating || !authUser) return;
 		const userDocRef = doc(fireStore, "users", authUser.uid);
-
 		const q = query(collection(fireStore, "users"), where("userName", "==", inputs.userName));
 		const querySnapShot = await getDocs(q);
 		const duplicateUsers = querySnapShot.docs.filter(
