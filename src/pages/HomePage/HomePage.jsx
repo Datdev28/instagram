@@ -7,7 +7,8 @@ const HomePage = () => {
       <div className="flex-7 max-sm:px-2 flex justify-center">
         <Posts />
       </div>
-      <div className="flex-3 max-lg:hidden">
+      
+      <div className="flex-3 max-lg:hidden px-2">
         <SuggestedUsers/>
       </div>
     </div>

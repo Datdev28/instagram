@@ -1,19 +1,16 @@
-import React from 'react'
+import React from "react";
 import { CiSearch } from "react-icons/ci";
-
+import searchToggleStore from "../../store/searchToggleStore"
 const Search = () => {
+  const {isOpenToggle, setIsOpenToggle} = searchToggleStore();
   return (
-     <div>
-         <div
-           className="flex items-center max-lg:justify-between gap-5 cursor-pointer hover:bg-color-dash duration-200 rounded-sm py-2 px-2"
-         >
-           <CiSearch className="text-3xl"/>
-           <p className={`max-lg:hidden`}>
-             Tìm kiếm
-           </p>
-         </div>
-     </div>
-  )
-}
+    <div className="flex items-center max-lg:justify-between gap-5 cursor-pointer hover:bg-color-dash duration-200 rounded-sm py-2 px-2"
+     onClick={() => setIsOpenToggle(!isOpenToggle)}    
+    >
+      <CiSearch className={`text-3xl  ${isOpenToggle ? "border border-white rounded-md" : "border-transparent"}`} />
+      {!isOpenToggle && <p className={`max-lg:hidden`}>Tìm kiếm</p>}
+    </div>
+  );
+};
 
-export default Search
+export default Search;
