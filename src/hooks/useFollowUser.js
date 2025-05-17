@@ -19,9 +19,11 @@ const useFollowUser = (userId) => {
       await updateDoc(currentUserRef, { 
         following: isFollowing ? arrayRemove(userId) : arrayUnion(userId),
       });
+
       await updateDoc(trackedPersonRef, {
         followers: isFollowing ? arrayRemove(userId) : arrayUnion(userId),
       });
+
       if (isFollowing) {
         const filterFollowing = user.following.filter((uid) => uid !== userId);
         const filterFollowers = userProfile.followers.filter(
@@ -40,6 +42,7 @@ const useFollowUser = (userId) => {
           ...userProfile,
           followers: [...userProfile.followers, user.uid],
         });
+        
         localStorage.setItem(
           "user",
           JSON.stringify({

@@ -23,7 +23,6 @@ const useEditProfile = () => {
     }
 
 		try {
-			console.log(inputs.userName);
 	   	setIsUpdating(true);
 			const updatedUser = {
 				...authUser,

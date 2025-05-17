@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import searchToggleStore from "../../store/searchToggleStore";
 const Profile = () => {
   const { user } = useAuthStore();
-  const { isOpenToggle } = searchToggleStore();
+  const { isOpenToggle, setIsOpenToggle} = searchToggleStore();
   return (
-    <Link to={user?.userName}>
+    <Link to={user?.userName} onClick={() => setIsOpenToggle(false)}>
       <div className="flex items-center max-lg:justify-between gap-5 cursor-pointer hover:bg-color-dash duration-200 rounded-sm py-2 px-2">
         <img
           src={user?.profilePicURL || "defaultProfilePic.jpg"}

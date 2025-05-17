@@ -1,0 +1,33 @@
+import { collection, getDocs, query, where } from "firebase/firestore";
+import React, { useState } from "react";
+import { fireStore } from "../firebase/firebase";
+
+const useSearchUser = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState("");
+  const getUser = async (userName) => {
+    try {
+      setIsLoading(true);
+      setUser(null);
+      const q = query(
+        collection(fireStore, "users"),
+        where("userName", "==", userName)
+      );
+      const querySnapShot = await getDocs(q);
+      if (querySnapShot.empty) {
+        setError("Không tìm thấy người dùng");
+        return
+      }
+      const doc = querySnapShot.docs[0];
+      setUser(doc.data());
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  return {error, isLoading, getUser, user, setUser, setError};
+};
+
+export default useSearchUser;

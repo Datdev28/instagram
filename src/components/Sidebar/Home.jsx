@@ -1,17 +1,16 @@
 import React from "react";
 import { MdHomeFilled } from "react-icons/md";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import searchToggleStore from "../../store/searchToggleStore";
-
+import userProfileStore from "../../store/userProfileStore";
+import useLoadingBarStore from "../../store/loadingBarStore"
 const Home = () => {
-  const { isOpenToggle } = searchToggleStore();
-  const { pathname } = useLocation();
-
-  const handleClick = (e) => {
-    if (pathname === "/") {
-      e.preventDefault();
-      window.location.reload();
-    }
+  const {setUserProfile} = userProfileStore();
+  const { isOpenToggle, setIsOpenToggle } = searchToggleStore();
+  const handleClick = () => {
+    window.scrollTo({ top: 0 });
+    setUserProfile(null);
+    setIsOpenToggle(false);
   };
 
   return (
