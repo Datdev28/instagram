@@ -1,8 +1,11 @@
 import React from "react";
 import SuggestedHeader from "./suggestedHeader";
 import SuggestedUser from "./SuggestedUser";
+import useGetSuggestedUsers from "../../hooks/useGetSuggestedUsers";
 const SuggestedUsers = () => {
+  const {suggestedUsers} = useGetSuggestedUsers();
   return (
+    suggestedUsers && (
     <div className="flex flex-col  w-full max-w-[18rem] gap-y-8">
       <SuggestedHeader />
       <div className="flex flex-col">
@@ -11,9 +14,9 @@ const SuggestedUsers = () => {
           <span className="font-semibold cursor-pointer">Xem tất cả</span>
         </div>
         <div className="flex flex-col gap-y-5 mt-2">
-          <SuggestedUser name="t1_faker" avatar="faker.jpg" />
-          <SuggestedUser name="ronaldinho" avatar="ronaldinho.jpg" />
-          <SuggestedUser name="vinicius.jr" avatar="vini.jpg" />
+          {suggestedUsers.map((user) => (
+            <SuggestedUser key={user.uid} user={user}/>
+          ))}
         </div>
       </div>
       <p className="break-words text-xs text-color-text-gray">
@@ -22,6 +25,7 @@ const SuggestedUsers = () => {
       </p>
       <p className="break-words text-sm text-color-text-gray">© 2025 Instagram from Meta</p>
     </div>
+    )
   );
 };
 

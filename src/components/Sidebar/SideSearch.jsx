@@ -28,7 +28,6 @@ const SideSearch = () => {
       getUser(input);
     }
   };
-  console.log(user);
   useEffect(() => {
     setUser(null);
     setInput("");

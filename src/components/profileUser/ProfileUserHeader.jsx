@@ -8,16 +8,16 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import ModalIsOpenEditProfile from "../../components/modal/ModalEditProfile";
 import useFollowUser from "../../hooks/useFollowUser";
 import ModalNotifiAuth from "../modal/ModalNotifiAuth";
-import ModalSetting from "../modal/ModalSetting"
+import ModalSetting from "../modal/ModalSetting";
 const ProfileUserHeader = () => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
   const [modalIsOpenNotifiAuth, setModalIsOpenNotifiAuth] = useState(false);
-  const [modalIsOpenSetting , setModalIsSetting] = useState(false);
+  const [modalIsOpenSetting, setModalIsSetting] = useState(false);
   const { userProfile } = userProfileStore();
   const userAuth = useAuthStore((state) => state.user);
   const { isLoading, isFollowing, handleFollowUser } = useFollowUser(
-    userAuth?.uid
+    userProfile?.uid
   );
   const isOwnProfile = userAuth && userAuth.userName === userProfile.userName;
   return (
@@ -66,7 +66,10 @@ const ProfileUserHeader = () => {
                   <button className="px-4 py-1 bg-color-btn-gray rounded-sm hover:bg-color-dash cursor-pointer max-xl:px-1">
                     Xem kho lưu trữ
                   </button>
-                  <RiSettings4Fill className="text-3xl text-white cursor-pointer" onClick={() => setModalIsSetting(true)}/>
+                  <RiSettings4Fill
+                    className="text-3xl text-white cursor-pointer"
+                    onClick={() => setModalIsSetting(true)}
+                  />
                 </div>
               ) : (
                 <div className="flex items-center break-words gap-x-2">
