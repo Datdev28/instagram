@@ -1,30 +1,35 @@
-import React from "react";
 import SuggestedHeader from "./suggestedHeader";
 import SuggestedUser from "./SuggestedUser";
 import useGetSuggestedUsers from "../../hooks/useGetSuggestedUsers";
+import { Link } from "react-router-dom";
 const SuggestedUsers = () => {
-  const {suggestedUsers} = useGetSuggestedUsers();
+  const { suggestedUsers } = useGetSuggestedUsers();
+  console.log(suggestedUsers);
   return (
     suggestedUsers && (
-    <div className="flex flex-col  w-full max-w-[18rem] gap-y-8">
-      <SuggestedHeader />
-      <div className="flex flex-col">
-        <div className="flex items-center justify-between">
-          <p className="text-color-text-gray font-bold ">Gợi ý cho bạn</p>
-          <span className="font-semibold cursor-pointer">Xem tất cả</span>
+      <div className="flex flex-col  w-full max-w-[18rem] gap-y-8">
+        <SuggestedHeader />
+        <div className="flex flex-col">
+          <div className="flex items-center justify-between">
+            <p className="text-color-text-gray font-bold ">Gợi ý cho bạn</p>
+            <Link to="/explore">
+              <span className="font-semibold cursor-pointer">Xem tất cả</span>
+            </Link>
+          </div>
+          <div className="flex flex-col gap-y-5 mt-2">
+            {suggestedUsers.slice(0, 5).map((user) => (
+              <SuggestedUser key={user.uid} user={user} />
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col gap-y-5 mt-2">
-          {suggestedUsers.map((user) => (
-            <SuggestedUser key={user.uid} user={user}/>
-          ))}
-        </div>
+        <p className="break-words text-xs text-color-text-gray">
+          Giới thiệu Trợ giúp Báo chí API Việc làm Quyền riêng tư Điều khoản Vị
+          trí Ngôn ngữ Meta đã xác minh
+        </p>
+        <p className="break-words text-sm text-color-text-gray">
+          © 2025 Instagram from Meta
+        </p>
       </div>
-      <p className="break-words text-xs text-color-text-gray">
-        Giới thiệu Trợ giúp Báo chí API Việc làm Quyền riêng tư Điều khoản Vị
-        trí Ngôn ngữ Meta đã xác minh
-      </p>
-      <p className="break-words text-sm text-color-text-gray">© 2025 Instagram from Meta</p>
-    </div>
     )
   );
 };

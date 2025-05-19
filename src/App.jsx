@@ -7,6 +7,7 @@ import LoadingBar from "react-top-loading-bar";
 import useLoadingBarStore from "./store/loadingBarStore";
 import useAuthStore from "./store/authStore";
 import QrPage from "./pages/QrPage/QrPage";
+import SuggestedPage from "./pages/SuggestedPage/SuggestedPage";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "./firebase/firebase";
@@ -50,6 +51,7 @@ function App() {
           />
           <Route path="/:username" element={<ProfilePage />} />
           <Route path="/qr" element={authUser ? <QrPage /> : <Navigate to="/auth" />} />
+          <Route path="/explore" element={authUser ? <SuggestedPage/> : <Navigate to="/auth"/>}/>
         </Routes>
       </PageLayout>
     </>
