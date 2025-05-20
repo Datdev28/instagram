@@ -19,12 +19,11 @@ const useGetSuggestedUsers = () => {
     const getSuggestedUsers = async () => {
       try {
         setProgress(30);
-        setIsLoading(true);
         const q = query(
           collection(fireStore, "users"),
           where("uid", "not-in", [user.uid, ...user.following.slice(0, 9)]),
           orderBy("uid"),
-          limit(12)
+          limit(10)
         );
         const querySnapShot = await getDocs(q);
         let users = [];
@@ -35,8 +34,8 @@ const useGetSuggestedUsers = () => {
       } catch (error) {
         console.log(error);
       } finally {
-        setIsLoading(false);
         setProgress(100);
+        setIsLoading(true);
       }
     };
     if (user) getSuggestedUsers();

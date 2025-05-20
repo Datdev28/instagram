@@ -2,6 +2,7 @@ import SuggestedHeader from "./suggestedHeader";
 import SuggestedUser from "./SuggestedUser";
 import useGetSuggestedUsers from "../../hooks/useGetSuggestedUsers";
 import { Link } from "react-router-dom";
+import Footer from "../footer/Footer";
 const SuggestedUsers = () => {
   const { suggestedUsers } = useGetSuggestedUsers();
   console.log(suggestedUsers);
@@ -22,13 +23,7 @@ const SuggestedUsers = () => {
             ))}
           </div>
         </div>
-        <p className="break-words text-xs text-color-text-gray">
-          Giới thiệu Trợ giúp Báo chí API Việc làm Quyền riêng tư Điều khoản Vị
-          trí Ngôn ngữ Meta đã xác minh
-        </p>
-        <p className="break-words text-sm text-color-text-gray">
-          © 2025 Instagram from Meta
-        </p>
+        <Footer/>
       </div>
     )
   );

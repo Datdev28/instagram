@@ -7,15 +7,17 @@ import { Link } from "react-router-dom";
 const SideSearch = () => {
   const [isOpenDel, setIsOpenDel] = useState(false);
   const [input, setInput] = useState("");
-  const {isOpenToggle, setIsOpenToggle} = searchToggleStore()
+  const { isOpenToggle, setIsOpenToggle } = searchToggleStore();
   const { error, isLoading, getUser, user, setUser, setError } =
     useSearchUser();
   const handleOnChange = (e) => {
     const value = e.target.value;
     setInput(value);
     setIsOpenDel(value.length > 0);
-    setError(value.length > 0 ? error : "");
-    setUser(value.length > 0 ? user : null);
+    if (value.length === 0) {
+      setError("");
+      setUser(null);
+    }
   };
   const onClickDel = () => {
     setIsOpenDel(false);
@@ -29,9 +31,12 @@ const SideSearch = () => {
     }
   };
   useEffect(() => {
-    setUser(null);
-    setInput("");
-    setError("");
+    const reState = () => {
+      setUser(null);
+      setInput("");
+      setError("");
+    };
+    reState();
   }, [isOpenToggle]);
   return (
     <div className="flex flex-col pl-4 text-white w-full gap-y-5">
@@ -79,7 +84,7 @@ const SideSearch = () => {
         <Link to={`/${user.userName}`} onClick={() => setIsOpenToggle(false)}>
           <div className="flex px-4 items-center gap-x-4 w-full hover:bg-color-note py-2 cursor-pointer">
             <img
-              src={user.profilePicURL}
+              src={user.profilePicURL || "defaultProfilePic.jpg"}
               className="object-cover w-11 h-11 rounded-full cursor-pointer"
               alt="avatar"
             />
