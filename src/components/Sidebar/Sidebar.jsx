@@ -20,7 +20,7 @@ const Sidebar = () => {
             <FaInstagram className="text-3xl max-lg:hidden cursor-pointer" />
           ) : (
             <img
-              src="logo.png"
+              src="/logo.png"
               className="w-[120px] cursor-pointer max-lg:hidden"
               alt="logo"
             />

@@ -9,6 +9,7 @@ const useSearchUser = () => {
   const getUser = async (userName) => {
     try {
       setIsLoading(true);
+      setError("");
       setUser(null);
       const q = query(
         collection(fireStore, "users"),

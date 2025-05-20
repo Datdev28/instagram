@@ -14,15 +14,15 @@ const SuggestedUser = ({user}) => {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-x-2">
-        <Link to={user.userName}>
+        <Link to={`/${user.userName}`}>
         <img
-          src={user.profilePicURL || "defaultProfilePic.jpg"}
+          src={user.profilePicURL || "/defaultProfilePic.jpg"}
           className="w-[2.8rem] h-[2.8rem] rounded-full object-cover cursor-pointer"
           alt="avatar"
         />
         </Link>
         <div className="flex flex-col justify-center">
-        <Link to={user.userName}>
+        <Link to={`/${user.userName}`}>
           <p className="cursor-pointer">{user.userName}</p>
         </Link>
           <p className="text-color-text-gray">Gợi ý cho bạn</p>

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import Footer from "../footer/Footer";
 const SuggestedUsers = () => {
   const { suggestedUsers } = useGetSuggestedUsers();
-  console.log(suggestedUsers);
   return (
     suggestedUsers && (
       <div className="flex flex-col  w-full max-w-[18rem] gap-y-8">

@@ -8,8 +8,7 @@ const SideSearch = () => {
   const [isOpenDel, setIsOpenDel] = useState(false);
   const [input, setInput] = useState("");
   const { isOpenToggle, setIsOpenToggle } = searchToggleStore();
-  const { error, isLoading, getUser, user, setUser, setError } =
-    useSearchUser();
+  const { error, isLoading, getUser, user, setUser, setError } = useSearchUser();
   const handleOnChange = (e) => {
     const value = e.target.value;
     setInput(value);

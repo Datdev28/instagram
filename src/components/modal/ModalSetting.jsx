@@ -2,8 +2,16 @@ import React from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import useLogOut from "../../hooks/useLogOut";
+import { useNavigate } from "react-router-dom";
 const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
-
+   const {handleLogOut} = useLogOut();
+   const navigate = useNavigate()
+   const handleClickLogOut = async() => {
+    console.log(1);   
+      await handleLogOut();
+      navigate('/auth');
+   }
   return (
     <div>
       <Modal
@@ -47,7 +55,10 @@ const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
             <Link to='/qr'>
               <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">Mã QR</div>    
             </Link>
-              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">Thông báo</div>    
+              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">Thông báo</div>   
+              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+               onClick={handleClickLogOut}
+              >Đăng xuất</div>    
               <div className="w-full  py-2 flex justify-center cursor-pointer hover:bg-color-note"
                onClick={() => setModalIsSetting(false)}
               >Hủy</div>    
