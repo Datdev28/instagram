@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, memo } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -108,4 +108,4 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
     )
 };
 
-export default ModalNote;
+export default memo(ModalNote);

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, memo } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import useAuthStore from "../../store/authStore";
@@ -275,4 +275,4 @@ const ModalEditProfile = ({
   );
 };
 
-export default ModalEditProfile;
+export default memo(ModalEditProfile);
