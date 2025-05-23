@@ -108,4 +108,4 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
     )
 };
 
-export default memo(ModalNote);
+export default ModalNote;

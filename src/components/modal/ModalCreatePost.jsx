@@ -1,10 +1,13 @@
-import React, { useRef, useState, memo, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import usePreviewImage from "../../hooks/usePreviewImage";
 import useUpAndGetImage from "../../hooks/useUpAndGetImage";
 import { GoArrowLeft } from "react-icons/go";
 import ModalConfirm from "./ModalConfirm";
+import { BsImages } from "react-icons/bs";
+import { CiCirclePlus } from "react-icons/ci";
+import SlideImage from "../slideImage/SlideImage";
 const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   const inputRef = useRef(null);
   const { selectedFile, handleImageChange, setSelectedFile } =
@@ -12,10 +15,39 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   const { handleImageUpload } = useUpAndGetImage();
   const [modalConfirm, setModalConfirm] = useState(false);
   const [isOpenPostStatus, setIsOpenStatus] = useState(false);
-  const refContainer = useRef();
-  const handleClickOutSide = (e) => {
-    if (refContainer.current && !refContainer.current.contains(e.target)) {
+  const [isOpenContainerImage, setIsOpenContainerImage] = useState(false);
+  const [picked, setPicked] = useState(0);
+  const refContainerFull = useRef();
+  const refContainerImg = useRef();
+  const refIconImage = useRef();
+  const handleRemovePicked = (index) => {
+    const selectedImg = selectedFile.filter((_, i) => i !== index);
+    setSelectedFile(selectedImg);
+    if (index > 0) {
+      setPicked(index - 1);
+    }
+  };
+  const handleBack = () => {
+    if (isOpenPostStatus) {
+      setIsOpenStatus(false);
+    } else {
       setModalConfirm(true);
+    }
+  };
+  const handleClickOutSide = (e) => {
+    if (
+      refContainerFull.current &&
+      !refContainerFull.current.contains(e.target)
+    ) {
+      setModalConfirm(true);
+    }
+    if (
+      refContainerImg.current &&
+      !refContainerImg.current.contains(e.target) &&
+      refIconImage.current &&
+      !refIconImage.current.contains(e.target)
+    ) {
+      setIsOpenContainerImage(false);
     }
   };
   useEffect(() => {
@@ -37,17 +69,17 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
             zIndex: 50,
           },
           content: {
-            top: "4rem",
+            top: "3rem",
             left: "auto",
             right: "auto",
             bottom: "auto",
             padding: 0,
             border: "none",
             background: "transparent",
-            borderRadius: "0.5rem",
             overflow: "visible",
             width: "100%",
-            maxWidth: "500px",
+            transition: "max-width 0.6s ease",
+            maxWidth: `${isOpenPostStatus ? "820px" : "500px"}`,
           },
         }}
       >
@@ -58,47 +90,115 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
             duration: 0.3,
             ease: "easeInOut",
           }}
-          ref={refContainer}
-          className="bg-color-dash text-white overflow-hidden rounded-md w-full h-[35rem] flex flex-col select-none"
+          ref={refContainerFull}
+          className="bg-color-dash text-white flex flex-col items-center select-none"
         >
-          {selectedFile ? (
-            <div className="w-full h-full">
-              <div className="w-full flex justify-between items-center py-2 px-2 bg-black">
-                <GoArrowLeft
-                  className="text-2xl cursor-pointer"
-                  onClick={() => setModalConfirm(true)}
-                />
-                {isOpenPostStatus && (
-                  <p className="font-semibold">Tạo bài viết mới</p>
-                )}
-
-                <span
-                  className="text-blue-500 font-semibold cursor-pointer"
-                  onClick={() => setIsOpenStatus(true)}
-                >
-                  Tiếp
-                </span>
-              </div>
-              <img
-                src={selectedFile}
-                className="w-full h-full object-cover"
-                alt="hình ảnh đăng tải"
+          <input
+            ref={inputRef}
+            type="file"
+            className="hidden"
+            onChange={handleImageChange}
+          />
+          {selectedFile.length > 0 && (
+            <div className="w-full flex justify-between items-center py-2 px-2 bg-black">
+              <GoArrowLeft
+                className="text-2xl cursor-pointer"
+                onClick={handleBack}
               />
+              {isOpenPostStatus && (
+                <p className="font-semibold">Tạo bài viết mới</p>
+              )}
+              <span
+                className="text-blue-500 font-semibold cursor-pointer"
+                onClick={() => setIsOpenStatus(true)}
+              >
+                Tiếp
+              </span>
+            </div>
+          )}
+
+          {selectedFile.length ? (
+            <div className="flex w-full relative">
+              <div className="w-[500px] relative">
+                <SlideImage
+                  selectedFile={selectedFile}
+                  picked={picked}
+                  setPicked={setPicked}
+                />
+
+                <div
+                  className="absolute bottom-5 right-5 cursor-pointer flex p-2 justify-center items-center rounded-full bg-black opacity-70"
+                  onClick={() => setIsOpenContainerImage(!isOpenContainerImage)}
+                  ref={refIconImage}
+                >
+                  <BsImages className="text-md" />
+                </div>
+              </div>
+              {isOpenContainerImage && (
+                <div
+                  className="absolute bottom-14 right-5 p-2 rounded-md flex items-center"
+                  ref={refContainerImg}
+                >
+                  <div className="absolute inset-0 bg-black opacity-60 z-0  rounded-md" />
+                  <div className="flex gap-x-2">
+                    <div className="max-w-sm overflow-hidden flex gap-x-3">
+                      {selectedFile.map((item, index) => (
+                        <div
+                          className="w-full h-full relative cursor-pointer"
+                          onClick={() => setPicked(index)}
+                          key={index}
+                        >
+                          <img
+                            src={item}
+                            className={`object-cover w-[5.5rem] shrink-0 h-[5.5rem] ${
+                              picked === index ? "opacity-100" : "opacity-60"
+                            }`}
+                            alt="ảnh đăng tải"
+                          />
+                          {picked === index && (
+                            <button
+                              className="absolute top-1 right-1 bg-black/60 hover:bg-black text-white rounded-full cursor-pointer p-1 transition"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemovePicked(index);
+                              }}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-3 w-3"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M6 18L18 6M6 6l12 12"
+                                />
+                              </svg>
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    <CiCirclePlus
+                      className="text-4xl cursor-pointer z-10 text-color-text-gray shrink-0"
+                      onClick={() => inputRef.current.click()}
+                    />
+                  </div>
+                </div>
+              )}
+              {isOpenPostStatus && <div className="flex-1 flex"></div>}
             </div>
           ) : (
-            <div className="w-full h-full flex flex-col items-center gap-y-20">
+            <div className="w-full h-[60vh] flex flex-col items-center gap-y-20 mb-10">
               <h3 className="w-full text-center py-2 bg-black">
                 Tạo bài viết mới
               </h3>
               <img src="upload.png" className="mt-8" alt="upload" />
-              <input
-                ref={inputRef}
-                type="file"
-                className="hidden"
-                onChange={handleImageChange}
-              />
               <button
-                className="bg-blue-500 px-2 py-1 rounded-sm cursor-pointer mt-10"
+                className="bg-blue-500 px-2 py-1 rounded-sm cursor-pointer"
                 onClick={() => inputRef.current.click()}
               >
                 Chọn ảnh từ máy tính
@@ -117,4 +217,4 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   );
 };
 
-export default memo(ModalCreatePost);
+export default ModalCreatePost;

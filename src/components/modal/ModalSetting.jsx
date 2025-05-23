@@ -2,7 +2,6 @@ import React from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { memo } from "react";
 import useLogOut from "../../hooks/useLogOut";
 import { useNavigate } from "react-router-dom";
 const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
@@ -70,4 +69,4 @@ const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
   );
 };
 
-export default memo(ModalNote);
+export default ModalNote;

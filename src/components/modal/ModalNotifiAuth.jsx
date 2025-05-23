@@ -1,6 +1,5 @@
 import React from "react";
 import Modal from "react-modal";
-import { memo } from "react";
 import { motion } from "framer-motion";
 import userProfileStore from "../../store/userProfileStore";
 import { Link } from "react-router-dom";
@@ -92,4 +91,4 @@ const ModalNote = ({ modalIsOpenNotifiAuth, setModalIsOpenNotifiAuth }) => {
   );
 };
 
-export default memo(ModalNote);
+export default ModalNote;

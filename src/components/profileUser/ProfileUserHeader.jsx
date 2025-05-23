@@ -125,22 +125,30 @@ const ProfileUserHeader = () => {
             </p>
           </div>
         </div>
-        <ModalNote
-          modalIsOpenNote={modalIsOpenNote}
-          setModalIsOpenNote={setModalIsOpenNote}
-        />
-        <ModalIsOpenEditProfile
-          modalIsOpenEditProfile={modalIsOpenEditProfile}
-          setModalIsOpenEditProfile={setModalIsOpenEditProfile}
-        />
-        <ModalNotifiAuth
-          modalIsOpenNotifiAuth={modalIsOpenNotifiAuth}
-          setModalIsOpenNotifiAuth={setModalIsOpenNotifiAuth}
-        />
-        <ModalSetting
-          modalIsOpenSetting={modalIsOpenSetting}
-          setModalIsSetting={setModalIsSetting}
-        />
+        {modalIsOpenNote && (
+          <ModalNote
+            modalIsOpenNote={modalIsOpenNote}
+            setModalIsOpenNote={setModalIsOpenNote}
+          />
+        )}
+        {modalIsOpenEditProfile && (
+          <ModalIsOpenEditProfile
+            modalIsOpenEditProfile={modalIsOpenEditProfile}
+            setModalIsOpenEditProfile={setModalIsOpenEditProfile}
+          />
+        )}
+        {modalIsOpenNotifiAuth && (
+          <ModalNotifiAuth
+            modalIsOpenNotifiAuth={modalIsOpenNotifiAuth}
+            setModalIsOpenNotifiAuth={setModalIsOpenNotifiAuth}
+          />
+        )}
+        {modalIsOpenSetting && (
+          <ModalSetting
+            modalIsOpenSetting={modalIsOpenSetting}
+            setModalIsSetting={setModalIsSetting}
+          />
+        )}
         <div className="hidden max-md:flex flex-col w-full">
           <hr className="border-color-dash w-full" />
           <div className="flex items-center gap-x-12 justify-center">

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, memo } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import useAuthStore from "../../store/authStore";
@@ -49,7 +49,7 @@ const ModalEditProfile = ({
       errorFullName: "",
       errorBio: "",
     };
-
+    console.log(selectedFile);
     const userNameRegex = /^[a-z0-9_.-]+$/;
     if (inputs.userName && !userNameRegex.test(inputs.userName)) {
       newErrorMessage.errorUserName =
@@ -109,7 +109,6 @@ const ModalEditProfile = ({
       setIsUpdating(false);
     }
   };
-
   return (
     <div>
       <Modal
@@ -154,7 +153,7 @@ const ModalEditProfile = ({
             <img
               className="w-[80px] h-[80px] rounded-full object-cover"
               src={
-                selectedFile || user?.profilePicURL || "defaultProfilePic.jpg"
+                selectedFile[0] || user?.profilePicURL || "defaultProfilePic.jpg"
               }
               alt="avatar"
             />
@@ -275,4 +274,4 @@ const ModalEditProfile = ({
   );
 };
 
-export default memo(ModalEditProfile);
+export default ModalEditProfile;

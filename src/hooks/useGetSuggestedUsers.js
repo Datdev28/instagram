@@ -14,7 +14,7 @@ const useGetSuggestedUsers = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestedUsers, setSuggestedUsers] = useState([]);
   const { user } = useAuthStore();
-  const {setProgress} = useLoadingBarStore()
+  const {setProgress} = useLoadingBarStore();
   useEffect(() => {
     const getSuggestedUsers = async () => {
       try {

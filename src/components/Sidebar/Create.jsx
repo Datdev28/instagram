@@ -14,10 +14,12 @@ const Create = () => {
         <MdOutlineAddComment className="text-3xl " />
         {!isOpenToggle && <p className={`max-lg:hidden`}>Tạo</p>}
       </div>
-      <ModalCreatePost
-        modalIsOpenCreate={modalIsOpenCreate}
-        setModalIsOpenCreate={setModalIsOpenCreate}
-      />
+      {modalIsOpenCreate && (
+        <ModalCreatePost
+          modalIsOpenCreate={modalIsOpenCreate}
+          setModalIsOpenCreate={setModalIsOpenCreate}
+        />
+      )}
     </>
   );
 };
