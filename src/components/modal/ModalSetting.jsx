@@ -8,7 +8,6 @@ const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
    const {handleLogOut} = useLogOut();
    const navigate = useNavigate()
    const handleClickLogOut = async() => {
-    console.log(1);   
       await handleLogOut();
       navigate('/auth');
    }

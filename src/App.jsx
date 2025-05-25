@@ -19,6 +19,7 @@ function App() {
   const { progress } = useLoadingBarStore();
   const { setUser, user } = useAuthStore();
   const [loadingData, setLoadingData] = useState(false);
+  // render này để khi sử dụng 2 trình duyệt đăng nhập cùng 1 acc thay đổi thông tin thì nó đồng bộ lại dữ liệu
   const renderData = async () => {
     try {
       setLoadingData(true);

@@ -16,6 +16,10 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   const { handleImageUpload } = useUpAndGetImage();
   const [modalConfirm, setModalConfirm] = useState(false);
   const [isOpenStatus, setIsOpenStatus] = useState(false);
+  const [checkedHideLike, setChekedHideLike] = useState(false);
+  const [turnOfComment, setTurnOffComment] = useState(false);
+  const [valueText, setValueText] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
   const [isOpenContainerImage, setIsOpenContainerImage] = useState(false);
   const [picked, setPicked] = useState(0);
   const refContainerFull = useRef();
@@ -35,6 +39,15 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
       setModalConfirm(true);
     }
   };
+  const handleOnClickPost = async() => {
+    if(isOpenStatus){
+       setIsLoading(true)
+       const imageUrls = await handleImageUpload(selectedFile);
+       
+    }else {
+      setIsOpenStatus(true);
+    }
+  }
   const handleClickOutSide = (e) => {
     if (
       refContainerFull.current &&
@@ -111,7 +124,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
               )}
               <span
                 className="text-blue-500 font-semibold cursor-pointer"
-                onClick={() => setIsOpenStatus(true)}
+                onClick={ handleOnClickPost}
               >
                 {isOpenStatus ? "Chia sẻ" : "Tiếp"}
               </span>
@@ -124,7 +137,6 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
                 <SlideImage
                   selectedFile={selectedFile}
                   picked={picked}
-                  isOpenStatus={isOpenStatus}
                   setPicked={setPicked}
                 />
                 {!isOpenStatus && (
@@ -194,7 +206,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
                   </div>
                 </div>
               )}
-              {isOpenStatus && <Status />}
+              {isOpenStatus && <Status setChekedHideLike={setChekedHideLike} setTurnOffComment={setTurnOffComment} setValueText={setValueText} valueText={valueText}/>}
             </div>
           ) : (
             <div className="w-full h-[60vh] flex flex-col items-center gap-y-20 mb-10">

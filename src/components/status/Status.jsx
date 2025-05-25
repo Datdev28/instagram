@@ -1,18 +1,15 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState, memo } from "react";
 import useAuthStore from "../../store/authStore";
 import { BsEmojiSmile } from "react-icons/bs";
 import Emoj from "../emojPicker/Emoj";
 import { MdKeyboardArrowUp } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
-const Status = () => {
+const Status = ({setChekedHideLike, setTurnOffComment, setValueText, valueText}) => {
   const user = useAuthStore((state) => state.user);
-  const [valueText, setValueText] = useState("");
   const [showEmoj, setShowEmoj] = useState(false);
   const [isOpenSetting, setIsOpenSetting] = useState(false);
-  const [checkedHideLike, setChekedHideLike] = useState(false);
-  const [turnOfComment, setTurnOffComment] = useState(false);
-  const emojiRef = useRef(null);
 
+  const emojiRef = useRef(null);
   const handleOnChange = (e) => {
     const newValue = e.target.value;
     if (newValue.length <= 200) {
@@ -23,7 +20,7 @@ const Status = () => {
       setChekedHideLike(e.target.checked)
   }
   const handleTurnOfComment = (e) => {
-    setTurnOffComment(e.target.ckeced);
+    setTurnOffComment(e.target.checked);
   } 
   const handleClickEmoj = useCallback(
     (emojiData) => {
@@ -114,4 +111,4 @@ const Status = () => {
   );
 };
 
-export default Status;
+export default memo(Status);
