@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-const SlideImage = ({ selectedFile, picked, setPicked }) => {
+const SlideImage = ({ selectedFile, picked, setPicked, isOpenStatus }) => {
   const handleLeft = () => {
     setPicked((prev) =>
       prev === 0 ? selectedFile.length - 1 : prev - 1
@@ -31,7 +31,7 @@ const SlideImage = ({ selectedFile, picked, setPicked }) => {
         />
       </div>
 
-      {selectedFile.length > 1 && (
+      {selectedFile.length > 1 && !isOpenStatus && (
         <>
           <button
             className="w-8 h-8 bg-black cursor-pointer opacity-80 hover:opacity-100 left-2 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-xl absolute top-1/2 transform -translate-y-1/2"
@@ -73,7 +73,7 @@ const SlideImage = ({ selectedFile, picked, setPicked }) => {
         </>
       )}
 
-      {selectedFile.length > 1 && (
+      {selectedFile.length > 1 && !isOpenStatus && (
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
           {selectedFile.map((_, index) => (
             <button

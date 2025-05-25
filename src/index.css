@@ -6,3 +6,23 @@
   --color-color-note: #373636;
   --color-color-input-gray: #8b8b8b96;
 }
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Màu track */
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #606060; /* Màu thumb */
+  border-radius: 4px;
+  border: 10px solid #f0f0f0; /* Viền tạo khoảng cách giữa thumb và track */
+}
+  
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #5d5d5d #212121; /* thumb track */
+}

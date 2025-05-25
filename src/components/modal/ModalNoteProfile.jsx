@@ -1,21 +1,21 @@
-import React, { useEffect, useRef, memo } from "react";
+import React, { useEffect, useRef} from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import EmojiPicker from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
+import Emoj from "../emojPicker/Emoj";
 import useAuthStore from "../../store/authStore";
 const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
   const {user} = useAuthStore();
   const [valueText, setValueText] = useState("");
   const [showEmoj, setShowEmoj] = useState(false)
+  const emojiRef = useRef(null); 
   const handleOnChange = (e) => {
     setValueText(e.target.value);
   }
   const handleClickEmoj = (emojiData) => {
-    setValueText((prev) => prev + emojiData.emoji)
+    setValueText((prev) => prev + emojiData.native)
   }
-  const emojiRef = useRef(null); 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (emojiRef.current && !emojiRef.current.contains(event.target)) {
@@ -96,11 +96,7 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
           </div>
           <div className="w-full flex justify-center relative">
              <BsEmojiSmile className="cursor-pointer" onClick={() => setShowEmoj(!showEmoj)}/>
-              {showEmoj && (
-                <div className="absolute top-[-4rem] z-10" ref={emojiRef}>
-                 <EmojiPicker  onEmojiClick={handleClickEmoj}/>
-                </div>
-              )}
+              {showEmoj && <Emoj handleClickEmoj={handleClickEmoj} ref={emojiRef}/> }
           </div>
         </motion.div>
       </Modal>

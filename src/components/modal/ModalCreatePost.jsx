@@ -8,13 +8,14 @@ import ModalConfirm from "./ModalConfirm";
 import { BsImages } from "react-icons/bs";
 import { CiCirclePlus } from "react-icons/ci";
 import SlideImage from "../slideImage/SlideImage";
+import Status from "../status/Status";
 const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   const inputRef = useRef(null);
   const { selectedFile, handleImageChange, setSelectedFile } =
     usePreviewImage();
   const { handleImageUpload } = useUpAndGetImage();
   const [modalConfirm, setModalConfirm] = useState(false);
-  const [isOpenPostStatus, setIsOpenStatus] = useState(false);
+  const [isOpenStatus, setIsOpenStatus] = useState(false);
   const [isOpenContainerImage, setIsOpenContainerImage] = useState(false);
   const [picked, setPicked] = useState(0);
   const refContainerFull = useRef();
@@ -28,7 +29,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
     }
   };
   const handleBack = () => {
-    if (isOpenPostStatus) {
+    if (isOpenStatus) {
       setIsOpenStatus(false);
     } else {
       setModalConfirm(true);
@@ -79,7 +80,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
             overflow: "visible",
             width: "100%",
             transition: "max-width 0.6s ease",
-            maxWidth: `${isOpenPostStatus ? "820px" : "500px"}`,
+            maxWidth: `${isOpenStatus ? "820px" : "500px"}`,
           },
         }}
       >
@@ -105,14 +106,14 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
                 className="text-2xl cursor-pointer"
                 onClick={handleBack}
               />
-              {isOpenPostStatus && (
+              {isOpenStatus && (
                 <p className="font-semibold">Tạo bài viết mới</p>
               )}
               <span
                 className="text-blue-500 font-semibold cursor-pointer"
                 onClick={() => setIsOpenStatus(true)}
               >
-                Tiếp
+                {isOpenStatus ? "Chia sẻ" : "Tiếp"}
               </span>
             </div>
           )}
@@ -123,16 +124,20 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
                 <SlideImage
                   selectedFile={selectedFile}
                   picked={picked}
+                  isOpenStatus={isOpenStatus}
                   setPicked={setPicked}
                 />
-
-                <div
-                  className="absolute bottom-5 right-5 cursor-pointer flex p-2 justify-center items-center rounded-full bg-black opacity-70"
-                  onClick={() => setIsOpenContainerImage(!isOpenContainerImage)}
-                  ref={refIconImage}
-                >
-                  <BsImages className="text-md" />
-                </div>
+                {!isOpenStatus && (
+                  <div
+                    className="absolute bottom-5 right-5 cursor-pointer flex p-2 justify-center items-center rounded-full bg-black opacity-70"
+                    onClick={() =>
+                      setIsOpenContainerImage(!isOpenContainerImage)
+                    }
+                    ref={refIconImage}
+                  >
+                    <BsImages className="text-md" />
+                  </div>
+                )}
               </div>
               {isOpenContainerImage && (
                 <div
@@ -189,7 +194,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
                   </div>
                 </div>
               )}
-              {isOpenPostStatus && <div className="flex-1 flex"></div>}
+              {isOpenStatus && <Status />}
             </div>
           ) : (
             <div className="w-full h-[60vh] flex flex-col items-center gap-y-20 mb-10">
