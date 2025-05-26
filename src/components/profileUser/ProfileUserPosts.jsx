@@ -14,12 +14,8 @@ const ProfileUserPosts = () => {
            <p className='text-center text-md'>Khi bạn chia sẻ ảnh, ảnh sẽ xuất hiện trên trang cá nhân của bạn</p>
            <p className='text-center text-xs text-blue-500'>Chia sẻ ảnh đầu tiên của bạn</p>
           </div>)
-          
-
-
         : (
         <div className='grid grid-cols-3 gap-1'>
-
         </div>
         )
        }
