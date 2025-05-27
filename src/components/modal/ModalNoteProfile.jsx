@@ -22,7 +22,7 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
         setShowEmoj(false);
       }
     };
-
+  
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);

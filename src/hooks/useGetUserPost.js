@@ -16,7 +16,7 @@ const useGetUserPost = () => {
       const q = query(collection(fireStore, 'posts'), where('createBy',"==", userProfile.uid));
       const querySnapShot = await getDocs(q);
       const posts = []
-      querySnapShot.forEach((doc) => posts.push(doc.data()));
+      querySnapShot.forEach((doc) => posts.push({...doc.data(), id: doc.id}));
       posts.sort((a, b) => b.createdAt - a.createdAt)
       setPosts(posts)
      } catch (error) {

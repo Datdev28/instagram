@@ -8,17 +8,18 @@ import useLoadingBarStore from "./store/loadingBarStore";
 import useAuthStore from "./store/authStore";
 import QrPage from "./pages/QrPage/QrPage";
 import SuggestedPage from "./pages/SuggestedPage/SuggestedPage";
-import { Routes, Route, Navigate } from "react-router-dom";
+import ModalShowPost from "./components/modal/ModalShowPost";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "./firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-
 function App() {
   const [authUser, loading] = useAuthState(auth);
   const { progress } = useLoadingBarStore();
   const { setUser, user } = useAuthStore();
   const [loadingData, setLoadingData] = useState(false);
+  const location = useLocation()
   // render này để khi sử dụng 2 trình duyệt đăng nhập cùng 1 acc thay đổi thông tin thì nó đồng bộ lại dữ liệu
   const renderData = async () => {
     try {
@@ -34,14 +35,17 @@ function App() {
     }
   };
   useEffect(() => {
-    renderData();
+    if (authUser) {
+      renderData();
+    }
   }, []);
   if (loading || loadingData) return <LoadingPage />;
+  const background = location.state && location.state.background;
   return (
     <>
       <PageLayout>
         <LoadingBar height={3} color="#df9547" progress={progress} />
-        <Routes>
+        <Routes location={background || location}>
           <Route
             path="/auth"
             element={authUser ? <Navigate to="/" /> : <AuthPage />}
@@ -51,9 +55,20 @@ function App() {
             element={authUser ? <HomePage /> : <Navigate to="/auth" />}
           />
           <Route path="/:username" element={<ProfilePage />} />
-          <Route path="/qr" element={authUser ? <QrPage /> : <Navigate to="/auth" />} />
-          <Route path="/explore" element={authUser ? <SuggestedPage/> : <Navigate to="/auth"/>}/>
+          <Route
+            path="/qr"
+            element={authUser ? <QrPage /> : <Navigate to="/auth" />}
+          />
+          <Route
+            path="/explore"
+            element={authUser ? <SuggestedPage /> : <Navigate to="/auth" />}
+          />
         </Routes>
+        {background && (
+          <Routes>
+            <Route path="/p/:postId" element={<ModalShowPost/>}></Route>
+          </Routes>
+        )}
       </PageLayout>
     </>
   );

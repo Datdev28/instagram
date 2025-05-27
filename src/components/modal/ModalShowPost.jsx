@@ -2,19 +2,19 @@ import React from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import userProfileStore from "../../store/userProfileStore";
-import { Link } from "react-router-dom";
-const ModalNotifiAuth = ({
-  modalIsOpenNotifiAuth,
+import { Link, useNavigate } from "react-router-dom";
+const ModalShowPost = ({
   setModalIsOpenNotifiAuth,
   modalFromPost,
 }) => {
+  const navigate = useNavigate()
   const { userProfile } = userProfileStore();
   return (
     <div>
       <Modal
         appElement={document.getElementById("root")}
-        isOpen={modalIsOpenNotifiAuth}
-        onRequestClose={() => setModalIsOpenNotifiAuth(false)}
+        isOpen={true}
+        onRequestClose={() => navigate(-1)}
         preventScroll={false}
         style={{
           overlay: {
@@ -52,7 +52,7 @@ const ModalNotifiAuth = ({
             <span
               className="text-white text-2xl cursor-pointer"
               onClick={() => {
-                setModalIsOpenNotifiAuth(false);
+                navigate(-1)
               }}
             >
               ✕
@@ -107,4 +107,4 @@ const ModalNotifiAuth = ({
   );
 };
 
-export default ModalNotifiAuth;
+export default ModalShowPost;
