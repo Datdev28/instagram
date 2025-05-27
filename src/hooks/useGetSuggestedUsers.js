@@ -23,7 +23,7 @@ const useGetSuggestedUsers = () => {
           collection(fireStore, "users"),
           where("uid", "not-in", [user.uid, ...user.following.slice(0, 9)]),
           orderBy("uid"),
-          limit(1)
+          limit(12)
         );
         const querySnapShot = await getDocs(q);
         let users = [];

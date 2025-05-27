@@ -4,5 +4,6 @@ const usePostStore = create((set) => ({
   createPost: (post) => set((state) => ({
     posts: [...state.posts, post]
   })),
+  setPosts: (posts) => set({posts})
 }));
 export default usePostStore

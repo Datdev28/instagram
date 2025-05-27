@@ -26,7 +26,7 @@ const SlideImage = ({ selectedFile, picked, setPicked }) => {
       <div className="flex items-center w-full h-full overflow-hidden">
         <img
           src={selectedFile[picked]}
-          className="w-full h-[34rem] object-cover"
+          className="w-full h-[38rem] object-cover"
           alt={`hình ảnh ${picked + 1}`}
         />
       </div>

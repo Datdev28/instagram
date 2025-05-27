@@ -1,7 +1,7 @@
 const useUpAndGetImage = () => {
   const handleImageUpload = async (files) => {
-    if (!files || files.length === 0) return;
     const uploadedUrls = [];
+    if (!files || files.length === 0) return uploadedUrls;
     for (let file of files) {
       const formData = new FormData();
       formData.append("file", file);

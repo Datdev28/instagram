@@ -109,7 +109,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
             zIndex: 50,
           },
           content: {
-            top: "3rem",
+            top: "auto",
             left: "auto",
             right: "auto",
             bottom: "auto",
@@ -119,7 +119,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
             overflow: "visible",
             width: "100%",
             transition: "max-width 0.6s ease",
-            maxWidth: `${isOpenStatus ? "820px" : "500px"}`,
+            maxWidth: `${isOpenStatus ? "740px" : "420px"}`,
           },
         }}
       >
@@ -131,10 +131,10 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
             ease: "easeInOut",
           }}
           ref={refContainerFull}
-          className="bg-color-dash text-white flex flex-col items-center select-none"
+          className="bg-color-dash text-white flex flex-col items-center select-none max-md:text-xs"
         >
           {showIsLoading ? (
-            <div className="h-[500px] w-full flex flex-col">
+            <div className="h-[500px] w-full flex flex-col ">
               <p className="w-full font-semibold flex justify-center items-center py-2 px-2 bg-black">
                 {isLoading ? "Đang chia sẻ " : "Đã chia sẻ bài viết"}
               </p>
@@ -178,7 +178,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
 
               {selectedFile.length ? (
                 <div className="flex w-full relative">
-                  <div className="w-[500px] relative">
+                  <div className="w-[420px] relative">
                     <SlideImage
                       selectedFile={selectedFile}
                       picked={picked}

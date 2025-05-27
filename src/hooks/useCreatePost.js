@@ -21,8 +21,8 @@ const useCreatePost = () => {
     try {
       const postDocRef = await addDoc(collection(fireStore, 'posts'), newPost);
       const userDocRef = doc(fireStore, 'users', user.uid);
-      await updateDoc(userDocRef, {post: arrayUnion(postDocRef.id)});
-      if(user.uid === userProfile?.uid) addPost({...newPost, id: postDocRef.id})
+      await updateDoc(userDocRef, {posts: arrayUnion(postDocRef.id)});
+      if(user.uid === userProfile.uid) addPost({...newPost, id: postDocRef.id});
     } catch (error) {
       console.log(error);
     }
