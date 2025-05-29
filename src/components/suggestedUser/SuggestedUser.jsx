@@ -8,7 +8,6 @@ const SuggestedUser = ({user}) => {
   const {isLoading, isFollowing, handleFollowUser} = useFollowUser(user.uid);
   const handleClickFollow = async() => {
      await handleFollowUser();
-     console.log(userAuth);
      setUser({...userAuth, following: [...userAuth.following, user.uid]});
   }
   return (

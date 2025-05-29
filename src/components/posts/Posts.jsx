@@ -5,7 +5,7 @@ const Posts = () => {
   const postUser = [
     {
       name: "messi10",
-      post: "image1.jpg",
+      post: "vietnam.jpg",
       numberOfLikes: "1022",
     },
     {

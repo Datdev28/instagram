@@ -28,7 +28,6 @@ const ModalEditProfile = ({
   const { editProfile } = useEditProfile();
   const [isUpdating, setIsUpdating] = useState(false);
   const [errorExitsUserName, setErrorExitsUserName] = useState(false);
-  console.log(selectedFile);
   useEffect(() => {
     if (!modalIsOpenEditProfile) {
       setInputs({
@@ -95,7 +94,6 @@ const ModalEditProfile = ({
     try {
       setIsUpdating(true);
       const imageUrl = await handleImageUpload(selectedFile);
-      console.log("imageURL: ", imageUrl);
       const exitsUserName = await editProfile(inputs, imageUrl);
       setIsUpdating(false);
       if (exitsUserName) {

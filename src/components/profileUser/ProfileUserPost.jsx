@@ -16,7 +16,6 @@ const ProfileUserPost = ({ post }) => {
       navigate(`/p/${post.id}`, {state: {
        background: location,
       }})
-      console.log(1);
     }else {
      setIsOpenModalNote(true);
      setModalFromPost(true)
@@ -49,7 +48,7 @@ const ProfileUserPost = ({ post }) => {
           <IoMdImages className="text-xl" />
         </div>
       )}
-      {/* {isOpenModalNote && <ModalNotifiAuth setModalIsOpenNotifiAuth={setIsOpenModalNote} modalIsOpenNotifiAuth={isOpenModalNote} modalFromPost={modalFromPost}/>} */}
+      {isOpenModalNote && <ModalNotifiAuth setModalIsOpenNotifiAuth={setIsOpenModalNote} modalIsOpenNotifiAuth={isOpenModalNote} modalFromPost={modalFromPost}/>}
     </div>
   );
 };

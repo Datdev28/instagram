@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import userProfileStore from "../../store/userProfileStore";
-import { Link, useNavigate } from "react-router-dom";
-const ModalShowPost = ({
-  setModalIsOpenNotifiAuth,
-  modalFromPost,
-}) => {
+import { Link, useNavigate, useParams } from "react-router-dom";
+import usePostStore from "../../store/postStore";
+import useGetPostFromArray from "../../utils/getPostFromArray";
+import SlideImage from "../slideImage/SlideImage";
+import CommentBox from "../comments/CommentBox";
+const ModalShowPost = () => {
   const navigate = useNavigate()
-  const { userProfile } = userProfileStore();
+  const {postId} = useParams();
+  const [picked, setPicked] = useState(0);
+  const post = useGetPostFromArray(postId); 
+  console.log("post", post);
+  console.log("post caption", post?.caption);
   return (
     <div>
       <Modal
@@ -33,9 +38,9 @@ const ModalShowPost = ({
             border: "none",
             background: "transparent",
             borderRadius: "0.5rem",
-            overflow: "visible",
+            overflow: "hidden",
             width: "100%",
-            maxWidth: "600px",
+            maxWidth: "900px",
           },
         }}
       >
@@ -46,60 +51,15 @@ const ModalShowPost = ({
             duration: 0.3,
             ease: "easeInOut",
           }}
-          className="bg-color-dash text-white p-4 rounded-3xl w-full flex flex-col items-center gap-y-2 select-none"
+          className="bg-color-dash text-white w-full flex"
         >
-          <div className="w-full flex justify-end items-center">
-            <span
-              className="text-white text-2xl cursor-pointer"
-              onClick={() => {
-                navigate(-1)
-              }}
-            >
-              ✕
-            </span>
-          </div>
-          <div className="flex flex-col w-full p-10 max-sm:p-0">
-            <div className="w-full gap-y-2 flex flex-col">
-              <img
-                className=" mx-auto "
-                src="introduceFollow.png"
-                alt="avatar"
-              />
-              <p className="font-bold text-2xl text-center">
-                {modalFromPost
-                  ? "Đăng nhập để xem bài viết này"
-                  : "Theo dõi trang cá nhân này"}
-              </p>
-              {!modalFromPost && (
-                <p className="text-xs text-center">
-                  {" "}
-                  "Là người đầu tiên xem được thông tin mới khi bạn theo dõi{" "}
-                  {userProfile.userName}."
-                </p>
-              )}
-
-              <p className="text-xs text-color-text-gray text-center">
-                Bằng cách tiếp tục, bạn đồng ý với{" "}
-                <span className="font-semibold text-white">
-                  Điều khoản sử dụng
-                </span>{" "}
-                và{" "}
-                <span className="font-semibold text-white">
-                  Chính sách quyền riêng tư
-                </span>{" "}
-                của Instagram
-              </p>
-              <Link to="/auth">
-                <button className="w-full bg-blue-400 py-2 rounded-xl mt-4 cursor-pointer">
-                  Đăng kí
-                </button>
-              </Link>
-              <Link to="/auth">
-                <div className="flex justify-center mt-2">
-                  <p className="cursor-pointer text-blue-600">Đăng nhập</p>
-                </div>
-              </Link>
+          {post && (
+            <div className="flex-1 flex shrink-0 max-w-[450px]">
+              <SlideImage picked={picked} setPicked={setPicked} selectedFile={post.imageOfPost}/>
             </div>
+          )}
+          <div className="flex flex-1 max-w-[450px]">
+             <CommentBox post={post}/>
           </div>
         </motion.div>
       </Modal>
