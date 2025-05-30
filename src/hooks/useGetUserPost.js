@@ -21,6 +21,8 @@ const useGetUserPost = () => {
       setPosts(posts)
      } catch (error) {
       console.log(error);
+     } finally {
+      setIsLoading(false);
      }
     }
     getPost()

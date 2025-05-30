@@ -4,6 +4,7 @@ const usePostStore = create((set) => ({
   createPost: (post) => set((state) => ({
     posts: [...state.posts, post]
   })),
+  deletePost: (id) => set((state) => ({posts: state.posts.filter((post) => id !== post.id) })),
   setPosts: (posts) => set({posts})
 }));
-export default usePostStore
+export default usePostStore;

@@ -6,7 +6,7 @@ import useUpAndGetImage from "../../hooks/useUpAndGetImage";
 import SlideImage from "../slideImage/SlideImage";
 import Status from "../status/Status";
 import useCreatePost from "../../hooks/useCreatePost";
-import ModalConfirm from "./ModalConfirm";
+import ModalConfirm from "./ModalConfirmCancle";
 import useAuthStore from "../../store/authStore";
 import { GoArrowLeft } from "react-icons/go";
 import { BsImages } from "react-icons/bs";
@@ -78,7 +78,11 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
        setModalIsOpenCreate(false);
        navigate(`/${user.userName}`)
       }else {
-      setModalConfirm(true);
+        if(selectedFile.length > 0){
+          setModalConfirm(true);
+        }else {
+          setModalIsOpenCreate(false);
+        }
       }
     }
     if (
@@ -93,7 +97,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutSide);
     return () => document.removeEventListener("mousedown", handleClickOutSide);
-  }, [showIsLoading, isLoading]);
+  }, [showIsLoading, isLoading, selectedFile]);
   return (
     <div>
       <Modal
@@ -263,7 +267,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
                   )}
                 </div>
               ) : (
-                <div className="w-full h-[60vh] flex flex-col items-center gap-y-20 mb-10">
+                <div className="w-full h-[28rem] flex flex-col items-center gap-y-20 mb-10">
                   <h3 className="w-full text-center py-2 bg-black">
                     Tạo bài viết mới
                   </h3>

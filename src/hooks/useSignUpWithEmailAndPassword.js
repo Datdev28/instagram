@@ -37,6 +37,8 @@ const useSignUpWithEmailAndPassword = () => {
           followers: [],
           following: [],
           posts: [],
+          blackList: [],
+          savePosts: [],
           createAt: Date.now(),
         }
       await setDoc(doc(fireStore, "users", newUser.user.uid), userDoc);

@@ -8,7 +8,7 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import ModalIsOpenEditProfile from "../../components/modal/ModalEditProfile";
 import useFollowUser from "../../hooks/useFollowUser";
 import ModalNotifiAuth from "../modal/ModalNotifiAuth";
-import ModalSetting from "../modal/ModalSetting";
+import ModalSetting from "../modal/ModalSettingAcc";
 const ProfileUserHeader = () => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);

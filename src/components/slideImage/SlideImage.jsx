@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-const SlideImage = ({ selectedFile, picked, setPicked }) => {
+const SlideImage = ({ selectedFile, picked, setPicked, fromModalShow }) => {
   const handleLeft = () => {
     setPicked((prev) =>
       prev === 0 ? selectedFile.length - 1 : prev - 1
@@ -26,7 +26,7 @@ const SlideImage = ({ selectedFile, picked, setPicked }) => {
       <div className="flex items-center w-full h-full overflow-hidden">
         <img
           src={selectedFile[picked]}
-          className="w-full h-[38rem] object-cover"
+          className={`w-full ${fromModalShow ? "h-[42rem]" : "h-[38rem] max-md:h-[22rem]"} shrink-0  object-cover`}
           alt={`hình ảnh ${picked + 1}`}
         />
       </div>
@@ -78,7 +78,7 @@ const SlideImage = ({ selectedFile, picked, setPicked }) => {
           {selectedFile.map((_, index) => (
             <button
               key={index}
-              className={`w-2 h-2 cursor-pointer rounded-full border border-white ${
+              className={`w-2 h-2 rounded-full border border-white ${
                 index === picked ? "bg-white" : "bg-transparent"
               }`}
               onClick={() => setPicked(picked)}

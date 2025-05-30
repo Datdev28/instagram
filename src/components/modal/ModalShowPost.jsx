@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
-import userProfileStore from "../../store/userProfileStore";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import usePostStore from "../../store/postStore";
-import useGetPostFromArray from "../../utils/getPostFromArray";
+import { useNavigate, useParams } from "react-router-dom";
+import useGetPostFromArray from "../../hooks/useGetPostFromArray";
 import SlideImage from "../slideImage/SlideImage";
 import CommentBox from "../comments/CommentBox";
 const ModalShowPost = () => {
@@ -12,8 +10,6 @@ const ModalShowPost = () => {
   const {postId} = useParams();
   const [picked, setPicked] = useState(0);
   const post = useGetPostFromArray(postId); 
-  console.log("post", post);
-  console.log("post caption", post?.caption);
   return (
     <div>
       <Modal
@@ -28,9 +24,11 @@ const ModalShowPost = () => {
             justifyContent: "center",
             alignItems: "center",
             zIndex: 50,
+            width: "100%"
+
           },
           content: {
-            top: "5rem",
+            top: "auto",
             left: "auto",
             right: "auto",
             bottom: "auto",
@@ -38,9 +36,9 @@ const ModalShowPost = () => {
             border: "none",
             background: "transparent",
             borderRadius: "0.5rem",
-            overflow: "hidden",
+            overflow: "visible",
             width: "100%",
-            maxWidth: "900px",
+            maxWidth: "900px"
           },
         }}
       >
@@ -51,14 +49,14 @@ const ModalShowPost = () => {
             duration: 0.3,
             ease: "easeInOut",
           }}
-          className="bg-color-dash text-white w-full flex"
+          className="bg-color-dash text-white flex w-full"
         >
           {post && (
-            <div className="flex-1 flex shrink-0 max-w-[450px]">
-              <SlideImage picked={picked} setPicked={setPicked} selectedFile={post.imageOfPost}/>
+            <div className="flex-1 flex shrink-0 max-w-[500px]">
+              <SlideImage picked={picked} setPicked={setPicked} selectedFile={post.imageOfPost} fromModalShow={true}/>
             </div>
           )}
-          <div className="flex flex-1 max-w-[450px]">
+          <div className="flex flex-1 max-w-[400px]">
              <CommentBox post={post}/>
           </div>
         </motion.div>
