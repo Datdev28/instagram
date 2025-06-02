@@ -5,7 +5,7 @@ import GoogleAuth from "./GoogleAuth";
 import userProfileStore from "../../store/userProfileStore";
 const AuthPage = () => {
    const [sign, setSign] = useState(false);
-   const {userProfile, setUserProfile} = userProfileStore()
+   const {userProfile, setUserProfile} = userProfileStore();
     if(userProfile){
       setUserProfile(null);
     }

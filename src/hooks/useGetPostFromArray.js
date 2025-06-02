@@ -9,7 +9,6 @@ const useGetPostFromArray = (postId) => {
     const handleGetNeedPost = () => {
       if(!posts || posts.length === 0) return; 
       const needPost = posts.find((item) => item.id === postId);
-      console.log("need Post", needPost)
       setPost(needPost);
     };
     handleGetNeedPost();

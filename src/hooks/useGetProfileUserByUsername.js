@@ -25,7 +25,6 @@ const useGetProfileUserByUsername = (userName) => {
         }
         const userDoc = doc.data();
         setUserProfile(userDoc);
-        setIsLoading(false);
         setProgress(100);
       } catch (error) {
         console.log(error);

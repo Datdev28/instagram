@@ -10,6 +10,7 @@ const useGetUserPost = () => {
   const setPosts = usePostStore(state => state.setPosts);
   const posts = usePostStore(state => state.posts);
   useEffect(() => {
+    setPosts([]);
     const getPost = async() => {
      try {
       setIsLoading(true);
@@ -18,14 +19,14 @@ const useGetUserPost = () => {
       const posts = []
       querySnapShot.forEach((doc) => posts.push({...doc.data(), id: doc.id}));
       posts.sort((a, b) => b.createdAt - a.createdAt)
-      setPosts(posts)
+      setPosts(posts);
      } catch (error) {
       console.log(error);
      } finally {
       setIsLoading(false);
      }
     }
-    getPost()
+    getPost();
   }, [userProfile, setPosts]);
   return {isLoading, posts}
 }

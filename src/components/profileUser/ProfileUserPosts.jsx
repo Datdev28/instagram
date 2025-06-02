@@ -6,11 +6,12 @@ import ModalCreatePost from "../modal/ModalCreatePost";
 const ProfileUserPosts = () => {
   // const userProfile = userProfileStore((state) => state.userProfile);
   const { posts, isLoading } = useGetUserPost();
-  const noPosts = posts.length === 0 && !isLoading;
-  if(noPosts) return <NoPosts/>
+  const noPost = posts.length === 0 && !isLoading;
+  const havePost = posts.length > 0 && !isLoading;
+  if(noPost) return <NoPosts/>
   return (
     <>
-      {posts.length > 0 && (
+      {havePost && (
         <div className="grid grid-cols-3 gap-1 w-full">
           {posts.map((post) => (
             <ProfileUserPost post={post} />

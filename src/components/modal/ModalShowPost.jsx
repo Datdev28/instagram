@@ -6,10 +6,10 @@ import useGetPostFromArray from "../../hooks/useGetPostFromArray";
 import SlideImage from "../slideImage/SlideImage";
 import CommentBox from "../comments/CommentBox";
 const ModalShowPost = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {postId} = useParams();
   const [picked, setPicked] = useState(0);
-  const post = useGetPostFromArray(postId); 
+  const post = useGetPostFromArray(postId);
   return (
     <div>
       <Modal

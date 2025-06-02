@@ -1,11 +1,8 @@
-import React, { useState } from "react";
 import Modal from "react-modal";
-import { motion } from "framer-motion";
-import ModalConfirmDelete from "./ModalConfirmDelete";
-const ModalNote = ({ isOpenSettingPost, setIsOpenSettingPost }) => {
-  const [isOpenModalConfirmDel, setIsOpenModalConfirmDel] = useState(false)
+const ModalSettingPost = ({ isOpenSettingPost, setIsOpenSettingPost, setIsOpenModalConfirmDeletePost }) => {
   const handleClickDelete = () => {
-    setIsOpenModalConfirmDel(true);
+    setIsOpenSettingPost(false)
+    setIsOpenModalConfirmDeletePost(true);
   }
   return (
     <div>
@@ -37,16 +34,10 @@ const ModalNote = ({ isOpenSettingPost, setIsOpenSettingPost }) => {
           },
         }}
       >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: 0.3,
-            ease: "easeInOut",
-          }}
+        <div
           className="bg-color-dash text-white overflow-hidden rounded-3xl w-full flex flex-col items-center gap-y-2 select-none"
         >
-          <div className={`${isOpenModalConfirmDel ? "hidden" : ""} flex flex-col w-full`}>
+          <div className="flex flex-col w-full">
             <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer text-red-500 font-bold"
              onClick={handleClickDelete}
             >
@@ -74,11 +65,10 @@ const ModalNote = ({ isOpenSettingPost, setIsOpenSettingPost }) => {
               Hủy
             </div>
           </div>
-          {isOpenModalConfirmDel && <ModalConfirmDelete setIsOpenSettingPost={setIsOpenSettingPost} isOpenSettingPost={isOpenSettingPost}/>}
-        </motion.div>
+        </div>
       </Modal>
     </div>
   );
 };
 
-export default ModalNote;
+export default ModalSettingPost;

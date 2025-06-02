@@ -1,16 +1,15 @@
 import React from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { memo } from "react";
-const ModalConfirm = ({ isOpenModalConfirmDel , setIsOpenModalConfirmDel}) => {
- console.log(21);
+import useDeletePost from "../../hooks/useDeletePost";
+const ModalConfirmDeletePost = ({ isOpenModalConfirmDeletePost , setIsOpenModalConfirmDeletePost, postId}) => {
+  const {handleDeletePost, isDeleting} = useDeletePost();
   return (
     <div>
       <Modal
         appElement={document.getElementById("root")}
-        isOpen={isOpenModalConfirmDel}
-        onRequestClose={() => setIsOpenModalConfirmDel(false)}
+        isOpen={isOpenModalConfirmDeletePost}
+        onRequestClose={() => setIsOpenModalConfirmDeletePost(false)}
         preventScroll={false}
         style={{
           overlay: {
@@ -36,12 +35,6 @@ const ModalConfirm = ({ isOpenModalConfirmDel , setIsOpenModalConfirmDel}) => {
         }}
       >
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: 0.3,
-            ease: "easeInOut",
-          }}
           className="bg-color-dash text-white overflow-hidden rounded-2xl w-full flex flex-col items-center gap-y-2 select-none"
         >
           <div className="flex flex-col w-full">
@@ -50,12 +43,13 @@ const ModalConfirm = ({ isOpenModalConfirmDel , setIsOpenModalConfirmDel}) => {
                 <p className="text-color-text-gray">Bạn có chắc chắn muốn xóa bài viết này không?</p>
               </div>    
               <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+               onClick={() => handleDeletePost(postId)}
               >
                <p className="text-red-500 font-bold"
                >Xóa</p>
               </div>    
               <div className="w-full  py-2 flex justify-center cursor-pointer hover:bg-color-note"
-               onClick={() => setIsOpenModalConfirmDel(false)}
+               onClick={() => setIsOpenModalConfirmDeletePost(false)}
               >Hủy</div>    
           </div>
         </motion.div>
@@ -64,4 +58,4 @@ const ModalConfirm = ({ isOpenModalConfirmDel , setIsOpenModalConfirmDel}) => {
   );
 };
 
-export default memo(ModalConfirm);
+export default ModalConfirmDeletePost;
