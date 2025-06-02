@@ -41,7 +41,7 @@ const PageLayout = ({ children }) => {
       ) : null}
       {renderNavbar ? <NavbarLogout /> : null}
       
-      <div className={`flex-1 pb-10 mt-10 ${isOpenToggle ? "lg:ml-[170px]" : "0"}`}>{children}</div>
+      <div className={`flex-1 pb-10 mt-10 ${isOpenToggle ? "lg:ml-[170px]" : "0"} ${renderNavbar ? "pt-16" : ""}`}>{children}</div>
     </div>
   );
 };

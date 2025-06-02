@@ -144,9 +144,9 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
               </p>
               <div className="h-full flex justify-center items-center flex-col gap-y-2">
                 {isLoading ? (
-                  <img src="post.gif" alt="đang đăng bài" />
+                  <img src="/post.gif" alt="đang đăng bài" />
                 ) : (
-                  <img src="completePost.png" alt="bài đăng thành công" />
+                  <img src="/completePost.png" alt="bài đăng thành công" />
                 )}
                 {!isLoading && <p className="text-xl">Đã chia sẽ bài viết của bạn</p>}
               </div>
@@ -271,7 +271,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
                   <h3 className="w-full text-center py-2 bg-black">
                     Tạo bài viết mới
                   </h3>
-                  <img src="upload.png" className="mt-8" alt="upload" />
+                  <img src="/upload.png" className="mt-8" alt="upload" />
                   <button
                     className="bg-blue-500 px-2 py-1 rounded-sm cursor-pointer"
                     onClick={() => inputRef.current.click()}

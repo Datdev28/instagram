@@ -13,12 +13,12 @@ const AuthPage = () => {
     <div className="flex justify-center items-center h-screen bg-black mx-auto max-w-6xl text-white">
       <div className="flex justify-center w-full h-full px-20 max-lg:px-0 items-start">
         <div className="flex-1 flex w-full items-center max-lg:hidden">
-          <img src="auth.png" alt="auth2" className="object-cover w-full" />
+          <img src="/auth.png" alt="auth2" className="object-cover w-full" />
         </div>
         <div className="flex-1 flex flex-col w-full items-center mt-9 gap-y-4">
           <div className="flex flex-col border border-gray-600 rounded-xs w-full max-w-[20rem] min-h-[26rem] px-10">
             <div className="w-full flex justify-center items-center px-4 py-10">
-              <img src="logo.png" className="" alt="logo instagram" />
+              <img src="/logo.png" className="" alt="logo instagram" />
             </div>
               {sign ? <SignUp/> : <Login/>}
             <div className="flex items-center pt-5">
@@ -42,12 +42,12 @@ const AuthPage = () => {
           <p>Tải ứng dụng.</p>
           <div className="flex justify-center items-center w-[20rem] px-20 gap-x-8">
             <img
-              src="auth-google-play.png"
+              src="/auth-google-play.png"
               className="object-contain w-full h-[4rem] cursor-pointer"
               alt="google play"
             />
             <img
-              src="auth-microsoft.png"
+              src="/auth-microsoft.png"
               className="object-contain w-full h-[2.9rem] cursor-pointer"
               alt="microsoft"
             />

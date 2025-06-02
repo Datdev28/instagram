@@ -53,7 +53,7 @@ const NavbarHeader = () => {
     <div className="flex gap-x-4 items-center justify-between w-full px-2 py-4 text-white relative">
       <div className="flex px-2 w-[100px] shrink-0 max-lg:justify-center max-[350px]:w-[70px] ">
         <img
-          src="logo.png"
+          src="/logo.png"
           className="w-full cursor-pointer object-cover"
           alt="logo"
         />

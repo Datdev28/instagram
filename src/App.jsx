@@ -9,6 +9,7 @@ import useAuthStore from "./store/authStore";
 import QrPage from "./pages/QrPage/QrPage";
 import SuggestedPage from "./pages/SuggestedPage/SuggestedPage";
 import ModalShowPost from "./components/modal/ModalShowPost";
+import ShowPostPage from "./pages/ShowPostPage/ShowPostPage";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "./firebase/firebase";
@@ -19,7 +20,7 @@ function App() {
   const { progress } = useLoadingBarStore();
   const { setUser, user } = useAuthStore();
   const [loadingData, setLoadingData] = useState(false);
-  const location = useLocation()
+  const location = useLocation();
   // render này để khi sử dụng 2 trình duyệt đăng nhập cùng 1 acc thay đổi thông tin thì nó đồng bộ lại dữ liệu
   const renderData = async () => {
     try {
@@ -63,6 +64,10 @@ function App() {
             path="/explore"
             element={authUser ? <SuggestedPage /> : <Navigate to="/auth" />}
           />
+          <Route
+           path="p/:postId" element={<ShowPostPage/>}          
+          >
+          </Route>
         </Routes>
         {background && (
           <Routes>

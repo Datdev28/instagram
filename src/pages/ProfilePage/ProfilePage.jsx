@@ -12,7 +12,7 @@ const ProfilePage = () => {
   if (findUserInfo) return <UserNotFound />;
   return (
     userProfile &&  (
-      <div className="text-white flex flex-col w-full items-center pt-16 overflow-y-auto">
+      <div className="text-white flex flex-col w-full items-center overflow-y-auto">
         <div className="flex w-full flex-col items-center">
           <ProfileUserHeader />
         </div>

@@ -10,6 +10,7 @@ const ProfileUserPost = ({ post }) => {
   const [isOpenModalNote, setIsOpenModalNote] = useState(false);
   const [modalFromPost, setModalFromPost] = useState(false);
   const location = useLocation();
+  console.log(location);
   const navigate = useNavigate();
   const handleShowPost = () => {
     if(userAuth){

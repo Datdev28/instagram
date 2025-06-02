@@ -2,8 +2,18 @@ import React from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import useDeletePost from "../../hooks/useDeletePost";
+import { useNavigate } from "react-router-dom";
+import userProfileStore from "../../store/userProfileStore";
 const ModalConfirmDeletePost = ({ isOpenModalConfirmDeletePost , setIsOpenModalConfirmDeletePost, postId}) => {
+  const userProfile = userProfileStore(state => state.userProfile);
+  const navigate = useNavigate()
   const {handleDeletePost, isDeleting} = useDeletePost();
+  const handleClickDeletePost = () => {
+    handleDeletePost(postId);
+    if(!isDeleting){
+      navigate(`/${userProfile.userName}`)
+    }
+  }
   return (
     <div>
       <Modal
@@ -43,7 +53,7 @@ const ModalConfirmDeletePost = ({ isOpenModalConfirmDeletePost , setIsOpenModalC
                 <p className="text-color-text-gray">Bạn có chắc chắn muốn xóa bài viết này không?</p>
               </div>    
               <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
-               onClick={() => handleDeletePost(postId)}
+               onClick={handleClickDeletePost}
               >
                <p className="text-red-500 font-bold"
                >Xóa</p>

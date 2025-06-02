@@ -4,7 +4,6 @@ import usePostStore from "../store/postStore";
 const useGetPostFromArray = (postId) => {
   const posts = usePostStore((state) => state.posts);
   const [post, setPost] = useState(null);
-
   useEffect(() => {
     const handleGetNeedPost = () => {
       if(!posts || posts.length === 0) return; 
