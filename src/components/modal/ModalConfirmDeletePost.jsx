@@ -4,14 +4,14 @@ import { motion } from "framer-motion";
 import useDeletePost from "../../hooks/useDeletePost";
 import { useNavigate } from "react-router-dom";
 import userProfileStore from "../../store/userProfileStore";
-const ModalConfirmDeletePost = ({ isOpenModalConfirmDeletePost , setIsOpenModalConfirmDeletePost, postId}) => {
+const ModalConfirmDeletePost = ({ isOpenModalConfirmDeletePost , setIsOpenModalConfirmDeletePost, post}) => {
   const userProfile = userProfileStore(state => state.userProfile);
   const navigate = useNavigate()
   const {handleDeletePost, isDeleting} = useDeletePost();
   const handleClickDeletePost = () => {
-    handleDeletePost(postId);
+    handleDeletePost(post.id);
     if(!isDeleting){
-      navigate(`/${userProfile.userName}`)
+      navigate(`/${post.byUserName}`)
     }
   }
   return (

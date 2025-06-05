@@ -11,13 +11,12 @@ const useDeletePost = () => {
   const deletePostInUserProfile = userProfileStore(state => state.deletePost);
   const deletePostInPosts = usePostStore(state => state.deletePost);
   const handleDeletePost = async(postId) => {
-    console.log(postId);
     try {
       setIsDeleting(true)
       const postRef = doc(fireStore, 'posts', postId);
       const userRef = doc(fireStore, 'users', user.uid);
       await deleteDoc(postRef);
-      await updateDoc(userRef, {post: arrayRemove(postId)});
+      await updateDoc(userRef, {posts: arrayRemove(postId)});
       deletePostInUserProfile(postId);
       deletePostInPosts(postId);
     } catch (error) {

@@ -16,10 +16,10 @@ const ProfileUserPost = ({ post }) => {
     if(userAuth){
       navigate(`/p/${post.id}`, {state: {
        background: location,
-      }})
+      }});
     }else {
      setIsOpenModalNote(true);
-     setModalFromPost(true)
+     setModalFromPost(true);
     }
   }
   return (

@@ -17,6 +17,8 @@ const useCreatePost = () => {
       turnOfComment: turnOfComment,
       createdAt: Date.now(),
       createBy: user.uid,
+      byUserName: user.userName,
+      byAvaUser: user.profilePicURL,
     };
     try {
       const postDocRef = await addDoc(collection(fireStore, 'posts'), newPost);

@@ -65,7 +65,9 @@ function App() {
             element={authUser ? <SuggestedPage /> : <Navigate to="/auth" />}
           />
           <Route
-           path="p/:postId" element={<ShowPostPage/>}          
+           path="p/:postId" element={<ShowPostPage/>}  
+           
+                     
           >
           </Route>
         </Routes>
