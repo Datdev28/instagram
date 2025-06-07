@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import useLogOut from "../../hooks/useLogOut";
 import { useNavigate } from "react-router-dom";
 const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
-   const {handleLogOut} = useLogOut();
-   const navigate = useNavigate()
-   const handleClickLogOut = async() => {
-      await handleLogOut();
-      navigate('/auth');
-   }
+  const { handleLogOut } = useLogOut();
+  const navigate = useNavigate();
+  const handleClickLogOut = async () => {
+    await handleLogOut();
+    navigate("/auth");
+  };
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => (document.body.style.overflow = "unset");
+  }, []);
   return (
     <div>
       <Modal
@@ -51,16 +55,26 @@ const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
           className="bg-color-dash text-white overflow-hidden rounded-md w-full flex flex-col items-center gap-y-2 select-none"
         >
           <div className="flex flex-col w-full">
-            <Link to='/qr'>
-              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">Mã QR</div>    
+            <Link to="/qr">
+              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
+                Mã QR
+              </div>
             </Link>
-              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">Thông báo</div>   
-              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
-               onClick={handleClickLogOut}
-              >Đăng xuất</div>    
-              <div className="w-full  py-2 flex justify-center cursor-pointer hover:bg-color-note"
-               onClick={() => setModalIsSetting(false)}
-              >Hủy</div>    
+            <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
+              Thông báo
+            </div>
+            <div
+              className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+              onClick={handleClickLogOut}
+            >
+              Đăng xuất
+            </div>
+            <div
+              className="w-full  py-2 flex justify-center cursor-pointer hover:bg-color-note"
+              onClick={() => setModalIsSetting(false)}
+            >
+              Hủy
+            </div>
           </div>
         </motion.div>
       </Modal>

@@ -20,7 +20,6 @@ const ProfileUserHeader = () => {
     userProfile?.uid
   );
   const isOwnProfile = userAuth && userAuth.userName === userProfile.userName;
-  console.log("userProfile", userProfile);
   return (
     userProfile && (
       <div className="flex flex-col w-full">

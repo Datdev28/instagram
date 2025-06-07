@@ -23,7 +23,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   const [isOpenStatus, setIsOpenStatus] = useState(false);
   const [checkedHideLike, setChekedHideLike] = useState(false);
   const [turnOfComment, setTurnOffComment] = useState(false);
-  const user = useAuthStore(state => state.user);
+  const user = useAuthStore((state) => state.user);
   const [valueText, setValueText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenContainerImage, setIsOpenContainerImage] = useState(false);
@@ -69,18 +69,18 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
     }
   };
   const handleClickOutSide = (e) => {
-    if(isLoading) return 
+    if (isLoading) return;
     if (
       refContainerFull.current &&
       !refContainerFull.current.contains(e.target)
     ) {
-      if(showIsLoading){
-       setModalIsOpenCreate(false);
-       navigate(`/${user.userName}`)
-      }else {
-        if(selectedFile.length > 0){
+      if (showIsLoading) {
+        setModalIsOpenCreate(false);
+        navigate(`/${user.userName}`);
+      } else {
+        if (selectedFile.length > 0) {
           setModalConfirm(true);
-        }else {
+        } else {
           setModalIsOpenCreate(false);
         }
       }
@@ -98,12 +98,15 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
     document.addEventListener("mousedown", handleClickOutSide);
     return () => document.removeEventListener("mousedown", handleClickOutSide);
   }, [showIsLoading, isLoading, selectedFile]);
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => (document.body.style.overflow = "unset");
+  }, []);
   return (
     <div>
       <Modal
         appElement={document.getElementById("root")}
         isOpen={modalIsOpenCreate}
-        preventScroll={false}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -148,7 +151,9 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
                 ) : (
                   <img src="/completePost.png" alt="bài đăng thành công" />
                 )}
-                {!isLoading && <p className="text-xl">Đã chia sẽ bài viết của bạn</p>}
+                {!isLoading && (
+                  <p className="text-xl">Đã chia sẽ bài viết của bạn</p>
+                )}
               </div>
             </div>
           ) : (

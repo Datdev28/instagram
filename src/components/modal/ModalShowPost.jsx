@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
@@ -7,16 +7,19 @@ import SlideImage from "../slideImage/SlideImage";
 import CommentBox from "../comments/CommentBox";
 const ModalShowPost = () => {
   const navigate = useNavigate();
-  const {postId} = useParams();
+  const { postId } = useParams();
   const [picked, setPicked] = useState(0);
   const post = useGetPostFromArray(postId);
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => (document.body.style.overflow = "unset");
+  }, []);
   return (
     <div>
       <Modal
         appElement={document.getElementById("root")}
         isOpen={true}
         onRequestClose={() => navigate(-1)}
-        preventScroll={false}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -24,8 +27,7 @@ const ModalShowPost = () => {
             justifyContent: "center",
             alignItems: "center",
             zIndex: 50,
-            width: "100%"
-
+            width: "100%",
           },
           content: {
             top: "auto",
@@ -38,7 +40,7 @@ const ModalShowPost = () => {
             borderRadius: "0.5rem",
             overflow: "visible",
             width: "100%",
-            maxWidth: "900px"
+            maxWidth: "900px",
           },
         }}
       >
@@ -53,11 +55,16 @@ const ModalShowPost = () => {
         >
           {post && (
             <div className="flex-1 flex shrink-0 max-w-[500px]">
-              <SlideImage picked={picked} setPicked={setPicked} selectedFile={post.imageOfPost} fromModalShow={true}/>
+              <SlideImage
+                picked={picked}
+                setPicked={setPicked}
+                selectedFile={post.imageOfPost}
+                fromModalShow={true}
+              />
             </div>
           )}
           <div className="flex flex-1 max-w-[400px]">
-             <CommentBox post={post}/>
+            <CommentBox post={post} />
           </div>
         </motion.div>
       </Modal>

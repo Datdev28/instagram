@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import userProfileStore from "../../store/userProfileStore";
@@ -9,6 +9,10 @@ const ModalNotifiAuth = ({
   modalFromPost,
 }) => {
   const { userProfile } = userProfileStore();
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => (document.body.style.overflow = "unset");
+  }, []);
   return (
     <div>
       <Modal

@@ -1,16 +1,24 @@
+import { useEffect } from "react";
 import Modal from "react-modal";
-const ModalSettingPost = ({ isOpenSettingPost, setIsOpenSettingPost, setIsOpenModalConfirmDeletePost }) => {
+const ModalSettingPost = ({
+  isOpenSettingPost,
+  setIsOpenSettingPost,
+  setIsOpenModalConfirmDeletePost,
+}) => {
   const handleClickDelete = () => {
-    setIsOpenSettingPost(false)
+    setIsOpenSettingPost(false);
     setIsOpenModalConfirmDeletePost(true);
-  }
+  };
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => (document.body.style.overflow = "unset");
+  }, []);
   return (
     <div>
       <Modal
         appElement={document.getElementById("root")}
         isOpen={isOpenSettingPost}
         onRequestClose={() => setIsOpenSettingPost(false)}
-        preventScroll={false}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -34,12 +42,11 @@ const ModalSettingPost = ({ isOpenSettingPost, setIsOpenSettingPost, setIsOpenMo
           },
         }}
       >
-        <div
-          className="bg-color-dash text-white overflow-hidden rounded-3xl w-full flex flex-col items-center gap-y-2 select-none"
-        >
+        <div className="bg-color-dash text-white overflow-hidden rounded-3xl w-full flex flex-col items-center gap-y-2 select-none">
           <div className="flex flex-col w-full">
-            <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer text-red-500 font-bold"
-             onClick={handleClickDelete}
+            <div
+              className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer text-red-500 font-bold"
+              onClick={handleClickDelete}
             >
               Xóa
             </div>

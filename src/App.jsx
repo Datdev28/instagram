@@ -87,14 +87,14 @@ const LoadingPage = () => {
     <div className="w-full h-screen relative">
       <span className="absolute top-[45%] left-1/2 -translate-x-1/2">
         <img
-          src="icon_insta_loading.png"
+          src="/icon_insta_loading.png"
           className="w-[80px] h-[80px]"
           alt="instagram"
         />
       </span>
       <span className="absolute bottom-[32px] left-1/2 -translate-x-1/2">
         <img
-          src="icon_meta_loading.png"
+          src="/icon_meta_loading.png"
           className="w-[72px] h-[37px]"
           alt="meta"
         />

@@ -20,7 +20,6 @@ const ModalConfirmDeletePost = ({ isOpenModalConfirmDeletePost , setIsOpenModalC
         appElement={document.getElementById("root")}
         isOpen={isOpenModalConfirmDeletePost}
         onRequestClose={() => setIsOpenModalConfirmDeletePost(false)}
-        preventScroll={false}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",

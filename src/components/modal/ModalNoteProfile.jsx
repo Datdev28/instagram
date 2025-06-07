@@ -32,7 +32,6 @@ const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
         appElement={document.getElementById("root")}
         isOpen={modalIsOpenNote}
         onRequestClose={() => setModalIsOpenNote(false)}
-        preventScroll={false}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",

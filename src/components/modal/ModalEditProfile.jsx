@@ -79,7 +79,10 @@ const ModalEditProfile = ({
     setErrorMessage(newErrorMessage);
     return !hasError;
   };
-
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => (document.body.style.overflow = "unset");
+  }, []);
   const handleSaveProfile = async () => {
     if (!validateInputs()) return;
     if (
@@ -88,8 +91,8 @@ const ModalEditProfile = ({
       inputs.bio === user.bio &&
       !selectedFile
     ) {
-        setModalIsOpenEditProfile(false);
-        return;
+      setModalIsOpenEditProfile(false);
+      return;
     }
     try {
       setIsUpdating(true);
@@ -114,7 +117,6 @@ const ModalEditProfile = ({
         appElement={document.getElementById("root")}
         isOpen={modalIsOpenEditProfile}
         onRequestClose={() => setModalIsOpenEditProfile(false)}
-        preventScroll={false}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -152,7 +154,9 @@ const ModalEditProfile = ({
             <img
               className="w-[80px] h-[80px] rounded-full object-cover"
               src={
-                selectedFile[0] || user?.profilePicURL || "defaultProfilePic.jpg"
+                selectedFile[0] ||
+                user?.profilePicURL ||
+                "defaultProfilePic.jpg"
               }
               alt="avatar"
             />

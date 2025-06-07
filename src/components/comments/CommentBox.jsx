@@ -11,16 +11,18 @@ import { FaRegBookmark } from "react-icons/fa";
 import AutoResizeTextarea from "../custom/textarea";
 import { BsEmojiSmile } from "react-icons/bs";
 import Emoj from "../emojPicker/Emoj";
+import Comment from "./Comment";
+import useCreateComment from "../../hooks/useCreateComment";
 const CommentBox = ({ post }) => {
   const navigate = useNavigate();
   const emojiRef = useRef(null);
   const [showEmoj, setShowEmoj] = useState(false);
-
   const [isOpenSettingPost, setIsOpenSettingPost] = useState(false);
   const [isOpenModalConfirmDeletePost, setIsOpenModalConfirmDeletePost] =
     useState(false);
   const [commentInput, setCommentInput] = useState("");
   const [commentPost, setCommentPost] = useState(false);
+  const {handleCreateComment} = useCreateComment(post?.id, commentInput);
   const handleClickEmoj = useCallback(
     (emojiData) => {
       if (commentInput.length + emojiData.native.length <= 300) {
@@ -89,12 +91,16 @@ const CommentBox = ({ post }) => {
             </p>
           </div>
         </div>
-        <div className="flex w-full h-full flex-col overflow-y-auto p-2 text-center">
-          {post.comments.length === 0 && (
+        <div className="flex w-full h-full max-h-[50vh] flex-col overflow-y-auto custom-scrollbar p-4 gap-y-6">
+          {post.comments.length === 0 ? (
             <div className="h-full w-full flex flex-col justify-center items-center">
               <p className="font-bold text-3xl">Chưa có bình luận nào.</p>
               <p>Bắt đầu trò chuyện</p>
             </div>
+          ) : (
+             post.comments.map((item) => (
+              <Comment comment={item}/>
+             ))  
           )}
         </div>
         <div className="flex flex-col border-t border-t-color-dash px-4 py-4 gap-y-6">
@@ -119,7 +125,9 @@ const CommentBox = ({ post }) => {
               setCommentInput={setCommentInput}
               setCommentPost={setCommentPost}
             />
-              <p className={`${commentPost ? "visible" : "invisible"} cursor-pointer text-blue-500 font-semibold text-sm`}>
+              <p className={`${commentPost ? "visible" : "invisible"} cursor-pointer text-blue-500 font-semibold text-sm`}
+               onClick={handleCreateComment}
+              >
                 Đăng
               </p>
               <BsEmojiSmile
