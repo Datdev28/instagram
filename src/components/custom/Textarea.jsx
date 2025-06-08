@@ -1,16 +1,22 @@
 import React, { memo, useRef } from "react";
 
-const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost}) => {
+const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost, handleComment}) => {
   const textareaRef = useRef(null);
 
   const handleInput = () => {
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = "auto"; 
-      const maxHeight = 24 * 4; 
+      const maxHeight = 24 * 2; 
       textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
     }
   };
+  const handleOnKeyDown = (e) => {
+     if(e.key === "Enter"){
+      e.preventDefault();
+      handleComment();
+     }
+  }
   const handleOnChage = (e) => {
     setCommentInput(e.target.value);
     if(e.target.value.trim().length > 0){
@@ -26,6 +32,7 @@ const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost}) => 
       rows={1}
       cols={32}
       onChange={handleOnChage}
+      onKeyDown={handleOnKeyDown}
       value={commentInput}
       maxLength={300}
       onInput={handleInput}

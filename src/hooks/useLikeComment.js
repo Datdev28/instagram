@@ -1,0 +1,38 @@
+import React from "react";
+import useAuthStore from "../store/authStore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { fireStore } from "../firebase/firebase";
+import usePostStore from "../store/postStore";
+
+const useLikeComment = (commentId, postId) => {
+  const user = useAuthStore(state => state.user);
+  const updateCommentLike = usePostStore(state => state.updateCommentLike)
+  const handleClickLike = async () => {
+    try {
+      const postRef = doc(fireStore, "posts", postId);
+      const document = await getDoc(postRef);
+      if (!document.exists) return;
+      const postData = document.data();
+      const comments = postData.comments.map((comment) => {
+        if (comment.id === commentId) {
+          const liked = comment.likesOfComment.includes(user.uid);
+          return {
+            ...comment,
+            likesOfComment: liked
+              ? comment.likesOfComment.filter((id) => id !== user.uid)
+              : [...comment.likesOfComment, user.uid],
+          };
+        }
+        return comment
+      });
+      await updateDoc(postRef, {comments: comments});
+      updateCommentLike(postId, commentId, user.uid)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return handleClickLike;
+};
+
+export default useLikeComment;

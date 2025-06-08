@@ -54,7 +54,7 @@ const ModalShowPost = () => {
           className="bg-color-dash text-white flex w-full"
         >
           {post && (
-            <div className="flex-1 flex shrink-0 max-w-[500px]">
+            <div className="flex-1 max-w-[500px]">
               <SlideImage
                 picked={picked}
                 setPicked={setPicked}

@@ -22,7 +22,10 @@ const CommentBox = ({ post }) => {
     useState(false);
   const [commentInput, setCommentInput] = useState("");
   const [commentPost, setCommentPost] = useState(false);
-  const {handleCreateComment} = useCreateComment(post?.id, commentInput);
+  const { handleCreateComment, isCommenting } = useCreateComment(
+    post?.id,
+    commentInput
+  );
   const handleClickEmoj = useCallback(
     (emojiData) => {
       if (commentInput.length + emojiData.native.length <= 300) {
@@ -33,6 +36,11 @@ const CommentBox = ({ post }) => {
     },
     [commentInput]
   );
+  const handleComment = async () => {
+    setCommentPost(false);
+    await handleCreateComment();
+    setCommentInput("");
+  };
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (emojiRef.current && !emojiRef.current.contains(event.target)) {
@@ -67,40 +75,43 @@ const CommentBox = ({ post }) => {
           />
         </div>
         <hr className="border-color-note" />
-        <div className="flex gap-x-2 px-4 py-4">
-          <img
-            src={post.byAvaUser}
-            className="w-8 h-8 rounded-full object-cover cursor-pointer shrink-0"
-            alt="hình ảnh đại diện"
-            onClick={() => navigate(`/${post.byUserName}`)}
-          />
-          <div className="flex flex-col gap-x-2 w-full">
-            <div className="w-full">
-              <span
-                className="text-sm mr-2 cursor-pointer font-bold hover:text-color-text-gray"
-                onClick={() => navigate(`/${post.byUserName}`)}
-              >
-                {post.byUserName}
-              </span>
-              <span className="font-normal break-words break-all whitespace-pre-wrap">
-                {post.caption}
-              </span>
+        {post.caption && (
+          <div className="flex gap-x-2 px-4 py-4">
+            <img
+              src={post.byAvaUser}
+              className="w-8 h-8 rounded-full object-cover cursor-pointer shrink-0"
+              alt="hình ảnh đại diện"
+              onClick={() => navigate(`/${post.byUserName}`)}
+            />
+            <div className="flex flex-col gap-x-2 w-full">
+              <div className="w-full">
+                <span
+                  className="text-sm mr-2 cursor-pointer font-bold hover:text-color-text-gray"
+                  onClick={() => navigate(`/${post.byUserName}`)}
+                >
+                  {post.byUserName}
+                </span>
+                <span className="font-normal break-words break-all whitespace-pre-wrap">
+                  {post.caption}
+                </span>
+              </div>
+              <p className="text-sm text-color-text-gray">
+                {convertDateTime(post.createdAt)}
+              </p>
             </div>
-            <p className="text-sm text-color-text-gray">
-              {convertDateTime(post.createdAt)}
-            </p>
           </div>
-        </div>
-        <div className="flex w-full h-full max-h-[50vh] flex-col overflow-y-auto custom-scrollbar p-4 gap-y-6">
+        )}
+
+        <div className="flex w-full h-full max-h-[50vh] flex-1 flex-col overflow-y-auto custom-scrollbar p-4 gap-y-6">
           {post.comments.length === 0 ? (
             <div className="h-full w-full flex flex-col justify-center items-center">
               <p className="font-bold text-3xl">Chưa có bình luận nào.</p>
               <p>Bắt đầu trò chuyện</p>
             </div>
           ) : (
-             post.comments.map((item) => (
-              <Comment comment={item}/>
-             ))  
+            post.comments
+              .sort((a, b) => b.createdAt - a.createdAt)
+              .map((comment) => <Comment comment={comment} />)
           )}
         </div>
         <div className="flex flex-col border-t border-t-color-dash px-4 py-4 gap-y-6">
@@ -120,20 +131,33 @@ const CommentBox = ({ post }) => {
               src={post.byAvaUser}
               alt="hình ảnh đại diện"
             />
+
             <AutoResizeTextarea
               commentInput={commentInput}
               setCommentInput={setCommentInput}
               setCommentPost={setCommentPost}
+              handleComment={handleComment}
             />
-              <p className={`${commentPost ? "visible" : "invisible"} cursor-pointer text-blue-500 font-semibold text-sm`}
-               onClick={handleCreateComment}
-              >
-                Đăng
-              </p>
-              <BsEmojiSmile
-                className="cursor-pointer text-2xl"
-                onClick={() => setShowEmoj(!showEmoj)}
+
+            <p
+              className={`${
+                commentPost ? "visible" : "invisible"
+              } cursor-pointer text-blue-500 font-semibold text-sm`}
+              onClick={handleComment}
+            >
+              Đăng
+            </p>
+            {isCommenting && (
+              <img
+                className="object-cover w-7 h-7 rounded-full"
+                src="/loading.gif"
+                alt="gif"
               />
+            )}
+            <BsEmojiSmile
+              className="cursor-pointer text-2xl"
+              onClick={() => setShowEmoj(!showEmoj)}
+            />
             {showEmoj && (
               <div className="absolute top-[-140px] right-40">
                 <Emoj

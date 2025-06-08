@@ -26,6 +26,7 @@ const SideSearch = () => {
   };
   const handleOnKeyDown = (e) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       getUser(input);
     }
   };
