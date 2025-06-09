@@ -17,22 +17,22 @@ const ShowPostPage = () => {
   const [picked, setPicked] = useState(0);
   const { post } = useGetPostByPostId(postId);
   const { relatedPosts } = useGetRelatedPosts(post?.createBy, postId);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useEffect(() => {
   window.scrollTo(0, 0);
 }, [postId]);
   return (
     post && (
-      <div className="flex flex-col lg:max-w-5xl mx-auto gap-y-12 p-4 text-white">
-        <div className=" flex w-full max-sm:flex-col max-sm:flex-2 max-sm:gap-y-4">
-          <div className="flex-3 flex shrink-0">
+      <div className="flex shrink-0 flex-col lg:max-w-5xl mx-auto gap-y-12 p-4 text-white">
+        <div className=" flex w-full max-sm:flex-col max-sm:flex-2 max-sm:gap-y-4 max-h-[80vh]">
+          <div className="flex-[3] flex shrink-0 ">
             <SlideImage
               picked={picked}
               setPicked={setPicked}
               selectedFile={post.imageOfPost}
             />
           </div>
-          <div className="flex flex-2 border border-color-btn-gray border-l-0 max-sm:hidden">
+          <div className="flex flex-[2] border border-color-btn-gray border-l-0 max-sm:hidden ">
             <CommentBox post={post} />
           </div>
           <div className="sm:hidden flex-2 flex flex-col gap-y-[5px] text-sm">
@@ -64,7 +64,7 @@ const ShowPostPage = () => {
             >
               {relatedPosts.length > 0 &&
                 relatedPosts.map((item) => (
-                  <div className="flex relative group"
+                  <div key={item.id} className="flex relative group"
                    onClick={() => navigate(`/p/${item.id}`)}
                   
                   >

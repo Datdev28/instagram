@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import userProfileStore from "../../store/userProfileStore";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import convertDateTime from "../../utils/convertDateTime";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +12,7 @@ import { BsEmojiSmile } from "react-icons/bs";
 import Emoj from "../emojPicker/Emoj";
 import Comment from "./Comment";
 import useCreateComment from "../../hooks/useCreateComment";
+import useAuthStore from "../../store/authStore";
 const CommentBox = ({ post }) => {
   const navigate = useNavigate();
   const emojiRef = useRef(null);
@@ -26,6 +26,7 @@ const CommentBox = ({ post }) => {
     post?.id,
     commentInput
   );
+  const user = useAuthStore((state) => state.user);
   const handleClickEmoj = useCallback(
     (emojiData) => {
       if (commentInput.length + emojiData.native.length <= 300) {
@@ -91,7 +92,7 @@ const CommentBox = ({ post }) => {
                 >
                   {post.byUserName}
                 </span>
-                <span className="font-normal break-words break-all whitespace-pre-wrap">
+                <span className="font-normal break-words break-all whitespace-pre-wrap text-sm">
                   {post.caption}
                 </span>
               </div>
@@ -102,7 +103,11 @@ const CommentBox = ({ post }) => {
           </div>
         )}
 
-        <div className="flex w-full h-full max-h-[50vh] flex-1 flex-col overflow-y-auto custom-scrollbar p-4 gap-y-6">
+        <div
+          className={`flex w-full h-full ${
+            post.caption ? "max-h-[337px]" : "max-h-[440px]"
+          }  flex-1 flex-col overflow-y-auto custom-scrollbar p-4 gap-y-6`}
+        >
           {post.comments.length === 0 ? (
             <div className="h-full w-full flex flex-col justify-center items-center">
               <p className="font-bold text-3xl">Chưa có bình luận nào.</p>
@@ -111,7 +116,7 @@ const CommentBox = ({ post }) => {
           ) : (
             post.comments
               .sort((a, b) => b.createdAt - a.createdAt)
-              .map((comment) => <Comment comment={comment} />)
+              .map((comment) => <Comment key={comment.id} comment={comment} />)
           )}
         </div>
         <div className="flex flex-col border-t border-t-color-dash px-4 py-4 gap-y-6">
@@ -125,49 +130,58 @@ const CommentBox = ({ post }) => {
           <p className="text-color-text-gray text-sm mt-[-1.2rem]">
             {convertDateTime(post.createdAt)} trước
           </p>
-          <div className="gap-x-3 items-center flex relative">
-            <img
-              className="w-8 h-8 rounded-full object-cover"
-              src={post.byAvaUser}
-              alt="hình ảnh đại diện"
-            />
-
-            <AutoResizeTextarea
-              commentInput={commentInput}
-              setCommentInput={setCommentInput}
-              setCommentPost={setCommentPost}
-              handleComment={handleComment}
-            />
-
-            <p
-              className={`${
-                commentPost ? "visible" : "invisible"
-              } cursor-pointer text-blue-500 font-semibold text-sm`}
-              onClick={handleComment}
-            >
-              Đăng
-            </p>
-            {isCommenting && (
+          {user ? (
+            <div className="gap-x-3 items-center flex relative">
               <img
-                className="object-cover w-7 h-7 rounded-full"
-                src="/loading.gif"
-                alt="gif"
+                className="w-8 h-8 rounded-full object-cover"
+                src={user.profilePicURL}
+                alt="hình ảnh đại diện"
               />
-            )}
-            <BsEmojiSmile
-              className="cursor-pointer text-2xl"
-              onClick={() => setShowEmoj(!showEmoj)}
-            />
-            {showEmoj && (
-              <div className="absolute top-[-140px] right-40">
-                <Emoj
-                  className="absolute right-20 top-10"
-                  handleClickEmoj={handleClickEmoj}
-                  ref={emojiRef}
+
+              <AutoResizeTextarea
+                commentInput={commentInput}
+                setCommentInput={setCommentInput}
+                setCommentPost={setCommentPost}
+                handleComment={handleComment}
+              />
+
+              <p
+                className={`${
+                  commentPost ? "visible" : "invisible"
+                } cursor-pointer text-blue-500 font-semibold text-sm`}
+                onClick={handleComment}
+              >
+                Đăng
+              </p>
+              {isCommenting && (
+                <img
+                  className="object-cover w-7 h-7 rounded-full"
+                  src="/loading.gif"
+                  alt="gif"
                 />
-              </div>
-            )}
-          </div>
+              )}
+              <BsEmojiSmile
+                className="cursor-pointer text-2xl"
+                onClick={() => setShowEmoj(!showEmoj)}
+              />
+              {showEmoj && (
+                <div className="absolute top-[-140px] right-40">
+                  <Emoj
+                    className="absolute right-20 top-10"
+                    handleClickEmoj={handleClickEmoj}
+                    ref={emojiRef}
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            <p className="text-color-text-gray">
+              <span className="text-blue-400 cursor-pointer" 
+               onClick={() => navigate('/auth')}
+              >Log in</span> to
+              like or comment
+            </p>
+          )}
         </div>
         {isOpenSettingPost && (
           <ModalSettingPost

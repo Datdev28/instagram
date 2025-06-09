@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
-import useGetPostFromArray from "../../hooks/useGetPostFromArray";
 import SlideImage from "../slideImage/SlideImage";
 import CommentBox from "../comments/CommentBox";
+import useGetPostByPostId from "../../hooks/useGetPostByPostId";
 const ModalShowPost = () => {
   const navigate = useNavigate();
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
-  const post = useGetPostFromArray(postId);
+  const {post} = useGetPostByPostId(postId);
+  console.log("post", post)
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => (document.body.style.overflow = "unset");
@@ -51,7 +52,7 @@ const ModalShowPost = () => {
             duration: 0.3,
             ease: "easeInOut",
           }}
-          className="bg-color-dash text-white flex w-full"
+          className="bg-color-dash text-white flex w-full max-h-[90vh]"
         >
           {post && (
             <div className="flex-1 max-w-[500px]">

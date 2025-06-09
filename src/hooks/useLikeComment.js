@@ -1,13 +1,15 @@
-import React from "react";
+import  { useState } from "react";
 import useAuthStore from "../store/authStore";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
 import usePostStore from "../store/postStore";
 
 const useLikeComment = (commentId, postId) => {
+  const [liking, setLiking] = useState(false);
   const user = useAuthStore(state => state.user);
   const updateCommentLike = usePostStore(state => state.updateCommentLike)
   const handleClickLike = async () => {
+     setLiking(true)
     try {
       const postRef = doc(fireStore, "posts", postId);
       const document = await getDoc(postRef);
@@ -29,10 +31,12 @@ const useLikeComment = (commentId, postId) => {
       updateCommentLike(postId, commentId, user.uid)
     } catch (error) {
       console.log(error);
+    } finally {
+      setLiking(false);
     }
   };
 
-  return handleClickLike;
+  return {handleClickLike, liking};
 };
 
 export default useLikeComment;

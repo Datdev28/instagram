@@ -4,7 +4,6 @@ import ProfileUserPost from "./ProfileUserPost";
 import useGetUserPost from "../../hooks/useGetUserPost";
 import ModalCreatePost from "../modal/ModalCreatePost";
 const ProfileUserPosts = () => {
-  // const userProfile = userProfileStore((state) => state.userProfile);
   const { posts, isLoading } = useGetUserPost();
   const noPost = posts.length === 0 && !isLoading;
   const havePost = posts.length > 0 && !isLoading;

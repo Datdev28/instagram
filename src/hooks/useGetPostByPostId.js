@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { fireStore } from "../firebase/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import useLoadingBarStore from "../store/loadingBarStore";
 
 const useGetPostByPostId = ( postId ) => {
+  console.log(postId)
   const [post, setPost] = useState(null);
   const setProgress = useLoadingBarStore(state => state.setProgress)
-  useEffect(() => {
-    if(!postId) return
-    const fetchPost = async () => {
-      try {
-        setProgress(30)
-        const postRef = doc(fireStore, "posts", postId);
-        const docSnap = await getDoc(postRef);
-        if (docSnap.exists()) {
-          setPost({...docSnap.data(), id:docSnap.id});
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setProgress(100)
+ useEffect(() => {
+    if (!postId) return;
+
+    setProgress(30);
+    const postRef = doc(fireStore, "posts", postId);
+
+    const unsubscribe = onSnapshot(postRef, (docSnap) => {
+      if (docSnap.exists()) {
+        setPost({ ...docSnap.data(), id: docSnap.id });
       }
-    };
-    fetchPost();
+      setProgress(100);
+    }, (error) => {
+      console.log("Realtime error:", error);
+      setProgress(100);
+    });
+
+    return () => unsubscribe();
   }, [postId]);
   return { post };
 };

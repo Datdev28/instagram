@@ -26,7 +26,7 @@ const SlideImage = ({ selectedFile, picked, setPicked, fromModalShow }) => {
       <div className="flex items-center w-full h-full overflow-hidden">
         <img
           src={selectedFile[picked]}
-          className={`w-full ${fromModalShow ? "h-[42rem]" : "h-[38rem] max-md:h-[22rem]"} shrink-0  object-cover`}
+          className={`w-full ${fromModalShow ? "h-[42rem]" : "h-[38rem] "} object-cover`}
           alt={`hình ảnh ${picked + 1}`}
         />
       </div>
