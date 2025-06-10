@@ -27,7 +27,7 @@ const useGetUserPost = () => {
      }
     }
     getPost();
-  }, [userProfile.uid, setPosts]);
+  }, [userProfile.posts, userProfile.uid, setPosts]);
   return {isLoading, posts}
 }
 

@@ -10,7 +10,6 @@ const ModalShowPost = () => {
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
   const {post} = useGetPostByPostId(postId);
-  console.log("post", post)
   useEffect(() => {
   const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 

@@ -7,7 +7,6 @@ import usePostStore from "../store/postStore";
 const useLikeComment = (commentId, postId) => {
   const [liking, setLiking] = useState(false);
   const user = useAuthStore(state => state.user);
-  const updateCommentLike = usePostStore(state => state.updateCommentLike)
   const handleClickLike = async () => {
      setLiking(true)
     try {
@@ -28,7 +27,6 @@ const useLikeComment = (commentId, postId) => {
         return comment
       });
       await updateDoc(postRef, {comments: comments});
-      updateCommentLike(postId, commentId, user.uid)
     } catch (error) {
       console.log(error);
     } finally {

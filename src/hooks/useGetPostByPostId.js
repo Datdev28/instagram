@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fireStore } from "../firebase/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import useLoadingBarStore from "../store/loadingBarStore";
 
 const useGetPostByPostId = ( postId ) => {
-  console.log(postId)
   const [post, setPost] = useState(null);
   const setProgress = useLoadingBarStore(state => state.setProgress)
  useEffect(() => {

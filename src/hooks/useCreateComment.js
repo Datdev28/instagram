@@ -3,7 +3,7 @@ import useAuthStore from '../store/authStore';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { fireStore } from '../firebase/firebase';
 import { v4 as uuidv4 } from 'uuid';
-const useCreateComment = (postId, comment) => {
+const useCreateComment = (poster, postId, comment) => {
   const [isCommenting, setIsCommenting] = useState(false);
   const user = useAuthStore(state => state.user);
    const handleCreateComment = async() => {
@@ -15,6 +15,7 @@ const useCreateComment = (postId, comment) => {
       createdAt: Date.now(),
       createBy: user.uid,
       postId,
+      poster: poster,
       replyComment: [],
       likesOfComment: [],
     }

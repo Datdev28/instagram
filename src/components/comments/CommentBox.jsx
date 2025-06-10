@@ -13,6 +13,9 @@ import Emoj from "../emojPicker/Emoj";
 import Comment from "./Comment";
 import useCreateComment from "../../hooks/useCreateComment";
 import useAuthStore from "../../store/authStore";
+import { motion } from "framer-motion";
+import { FaHeart } from "react-icons/fa";
+
 const CommentBox = ({ post }) => {
   const navigate = useNavigate();
   const emojiRef = useRef(null);
@@ -23,10 +26,12 @@ const CommentBox = ({ post }) => {
   const [commentInput, setCommentInput] = useState("");
   const [commentPost, setCommentPost] = useState(false);
   const { handleCreateComment, isCommenting } = useCreateComment(
+    post?.createBy,
     post?.id,
     commentInput
   );
   const user = useAuthStore((state) => state.user);
+  const [isLike, setIsLike] = useState(post?.likes.includes(user?.uid));
   const handleClickEmoj = useCallback(
     (emojiData) => {
       if (commentInput.length + emojiData.native.length <= 300) {
@@ -41,6 +46,9 @@ const CommentBox = ({ post }) => {
     setCommentPost(false);
     await handleCreateComment();
     setCommentInput("");
+  };
+  const handleLike = () => {
+    setIsLike(!isLike);
   };
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -121,9 +129,24 @@ const CommentBox = ({ post }) => {
         </div>
         <div className="flex flex-col border-t border-t-color-dash px-4 py-4 gap-y-6">
           <div className="flex justify-between items-center text-2xl">
-            <div className="flex items-center gap-x-4 ">
-              <FaRegHeart className="cursor-pointer" />
-              <FaRegComment className="cursor-pointer" />
+            <div className="flex items-center gap-x-4">
+              {isLike ? (
+                <motion.div
+                  initial={{ scale: 1 }}
+                  animate={{ scale: [1, 1.5, 1] }}
+                  transition={{ duration: 0.4 }}
+                  onClick={handleLike}
+                  className="mt-2 cursor-pointer text-red-500"
+                >
+                  <FaHeart />
+                </motion.div>
+              ) : (
+                <FaRegHeart
+                  className="mt-2 cursor-pointer"
+                  onClick={handleLike}
+                />
+              )}
+              <FaRegComment className="cursor-pointer mt-[6px]" />
             </div>
             <FaRegBookmark className="cursor-pointer" />
           </div>
@@ -176,10 +199,13 @@ const CommentBox = ({ post }) => {
             </div>
           ) : (
             <p className="text-color-text-gray">
-              <span className="text-blue-400 cursor-pointer" 
-               onClick={() => navigate('/auth')}
-              >Log in</span> to
-              like or comment
+              <span
+                className="text-blue-400 cursor-pointer"
+                onClick={() => navigate("/auth")}
+              >
+                Log in
+              </span>{" "}
+              to like or comment
             </p>
           )}
         </div>
