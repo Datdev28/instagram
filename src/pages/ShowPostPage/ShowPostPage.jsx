@@ -12,6 +12,8 @@ import { FaHeart } from "react-icons/fa6";
 import { FaComment } from "react-icons/fa";
 import { IoMdImages } from "react-icons/io";
 import Footer from "../../components/footer/Footer";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { LuDot } from "react-icons/lu";
 const ShowPostPage = () => {
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
@@ -19,13 +21,30 @@ const ShowPostPage = () => {
   const { relatedPosts } = useGetRelatedPosts(post?.createBy, postId);
   const navigate = useNavigate();
   useEffect(() => {
-  window.scrollTo(0, 0);
-}, [postId]);
+    window.scrollTo(0, 0);
+  }, [postId]);
   return (
     post && (
-      <div className="flex shrink-0 flex-col lg:max-w-5xl mx-auto gap-y-12 p-4 text-white">
-        <div className=" flex w-full max-sm:flex-col max-sm:flex-2 max-sm:gap-y-4 max-h-[80vh]">
-          <div className="flex-[3] flex shrink-0 ">
+      <div className="flex shrink-0 flex-col lg:max-w-5xl mx-auto gap-y-4 p-4 text-white">
+        <div className="flex px-4 justify-between items-center sm:hidden mt-6">
+          <div className="flex items-center gap-x-4">
+            <img
+              src={post.byAvaUser}
+              className="w-8 h-8 rounded-full object-cover cursor-pointer"
+              alt="hình ảnh đại diện"
+              onClick={() => navigate(`/${post.byUserName}`)}
+            />
+            <p
+              className="text-sm cursor-pointer font-bold hover:text-color-text-gray"
+              onClick={() => navigate(`/${post.byUserName}`)}
+            >
+              {post.byUserName}
+            </p>
+          </div>
+          <HiOutlineDotsHorizontal className="cursor-pointer text-2xl" />
+        </div>
+        <div className=" flex w-full max-sm:flex-col max-sm:flex-2 max-sm:gap-y-4 sm:max-h-[80vh]">
+          <div className="flex-[3] flex ">
             <SlideImage
               picked={picked}
               setPicked={setPicked}
@@ -53,20 +72,20 @@ const ShowPostPage = () => {
             </p>
           </div>
         </div>
-        <hr className="border border-color-dash" />
-        <div className="flex flex-col gap-y-2">
+        <hr className="border border-color-dash mt-4"/>
+        <div className="flex flex-col gap-y-2 mt-2">
           <p className="text-color-text-gray text-sm font-semibold">
             Thêm các bài viết từ{" "}
             <span className="text-white">{post.byUserName}</span>
           </p>
           {relatedPosts && (
-            <div className="grid grid-cols-3 gap-1 w-full"
-            >
+            <div className="grid grid-cols-3 gap-1 w-full">
               {relatedPosts.length > 0 &&
                 relatedPosts.map((item) => (
-                  <div key={item.id} className="flex relative group"
-                   onClick={() => navigate(`/p/${item.id}`)}
-                  
+                  <div
+                    key={item.id}
+                    className="flex relative group"
+                    onClick={() => navigate(`/p/${item.id}`)}
                   >
                     <img
                       src={item.imageOfPost[0]}
@@ -97,7 +116,7 @@ const ShowPostPage = () => {
             </div>
           )}
         </div>
-        <Footer/>
+        <Footer />
       </div>
     )
   );

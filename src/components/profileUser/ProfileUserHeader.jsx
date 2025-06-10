@@ -22,7 +22,7 @@ const ProfileUserHeader = () => {
   const isOwnProfile = userAuth && userAuth.userName === userProfile.userName;
   return (
     userProfile && (
-      <div className="flex flex-col w-full max-sm:mt-18">
+      <div className="flex flex-col w-full max-sm:mt-18 mt-10">
         <div className="flex px-10 w-full items-center justify-center gap-x-10 max-md:px-2 mb-10">
           <div className="relative flex flex-col justify-center">
             <img
@@ -74,7 +74,7 @@ const ProfileUserHeader = () => {
               ) : (
                 <div className="flex items-center break-words gap-x-2">
                   <button
-                    className="w-32 h-8 items-center flex justify-center bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 max-xl:px-2"
+                    className="px-2 h-9 items-center flex justify-center bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 max-xl:px-2"
                     onClick={() =>
                       userAuth
                         ? handleFollowUser()
@@ -102,7 +102,7 @@ const ProfileUserHeader = () => {
             </div>
             <div className="flex items-center gap-x-10 font-semibold max-md:hidden">
               <p>
-                <span className="w-3 inline-block">{userProfile.posts.length}</span>
+                <span className="w-3 mr-1 inline-block">{userProfile.posts.length}</span>
                 <span className="text-color-text-gray">bài viết</span>
               </p>
               <p>
@@ -110,8 +110,8 @@ const ProfileUserHeader = () => {
                 <span className="text-color-text-gray">người theo dõi</span>
               </p>
               <p className="text-color-text-gray">
-                Đang theo dõi <span className="text-white"></span>
-                <span className="w-3 inline-block">{userProfile.following.length}</span>
+                Đang theo dõi 
+                <span className="w-3 ml-2 mr-1 inline-block text-white">{userProfile.following.length}</span>
                 người dùng
               </p>
             </div>
