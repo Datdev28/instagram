@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Modal from "react-modal";
 const ModalSettingPost = ({
   isOpenSettingPost,
@@ -9,10 +8,6 @@ const ModalSettingPost = ({
     setIsOpenSettingPost(false);
     setIsOpenModalConfirmDeletePost(true);
   };
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => (document.body.style.overflow = "unset");
-  }, []);
   return (
     <div>
       <Modal

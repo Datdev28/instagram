@@ -1,20 +1,17 @@
-import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import useLogOut from "../../hooks/useLogOut";
 import { useNavigate } from "react-router-dom";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
+  useLockBodyScroll(modalIsOpenSetting);
   const { handleLogOut } = useLogOut();
   const navigate = useNavigate();
   const handleClickLogOut = async () => {
     await handleLogOut();
     navigate("/auth");
   };
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => (document.body.style.overflow = "unset");
-  }, []);
   return (
     <div>
       <Modal

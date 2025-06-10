@@ -13,7 +13,7 @@ const ProfileUserPosts = () => {
       {havePost && (
         <div className="grid grid-cols-3 gap-1 w-full">
           {posts.map((post) => (
-            <ProfileUserPost post={post} />
+            <ProfileUserPost key={post.id} post={post} />
           ))}
         </div>
       )}

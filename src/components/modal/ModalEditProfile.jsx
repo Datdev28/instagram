@@ -1,15 +1,17 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import useAuthStore from "../../store/authStore";
 import usePreviewImage from "../../hooks/usePreviewImage";
 import useUpAndGetImage from "../../hooks/useUpAndGetImage";
 import useEditProfile from "../../hooks/useEditProfile";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 
 const ModalEditProfile = ({
   modalIsOpenEditProfile,
   setModalIsOpenEditProfile,
 }) => {
+  useLockBodyScroll(modalIsOpenEditProfile);
   const refInputs = useRef(null);
   const { user } = useAuthStore();
   const [inputs, setInputs] = useState({
@@ -79,10 +81,6 @@ const ModalEditProfile = ({
     setErrorMessage(newErrorMessage);
     return !hasError;
   };
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => (document.body.style.overflow = "unset");
-  }, []);
   const handleSaveProfile = async () => {
     if (!validateInputs()) return;
     if (

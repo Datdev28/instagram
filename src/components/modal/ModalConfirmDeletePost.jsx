@@ -3,9 +3,9 @@ import Modal from "react-modal";
 import { motion } from "framer-motion";
 import useDeletePost from "../../hooks/useDeletePost";
 import { useNavigate } from "react-router-dom";
-import userProfileStore from "../../store/userProfileStore";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 const ModalConfirmDeletePost = ({ isOpenModalConfirmDeletePost , setIsOpenModalConfirmDeletePost, post}) => {
-  const userProfile = userProfileStore(state => state.userProfile);
+  useLockBodyScroll(isOpenModalConfirmDeletePost);
   const navigate = useNavigate()
   const {handleDeletePost, isDeleting} = useDeletePost();
   const handleClickDeletePost = () => {

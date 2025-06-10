@@ -5,7 +5,9 @@ import { useState } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
 import Emoj from "../emojPicker/Emoj";
 import useAuthStore from "../../store/authStore";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 const ModalNote = ({ setModalIsOpenNote, modalIsOpenNote }) => {
+  useLockBodyScroll(modalIsOpenNote);
   const {user} = useAuthStore();
   const [valueText, setValueText] = useState("");
   const [showEmoj, setShowEmoj] = useState(false)

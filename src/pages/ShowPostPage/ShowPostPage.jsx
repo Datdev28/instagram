@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SlideImage from "../../components/slideImage/SlideImage";
 import CommentBox from "../../components/comments/CommentBox";
 import { useNavigate, useParams } from "react-router-dom";

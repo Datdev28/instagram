@@ -12,6 +12,7 @@ import { GoArrowLeft } from "react-icons/go";
 import { BsImages } from "react-icons/bs";
 import { CiCirclePlus } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   const inputRef = useRef(null);
   const { selectedFile, handleImageChange, setSelectedFile } =
@@ -32,6 +33,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   const refContainerFull = useRef();
   const refContainerImg = useRef();
   const refIconImage = useRef();
+  useLockBodyScroll(modalIsOpenCreate);
   const handleRemovePicked = (index) => {
     const selectedImg = selectedFile.filter((_, i) => i !== index);
     setSelectedFile(selectedImg);
@@ -98,10 +100,7 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
     document.addEventListener("mousedown", handleClickOutSide);
     return () => document.removeEventListener("mousedown", handleClickOutSide);
   }, [showIsLoading, isLoading, selectedFile]);
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => (document.body.style.overflow = "unset");
-  }, []);
+
   return (
     <div>
       <Modal
