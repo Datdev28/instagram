@@ -2,7 +2,6 @@ import  { useState } from "react";
 import useAuthStore from "../store/authStore";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
-import usePostStore from "../store/postStore";
 
 const useLikeComment = (commentId, postId) => {
   const [liking, setLiking] = useState(false);

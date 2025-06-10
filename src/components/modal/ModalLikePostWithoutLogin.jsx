@@ -1,19 +1,16 @@
 import Modal from "react-modal";
 import { motion } from "framer-motion";
-import userProfileStore from "../../store/userProfileStore";
 import { Link } from "react-router-dom";
-const ModalNotifiAuth = ({
-  modalIsOpenNotifiAuth,
-  setModalIsOpenNotifiAuth,
-  modalFromPost,
+const ModalLikePostWithoutLogin = ({
+  isOpenModalLikePostWithoutLogin,
+  setIsOpenModalLikePostWithoutLogin
 }) => {
-  const { userProfile } = userProfileStore();
   return (
     <div>
       <Modal
         appElement={document.getElementById("root")}
-        isOpen={modalIsOpenNotifiAuth}
-        onRequestClose={() => setModalIsOpenNotifiAuth(false)}
+        isOpen={isOpenModalLikePostWithoutLogin}
+        onRequestClose={() => setIsOpenModalLikePostWithoutLogin(false)}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -50,7 +47,7 @@ const ModalNotifiAuth = ({
             <span
               className="text-white text-2xl cursor-pointer"
               onClick={() => {
-                setModalIsOpenNotifiAuth(false);
+                setIsOpenModalLikePostWithoutLogin(false);
               }}
             >
               ✕
@@ -60,22 +57,12 @@ const ModalNotifiAuth = ({
             <div className="w-full gap-y-2 flex flex-col">
               <img
                 className=" mx-auto "
-                src="introduceFollow.png"
-                alt="avatar"
+                src="/introduceFollow.png"
+                alt="thông báo"
               />
               <p className="font-bold text-2xl text-center">
-                {modalFromPost
-                  ? "Đăng nhập để xem bài viết này"
-                  : "Theo dõi trang cá nhân này"}
+                 "Đăng nhập thích bài viết này"
               </p>
-              {!modalFromPost && (
-                <p className="text-xs text-center">
-                  {" "}
-                  "Là người đầu tiên xem được thông tin mới khi bạn theo dõi{" "}
-                  {userProfile.userName}."
-                </p>
-              )}
-
               <p className="text-xs text-color-text-gray text-center">
                 Bằng cách tiếp tục, bạn đồng ý với{" "}
                 <span className="font-semibold text-white">
@@ -105,4 +92,4 @@ const ModalNotifiAuth = ({
   );
 };
 
-export default ModalNotifiAuth;
+export default ModalLikePostWithoutLogin;

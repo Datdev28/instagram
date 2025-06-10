@@ -15,13 +15,16 @@ import useCreateComment from "../../hooks/useCreateComment";
 import useAuthStore from "../../store/authStore";
 import { motion } from "framer-motion";
 import { FaHeart } from "react-icons/fa";
-
+import useLikePost from "../../hooks/useLikePost";
+import ModalLikePostWithoutLogin from "../modal/ModalLikePostWithoutLogin";
 const CommentBox = ({ post }) => {
   const navigate = useNavigate();
   const emojiRef = useRef(null);
   const [showEmoj, setShowEmoj] = useState(false);
   const [isOpenSettingPost, setIsOpenSettingPost] = useState(false);
   const [isOpenModalConfirmDeletePost, setIsOpenModalConfirmDeletePost] =
+    useState(false);
+  const [isOpenModalLikePostWithoutLogin, setIsOpenModalLikePostWithoutLogin] =
     useState(false);
   const [commentInput, setCommentInput] = useState("");
   const [commentPost, setCommentPost] = useState(false);
@@ -31,7 +34,8 @@ const CommentBox = ({ post }) => {
     commentInput
   );
   const user = useAuthStore((state) => state.user);
-  const [isLike, setIsLike] = useState(post?.likes.includes(user?.uid));
+  const [isLike, setIsLike] = useState(false);
+  const { handleLikePost, isLiking } = useLikePost(post);
   const handleClickEmoj = useCallback(
     (emojiData) => {
       if (commentInput.length + emojiData.native.length <= 300) {
@@ -48,15 +52,26 @@ const CommentBox = ({ post }) => {
     setCommentInput("");
   };
   const handleLike = () => {
-    setIsLike(!isLike);
+    if (isLiking) return;
+    if (!user) {
+      setIsOpenModalLikePostWithoutLogin(true);
+    } else {
+      setIsLike(!isLike);
+      handleLikePost();
+    }
   };
+  useEffect(() => {
+    if (post && user) {
+      setIsLike(post.likes.includes(user.uid));
+    }
+  }, [post?.likes, user?.uid]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (emojiRef.current && !emojiRef.current.contains(event.target)) {
         setShowEmoj(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -127,7 +142,7 @@ const CommentBox = ({ post }) => {
               .map((comment) => <Comment key={comment.id} comment={comment} />)
           )}
         </div>
-        <div className="flex flex-col border-t border-t-color-dash px-4 py-4 gap-y-6">
+        <div className="flex flex-col border-t border-t-color-dash px-4 py-4 gap-y-2">
           <div className="flex justify-between items-center text-2xl">
             <div className="flex items-center gap-x-4">
               {isLike ? (
@@ -150,11 +165,16 @@ const CommentBox = ({ post }) => {
             </div>
             <FaRegBookmark className="cursor-pointer" />
           </div>
-          <p className="text-color-text-gray text-sm mt-[-1.2rem]">
+          {post.likes.length > 0 ? (
+            <p className="font-semibold">{post.likes.length} lượt thích</p>
+          ) : (
+            <p>Hãy là người đầu tiên thích bài viết này!</p>
+          )}
+          <p className="text-color-text-gray text-sm ">
             {convertDateTime(post.createdAt)} trước
           </p>
           {user ? (
-            <div className="gap-x-3 items-center flex relative">
+            <div className="gap-x-3 items-center flex relative mt-4">
               <img
                 className="w-8 h-8 rounded-full object-cover"
                 src={user.profilePicURL}
@@ -221,6 +241,14 @@ const CommentBox = ({ post }) => {
             setIsOpenModalConfirmDeletePost={setIsOpenModalConfirmDeletePost}
             isOpenModalConfirmDeletePost={isOpenModalConfirmDeletePost}
             post={post}
+          />
+        )}
+        {isOpenModalLikePostWithoutLogin && (
+          <ModalLikePostWithoutLogin
+            isOpenModalLikePostWithoutLogin={isOpenModalLikePostWithoutLogin}
+            setIsOpenModalLikePostWithoutLogin={
+              setIsOpenModalLikePostWithoutLogin
+            }
           />
         )}
       </div>

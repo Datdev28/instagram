@@ -26,7 +26,7 @@ const ShowPostPage = () => {
   return (
     post && (
       <div className="flex shrink-0 flex-col lg:max-w-5xl mx-auto gap-y-4 p-4 text-white">
-        <div className="flex px-4 justify-between items-center sm:hidden mt-6">
+        <div className="flex px-4 justify-between items-center sm:hidden sm:mt-6">
           <div className="flex items-center gap-x-4">
             <img
               src={post.byAvaUser}
@@ -43,7 +43,7 @@ const ShowPostPage = () => {
           </div>
           <HiOutlineDotsHorizontal className="cursor-pointer text-2xl" />
         </div>
-        <div className=" flex w-full max-sm:flex-col max-sm:flex-2 max-sm:gap-y-4 sm:max-h-[80vh]">
+        <div className=" flex w-full max-sm:flex-col max-sm:flex-2 max-sm:gap-y-4 sm:max-h-[80vh] min-h-[600px]">
           <div className="flex-[3] flex ">
             <SlideImage
               picked={picked}
