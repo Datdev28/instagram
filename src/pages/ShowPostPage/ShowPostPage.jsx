@@ -11,10 +11,11 @@ import Footer from "../../components/footer/Footer";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import InteractWithPost from "../../components/commentBox/InteractWithPost";
 import ModalLikePostWithoutLogin from "../../components/modal/ModalLikePostWithoutLogin";
+import { UserNotFound } from "../ProfilePage/ProfilePage";
 const ShowPostPage = () => {
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
-  const { post } = useGetPostByPostId(postId);
+  const { post, isLoading } = useGetPostByPostId(postId);
   const { relatedPosts } = useGetRelatedPosts(post?.createBy, postId);
   const [isOpenModalLikePostWithoutLogin, setIsOpenModalLikePostWithoutLogin] =
     useState(false);
@@ -22,6 +23,9 @@ const ShowPostPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [postId]);
+  console.log(isLoading);
+  const postNotFound = !post && !isLoading;
+  if(postNotFound) return <UserNotFound/>
   return (
     post && (
       <div className="flex shrink-0 flex-col lg:max-w-5xl mx-auto gap-y-4 p-4 text-white">

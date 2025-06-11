@@ -29,7 +29,7 @@ const ProfilePage = () => {
 
 export default ProfilePage;
 
-const UserNotFound = () => {
+export const UserNotFound = () => {
   return (
     <div className="w-full flex flex-col items-center text-white justify-center h-[80vh] px-4">
       <div className="max-w-md text-center">

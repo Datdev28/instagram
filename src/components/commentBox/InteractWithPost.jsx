@@ -98,48 +98,47 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin }) => {
         {convertDateTime(post.createdAt)} trước
       </p>
       {user ? (
-        <div className="gap-x-3 items-center flex relative mt-4 ">
-          <img
-            className="w-8 h-8 rounded-full object-cover"
-            src={user.profilePicURL}
-            alt="hình ảnh đại diện"
-          />
-
+        post.turnOfComment ? 
+        <div className="text-center py-2 mt-4 border-t-1 border-t-color-dash text-color-text-gray">Bài viết này đã giới hạn tính năng bình luận</div> 
+        : (
+          <div className="gap-x-3 items-center flex relative mt-4 ">
+            <img
+              className="w-8 h-8 rounded-full object-cover"
+              src={user.profilePicURL}
+              alt="hình ảnh đại diện"
+            />
           <AutoResizeTextarea
             commentInput={commentInput}
             setCommentInput={setCommentInput}
             setCommentPost={setCommentPost}
             handleComment={handleComment}
           />
-
-          <p
-            className={`${
-              commentPost ? "visible" : "invisible"
-            } cursor-pointer text-blue-500 font-semibold text-sm`}
-            onClick={handleComment}
-          >
-            Đăng
-          </p>
-          {isCommenting && (
-            <img
-              className="object-cover w-7 h-7 rounded-full"
-              src="/loading.gif"
-              alt="gif"
-            />
-          )}
-          <BsEmojiSmile
-            className="cursor-pointer text-2xl max-sm:absolute max-sm:right-0 "
-            onClick={() => setShowEmoj(!showEmoj)}
-          />
-          {showEmoj && (
-            <div className="absolute top-[-140px] right-40 max-xl:right-60">
-              <Emoj
-                handleClickEmoj={handleClickEmoj}
-                ref={emojiRef}
+            <p
+              className={`${
+                commentPost ? "visible" : "invisible"
+              } cursor-pointer text-blue-500 font-semibold text-sm`}
+              onClick={handleComment}
+            >
+              Đăng
+            </p>
+            {isCommenting && (
+              <img
+                className="object-cover w-7 h-7 rounded-full"
+                src="/loading.gif"
+                alt="gif"
               />
-            </div>
-          )}
-        </div>
+            )}
+            <BsEmojiSmile
+              className="cursor-pointer text-2xl max-sm:absolute max-sm:right-0 "
+              onClick={() => setShowEmoj(!showEmoj)}
+            />
+            {showEmoj && (
+              <div className="absolute top-[-140px] right-40 max-xl:right-60">
+                <Emoj handleClickEmoj={handleClickEmoj} ref={emojiRef} />
+              </div>
+            )}
+          </div>
+        )
       ) : (
         <p className="text-color-text-gray">
           <span
