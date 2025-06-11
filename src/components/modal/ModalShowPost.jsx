@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import SlideImage from "../slideImage/SlideImage";
-import CommentBox from "../comments/CommentBox";
+import CommentBox from "../commentBox/CommentBox";
 import useGetPostByPostId from "../../hooks/useGetPostByPostId";
 const ModalShowPost = () => {
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ const ModalShowPost = () => {
             duration: 0.3,
             ease: "easeInOut",
           }}
-          className="bg-color-dash text-white flex w-full max-h-[90vh]"
+          className="bg-color-dash text-white flex w-full max-h-[90vh] "
         >
           {post && (
             <div className="flex-1 max-w-[500px]">

@@ -1,13 +1,21 @@
 import Modal from "react-modal";
+import { useNavigate } from "react-router-dom";
 const ModalSettingPost = ({
   isOpenSettingPost,
   setIsOpenSettingPost,
   setIsOpenModalConfirmDeletePost,
+  post
 }) => {
   const handleClickDelete = () => {
     setIsOpenSettingPost(false);
     setIsOpenModalConfirmDeletePost(true);
   };
+  const goToArticle = () => {
+    navigate(`/p/${post.id}`);
+    setIsOpenSettingPost(false);
+  }
+  console.log(post);
+  const navigate = useNavigate();
   return (
     <div>
       <Modal
@@ -54,7 +62,9 @@ const ModalSettingPost = ({
             <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer">
               Tắt tính năng bình luận
             </div>
-            <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer">
+            <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
+             onClick={goToArticle}
+            >
               Đi đến bài viết
             </div>
             <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer">

@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
 import SlideImage from "../../components/slideImage/SlideImage";
-import CommentBox from "../../components/comments/CommentBox";
+import CommentBox from "../../components/commentBox/CommentBox";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetPostByPostId from "../../hooks/useGetPostByPostId";
-import { FaRegComment } from "react-icons/fa";
-import { FaRegHeart } from "react-icons/fa";
-import { FaRegBookmark } from "react-icons/fa";
-import convertDateTime from "../../utils/convertDateTime";
 import useGetRelatedPosts from "../../hooks/useGetRelatedPosts";
 import { FaHeart } from "react-icons/fa6";
 import { FaComment } from "react-icons/fa";
 import { IoMdImages } from "react-icons/io";
 import Footer from "../../components/footer/Footer";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { LuDot } from "react-icons/lu";
+import InteractWithPost from "../../components/commentBox/InteractWithPost";
+import ModalLikePostWithoutLogin from "../../components/modal/ModalLikePostWithoutLogin";
 const ShowPostPage = () => {
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
   const { post } = useGetPostByPostId(postId);
   const { relatedPosts } = useGetRelatedPosts(post?.createBy, postId);
+  const [isOpenModalLikePostWithoutLogin, setIsOpenModalLikePostWithoutLogin] =
+    useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -26,7 +25,7 @@ const ShowPostPage = () => {
   return (
     post && (
       <div className="flex shrink-0 flex-col lg:max-w-5xl mx-auto gap-y-4 p-4 text-white">
-        <div className="flex px-4 justify-between items-center sm:hidden sm:mt-6">
+        <div className="flex px-4 justify-between items-center sm:hidden max-sm:mt-6">
           <div className="flex items-center gap-x-4">
             <img
               src={post.byAvaUser}
@@ -51,33 +50,26 @@ const ShowPostPage = () => {
               selectedFile={post.imageOfPost}
             />
           </div>
-          <div className="flex flex-[2] border border-color-btn-gray border-l-0 max-sm:hidden ">
-            <CommentBox post={post} />
+          <div className="flex flex-2 border border-color-btn-gray border-l-0 max-sm:hidden ">
+            <CommentBox
+              post={post}
+              setIsOpenModalLikePostWithoutLogin={
+                setIsOpenModalLikePostWithoutLogin
+              }
+            />
           </div>
-          <div className="sm:hidden flex-2 flex flex-col gap-y-[5px] text-sm">
-            <div className="flex justify-between items-center text-2xl">
-              <div className="flex items-center gap-x-4 ">
-                <FaRegHeart className="cursor-pointer" />
-                <FaRegComment className="cursor-pointer" />
-              </div>
-              <FaRegBookmark className="cursor-pointer" />
-            </div>
-            <p>100 Lượt thích</p>
-            <p className="break-all">
-              <span className="mr-2 font-semibold">{post.byUserName}</span>
-              {post.caption}
-            </p>
-            <p className="text-sm text-color-text-gray">
-              {convertDateTime(post.createdAt)} trước
-            </p>
+          <div className="sm:hidden flex-2 flex flex-col text-sm">
+            <InteractWithPost post={post} setIsOpenModalLikePostWithoutLogin={setIsOpenModalLikePostWithoutLogin}/>
           </div>
         </div>
-        <hr className="border border-color-dash mt-4"/>
+        <hr className="border border-color-dash mt-4" />
         <div className="flex flex-col gap-y-2 mt-2">
-          <p className="text-color-text-gray text-sm font-semibold">
-            Thêm các bài viết từ{" "}
-            <span className="text-white">{post.byUserName}</span>
-          </p>
+          {relatedPosts.length > 0 && (
+            <p className="text-color-text-gray text-sm font-semibold">
+              Thêm các bài viết từ{" "}
+              <span className="text-white">{post.byUserName}</span>
+            </p>
+          )}
           {relatedPosts && (
             <div className="grid grid-cols-3 gap-1 w-full">
               {relatedPosts.length > 0 &&
@@ -114,6 +106,14 @@ const ShowPostPage = () => {
                   </div>
                 ))}
             </div>
+          )}
+          {isOpenModalLikePostWithoutLogin && (
+            <ModalLikePostWithoutLogin
+              isOpenModalLikePostWithoutLogin={isOpenModalLikePostWithoutLogin}
+              setIsOpenModalLikePostWithoutLogin={
+                setIsOpenModalLikePostWithoutLogin
+              }
+            />
           )}
         </div>
         <Footer />
