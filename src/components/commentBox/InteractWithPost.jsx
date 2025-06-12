@@ -12,7 +12,7 @@ import AutoResizeTextarea from "../custom/textarea";
 import { BsEmojiSmile } from "react-icons/bs";
 import Emoj from "../emojPicker/Emoj";
 import convertDateTime from "../../utils/convertDateTime";
-const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin }) => {
+const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalShowLikes }) => {
   const emojiRef = useRef(null);
   const [showEmoj, setShowEmoj] = useState(false);
   const [commentPost, setCommentPost] = useState(false);
@@ -55,7 +55,7 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin }) => {
   );
   useEffect(() => {
     if (post && user) {
-      setIsLike(post.likes.includes(user.uid));
+      setIsLike(post.likes.some((like) => like.userId === user.uid));
     }
   }, [post?.likes, user?.uid]);
   useEffect(() => {
@@ -89,8 +89,33 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin }) => {
         </div>
         <FaRegBookmark className="cursor-pointer" />
       </div>
+
       {post.likes.length > 0 ? (
-        <p className="font-semibold">{post.likes.length} lượt thích</p>
+        post.checkedHideLike ? (
+          <div className="space-x-1">
+            <div className="inline space-x-2">
+              <img
+                src={post.likes[0].profilePicURL}
+                className="w-5 h-5 rounded-full object-cover inline cursor-pointer"
+                alt="hình ảnh đại diện"
+                onClick={() => navigate(`/${post.likes[0].userName}`)}
+              />
+              <p
+                className="inline cursor-pointer"
+                onClick={() => navigate(`/${post.likes[0].userName}`)}
+              >
+                {post.likes[0].userName}
+              </p>
+            </div>
+            <p className="inline cursor-pointer"
+             onClick={() => setIsOpenModalShowLikes(true)}
+            >và những người khác đã thích</p>
+          </div>
+        ) : (
+          <p className="font-semibold cursor-pointer"
+           onClick={() => setIsOpenModalShowLikes(true)}
+          >{post.likes.length} lượt thích</p>
+        )
       ) : (
         <p>Hãy là người đầu tiên thích bài viết này!</p>
       )}
@@ -98,21 +123,23 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin }) => {
         {convertDateTime(post.createdAt)} trước
       </p>
       {user ? (
-        post.turnOfComment ? 
-        <div className="text-center py-2 mt-4 border-t-1 border-t-color-dash text-color-text-gray">Bài viết này đã giới hạn tính năng bình luận</div> 
-        : (
+        post.turnOfComment ? (
+          <div className="text-center py-2 mt-4 border-t-1 border-t-color-dash text-color-text-gray">
+            Bài viết này đã giới hạn tính năng bình luận
+          </div>
+        ) : (
           <div className="gap-x-3 items-center flex relative mt-4 ">
             <img
               className="w-8 h-8 rounded-full object-cover"
               src={user.profilePicURL}
               alt="hình ảnh đại diện"
             />
-          <AutoResizeTextarea
-            commentInput={commentInput}
-            setCommentInput={setCommentInput}
-            setCommentPost={setCommentPost}
-            handleComment={handleComment}
-          />
+            <AutoResizeTextarea
+              commentInput={commentInput}
+              setCommentInput={setCommentInput}
+              setCommentPost={setCommentPost}
+              handleComment={handleComment}
+            />
             <p
               className={`${
                 commentPost ? "visible" : "invisible"

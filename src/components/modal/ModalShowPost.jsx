@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import SlideImage from "../slideImage/SlideImage";
 import CommentBox from "../commentBox/CommentBox";
 import useGetPostByPostId from "../../hooks/useGetPostByPostId";
+import ModalShowLikes from "./ModalShowLikes";
 const ModalShowPost = () => {
   const navigate = useNavigate();
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
   const {post} = useGetPostByPostId(postId);
+  const [isOpenModalShowLikes, setIsOpenModalShowLikes] = useState(false)
   useEffect(() => {
   const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
@@ -71,8 +73,11 @@ const ModalShowPost = () => {
             </div>
           )}
           <div className="flex flex-1 max-w-[400px]">
-            <CommentBox post={post} />
+            <CommentBox post={post} setIsOpenModalShowLikes={setIsOpenModalShowLikes}/>
           </div>
+          {isOpenModalShowLikes && (
+            <ModalShowLikes isOpenModalShowLikes={isOpenModalShowLikes} setIsOpenModalShowLikes={setIsOpenModalShowLikes} post={post}/>
+          )}
         </motion.div>
       </Modal>
     </div>

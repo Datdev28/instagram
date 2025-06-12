@@ -7,7 +7,7 @@ import ModalConfirmDeletePost from "../modal/ModalConfirmDeletePost";
 import Comment from "./Comment";
 import InteractWithPost from "./InteractWithPost";
 import useAuthStore from "../../store/authStore";
-const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin }) => {
+const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalShowLikes }) => {
   const navigate = useNavigate();
   const [isOpenSettingPost, setIsOpenSettingPost] = useState(false);
   const [isOpenModalConfirmDeletePost, setIsOpenModalConfirmDeletePost] =
@@ -86,6 +86,7 @@ const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin }) => {
           setIsOpenModalLikePostWithoutLogin={
             setIsOpenModalLikePostWithoutLogin
           }
+          setIsOpenModalShowLikes={setIsOpenModalShowLikes}
         />
         {isOpenSettingPost && (
           <ModalSettingPost

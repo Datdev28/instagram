@@ -12,18 +12,18 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import InteractWithPost from "../../components/commentBox/InteractWithPost";
 import ModalLikePostWithoutLogin from "../../components/modal/ModalLikePostWithoutLogin";
 import { UserNotFound } from "../ProfilePage/ProfilePage";
+import ModalShowLikes from "../../components/modal/ModalShowLikes";
 const ShowPostPage = () => {
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
   const { post, isLoading } = useGetPostByPostId(postId);
   const { relatedPosts } = useGetRelatedPosts(post?.createBy, postId);
-  const [isOpenModalLikePostWithoutLogin, setIsOpenModalLikePostWithoutLogin] =
-    useState(false);
+  const [isOpenModalLikePostWithoutLogin, setIsOpenModalLikePostWithoutLogin] = useState(false);
+  const [isOpenModalShowLikes, setIsOpenModalShowLikes] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [postId]);
-  console.log(isLoading);
   const postNotFound = !post && !isLoading;
   if(postNotFound) return <UserNotFound/>
   return (
@@ -60,10 +60,11 @@ const ShowPostPage = () => {
               setIsOpenModalLikePostWithoutLogin={
                 setIsOpenModalLikePostWithoutLogin
               }
+              setIsOpenModalShowLikes={setIsOpenModalShowLikes}
             />
           </div>
           <div className="sm:hidden flex-2 flex flex-col text-sm">
-            <InteractWithPost post={post} setIsOpenModalLikePostWithoutLogin={setIsOpenModalLikePostWithoutLogin}/>
+            <InteractWithPost post={post} setIsOpenModalLikePostWithoutLogin={setIsOpenModalLikePostWithoutLogin} setIsOpenModalShowLikes={setIsOpenModalShowLikes}/>
           </div>
         </div>
         <hr className="border border-color-dash mt-4" />
@@ -114,10 +115,11 @@ const ShowPostPage = () => {
           {isOpenModalLikePostWithoutLogin && (
             <ModalLikePostWithoutLogin
               isOpenModalLikePostWithoutLogin={isOpenModalLikePostWithoutLogin}
-              setIsOpenModalLikePostWithoutLogin={
-                setIsOpenModalLikePostWithoutLogin
-              }
+              setIsOpenModalLikePostWithoutLogin={setIsOpenModalLikePostWithoutLogin}
             />
+          )}
+          {isOpenModalShowLikes && (
+            <ModalShowLikes post={post} isOpenModalShowLikes={isOpenModalShowLikes} setIsOpenModalShowLikes={setIsOpenModalShowLikes}/>
           )}
         </div>
         <Footer />

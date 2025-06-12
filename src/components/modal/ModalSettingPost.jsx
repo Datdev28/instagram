@@ -1,11 +1,16 @@
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
+import useTurnOffComment from "../../hooks/useTurnOffComment";
+import useTurnOffLikes from "../../hooks/useTurnOffLikes";
 const ModalSettingPost = ({
   isOpenSettingPost,
   setIsOpenSettingPost,
   setIsOpenModalConfirmDeletePost,
-  post
+  post,
 }) => {
+  const handleTurnOffComment = useTurnOffComment(post);
+  const navigate = useNavigate();
+  const handleTurnOffLikes = useTurnOffLikes(post);
   const handleClickDelete = () => {
     setIsOpenSettingPost(false);
     setIsOpenModalConfirmDeletePost(true);
@@ -13,9 +18,16 @@ const ModalSettingPost = ({
   const goToArticle = () => {
     navigate(`/p/${post.id}`);
     setIsOpenSettingPost(false);
+  };
+
+  const handleClickTurnOffComment = () => {
+    handleTurnOffComment();
+    setIsOpenSettingPost(false);
+  };
+  const handleClickTurnOffLikes = () => {
+    handleTurnOffLikes();
+    setIsOpenSettingPost(false);
   }
-  console.log(post);
-  const navigate = useNavigate();
   return (
     <div>
       <Modal
@@ -56,14 +68,24 @@ const ModalSettingPost = ({
             <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer ">
               Chỉnh sửa
             </div>
-            <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer">
-              Ẩn số lượt thích với người khác
-            </div>
-            <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer">
-              Tắt tính năng bình luận
-            </div>
             <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
-             onClick={goToArticle}
+             onClick={handleClickTurnOffLikes}
+            >
+              {post.checkedHideLike
+                ? "Hiển thị số lượt thích với người khác"
+                : "Ẩn số lượt thích với người khác"}
+            </div>
+            <div
+              className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
+              onClick={handleClickTurnOffComment}
+            >
+              {post.turnOfComment
+                ? "Bật tính năng bình luận"
+                : "Tắt tính năng bình luận"}
+            </div>
+            <div
+              className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
+              onClick={goToArticle}
             >
               Đi đến bài viết
             </div>
