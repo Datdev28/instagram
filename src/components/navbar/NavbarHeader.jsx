@@ -103,7 +103,7 @@ const NavbarHeader = () => {
                 onClick={() => setShowDropDown(false)}
               >
                 <img
-                  src={user.profilePicURL || "defaultProfilePic.jpg"}
+                  src={user.profilePicURL || "/defaultProfilePic.jpg"}
                   alt="avatar"
                   className="w-[3rem] h-[3rem] rounded-full cursor-pointer object-cover"
                 />

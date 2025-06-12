@@ -9,7 +9,7 @@ const Profile = () => {
     <Link to={user?.userName} onClick={() => setIsOpenToggle(false)}>
       <div className="flex items-center max-lg:justify-between gap-5 cursor-pointer hover:bg-color-dash duration-200 rounded-sm py-2 px-2">
         <img
-          src={user?.profilePicURL || "defaultProfilePic.jpg"}
+          src={user?.profilePicURL || "/defaultProfilePic.jpg"}
           alt="avatar"
           className="w-[2rem] h-[2rem] rounded-full object-cover "
         />

@@ -19,7 +19,7 @@ const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalSh
         <div className="flex px-4 py-3 justify-between items-center">
           <div className="flex gap-x-2 items-center">
             <img
-              src={post.byAvaUser}
+              src={post.byAvaUser || "/defaultProfilePic.jpg"}
               className="w-8 h-8 rounded-full object-cover cursor-pointer"
               alt="hình ảnh đại diện"
               onClick={() => navigate(`/${post.byUserName}`)}
@@ -42,7 +42,7 @@ const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalSh
         {post.caption && (
           <div className="flex gap-x-2 px-4 py-4">
             <img
-              src={post.byAvaUser}
+              src={post.byAvaUser || "/defaultProfilePic.jpg"}
               className="w-8 h-8 rounded-full object-cover cursor-pointer shrink-0"
               alt="hình ảnh đại diện"
               onClick={() => navigate(`/${post.byUserName}`)}

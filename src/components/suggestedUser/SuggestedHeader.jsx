@@ -15,7 +15,7 @@ const SuggestedHeader = () => {
         <div className="flex items-center gap-x-2">
           <Link to={user.userName}>
             <img
-              src={user?.profilePicURL || "defaultProfilePic.jpg"}
+              src={user?.profilePicURL || "/defaultProfilePic.jpg"}
               className="w-[2.8rem] h-[2.8rem] rounded-full object-cover cursor-pointer"
               alt="avatar"
             />

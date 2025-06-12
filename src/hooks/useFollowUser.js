@@ -10,6 +10,7 @@ const useFollowUser = (userId) => {
   const { userProfile, setUserProfile } = userProfileStore();
   const handleFollowUser = async () => {
     if (!user) return;
+    if(isLoading) return
     try {
       setIsLoading(true);
       const currentUserRef = doc(fireStore, "users", user.uid);

@@ -154,7 +154,7 @@ const ModalEditProfile = ({
               src={
                 selectedFile[0] ||
                 user?.profilePicURL ||
-                "defaultProfilePic.jpg"
+                "/defaultProfilePic.jpg"
               }
               alt="avatar"
             />

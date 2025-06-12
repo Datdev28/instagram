@@ -2,16 +2,12 @@ import React from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
-import useAuthStore from "../../store/authStore";
+import UserLike from "../commentBox/userLike";
 const ModalShowLikes = ({
   isOpenModalShowLikes,
   setIsOpenModalShowLikes,
   post,
 }) => {
-  const user = useAuthStore(state => state.user);
-  const navigate = useNavigate();
   return (
     <div>
       <Modal
@@ -27,7 +23,7 @@ const ModalShowLikes = ({
             zIndex: 50,
           },
           content: {
-            top: "10rem",
+            top: "8rem",
             left: "auto",
             right: "auto",
             bottom: "auto",
@@ -50,33 +46,9 @@ const ModalShowLikes = ({
                 onClick={() => setIsOpenModalShowLikes(false)}
               />
             </div>
-            <div className="flex flex-col py-2 max-h-[500px] overflow-y-auto text-white gap-y-6 px-4">
+            <div className="flex flex-col py-2 max-h-[426px] overflow-y-auto custom-scrollbar text-white gap-y-6 px-4">
               {post.likes.map((userLike) => (
-                <div
-                  key={userLike.userId}
-                  className="flex justify-between items-center"
-                >
-                  <div className="flex items-center gap-x-2">
-                    <img
-                      src={userLike.profilePicURL}
-                      className="w-11 h-11 rounded-full object-cover cursor-pointer"
-                      alt="avatar người dùng thích bài viết"
-                      onClick={() => navigate(`/${userLike.userName}`)}
-                    />
-                    <div className="flex flex-col">
-                      <p
-                        className="cursor-pointer"
-                        onClick={() => navigate(`/${userLike.userName}`)}
-                      >
-                        {userLike.userName}
-                      </p>
-                      <p className="text-color-text-gray">
-                        {userLike.fullName}
-                      </p>
-                    </div>
-                  </div>
-                   <button className="px-4 py-1 bg-blue-500 font-semibold hover:bg-blue-700 rounded-md cursor-pointer">Theo dõi</button>                    
-                </div>
+                <UserLike userLike={userLike} key={userLike.userId}/>
               ))}
             </div>
           </div>

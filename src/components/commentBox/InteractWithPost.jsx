@@ -42,7 +42,11 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenM
       handleLikePost();
     }
   };
-
+  const handleOpenModalUsersLike = () => {
+   if(user){
+    setIsOpenModalShowLikes(true);
+   }
+  }
   const handleClickEmoj = useCallback(
     (emojiData) => {
       if (commentInput.length + emojiData.native.length <= 300) {
@@ -89,7 +93,6 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenM
         </div>
         <FaRegBookmark className="cursor-pointer" />
       </div>
-
       {post.likes.length > 0 ? (
         post.checkedHideLike ? (
           <div className="space-x-1">
@@ -108,12 +111,12 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenM
               </p>
             </div>
             <p className="inline cursor-pointer"
-             onClick={() => setIsOpenModalShowLikes(true)}
+             onClick={handleOpenModalUsersLike}
             >và những người khác đã thích</p>
           </div>
         ) : (
           <p className="font-semibold cursor-pointer"
-           onClick={() => setIsOpenModalShowLikes(true)}
+           onClick={handleOpenModalUsersLike}
           >{post.likes.length} lượt thích</p>
         )
       ) : (
@@ -131,7 +134,7 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenM
           <div className="gap-x-3 items-center flex relative mt-4 ">
             <img
               className="w-8 h-8 rounded-full object-cover"
-              src={user.profilePicURL}
+              src={user.profilePicURL || "/defaultProfilePic.jpg"}
               alt="hình ảnh đại diện"
             />
             <AutoResizeTextarea

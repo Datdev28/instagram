@@ -47,7 +47,7 @@ const Status = ({setChekedHideLike, setTurnOffComment, setValueText, valueText})
     <div className="flex-1 flex flex-col p-4 gap-y-4">
       <div className="flex items-center gap-x-2">
         <img
-          src={user.profilePicURL || "defaultProfilePic.jpg"}
+          src={user.profilePicURL || "/defaultProfilePic.jpg"}
           className="w-8 h-8 rounded-full"
           alt="Hình ảnh đại diện"
         />

@@ -44,7 +44,7 @@ const Comment = ({ comment }) => {
     userProfile && (
       <div className="flex gap-x-2 text-sm">
         <img
-          src={`${userProfile.profilePicURL}`}
+          src={`${userProfile.profilePicURL || "/defaultProfilePic.jpg"}`}
           className="w-8 h-8 rounded-full object-cover cursor-pointer"
           alt="avatar"
           onClick={() => navigate(`/${userProfile.userName}`)}

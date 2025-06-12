@@ -20,6 +20,7 @@ const ShowPostPage = () => {
   const { relatedPosts } = useGetRelatedPosts(post?.createBy, postId);
   const [isOpenModalLikePostWithoutLogin, setIsOpenModalLikePostWithoutLogin] = useState(false);
   const [isOpenModalShowLikes, setIsOpenModalShowLikes] = useState(false);
+  const [showLikesWithoutLogin, setShowLikesWithoutLogin] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -116,6 +117,7 @@ const ShowPostPage = () => {
             <ModalLikePostWithoutLogin
               isOpenModalLikePostWithoutLogin={isOpenModalLikePostWithoutLogin}
               setIsOpenModalLikePostWithoutLogin={setIsOpenModalLikePostWithoutLogin}
+              showLikesWithoutLogin={showLikesWithoutLogin}
             />
           )}
           {isOpenModalShowLikes && (

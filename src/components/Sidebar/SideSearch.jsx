@@ -84,7 +84,7 @@ const SideSearch = () => {
         <Link to={`/${user.userName}`} onClick={() => setIsOpenToggle(false)}>
           <div className="flex px-4 items-center gap-x-4 w-full hover:bg-color-note py-2 cursor-pointer">
             <img
-              src={user.profilePicURL || "defaultProfilePic.jpg"}
+              src={user.profilePicURL || "/defaultProfilePic.jpg"}
               className="object-cover w-11 h-11 rounded-full cursor-pointer"
               alt="avatar"
             />
