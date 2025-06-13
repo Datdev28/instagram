@@ -3,10 +3,16 @@ import { CiCamera } from "react-icons/ci";
 import ProfileUserPost from "./ProfileUserPost";
 import useGetUserPost from "../../hooks/useGetUserPost";
 import ModalCreatePost from "../modal/ModalCreatePost";
+import useAuthStore from "../../store/authStore";
+import userProfileStore from "../../store/userProfileStore";
 const ProfileUserPosts = () => {
   const { posts, isLoading } = useGetUserPost();
-  const noPost = posts.length === 0 && !isLoading;
+  const userProfile = userProfileStore(state => state.userProfile)
+  const user = useAuthStore(state => state.user)
+  const ownNoPost = posts.length === 0 && !isLoading && user.uid === userProfile.uid;
+  const noPost = posts.length === 0 && !isLoading && user.uid !== userProfile.uid;
   const havePost = posts.length > 0 && !isLoading;
+  if(ownNoPost) return <OwnNoPosts/>
   if(noPost) return <NoPosts/>
   return (
     <>
@@ -23,7 +29,7 @@ const ProfileUserPosts = () => {
 
 export default ProfileUserPosts;
 
-const NoPosts = () => {
+const OwnNoPosts = () => {
   const [isOpenModalCreatePost, setIsOpenModalCreatePost] = useState(false)
   return (
     <div className="flex flex-col items-center justify-center w-full py-16 gap-y-2">
@@ -40,6 +46,18 @@ const NoPosts = () => {
         Chia sẻ ảnh đầu tiên của bạn
       </p>
       {isOpenModalCreatePost && <ModalCreatePost modalIsOpenCreate={isOpenModalCreatePost} setModalIsOpenCreate={setIsOpenModalCreatePost}/>}
+    </div>
+  );
+};
+const NoPosts = () => {
+  return (
+    <div className="flex flex-col items-center justify-center w-full py-16 gap-y-2">
+      <div className="w-[4.5rem] h-[4.5rem] border-2 rounded-full flex justify-center items-center">
+        <CiCamera className="text-5xl" />
+      </div>
+      <p className="text-center text-md font-bold text-3xl mt-4">
+        Chưa có bài viết
+      </p>
     </div>
   );
 };

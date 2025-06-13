@@ -14,6 +14,7 @@ const CommentBox = ({
   setIsOpenModalLikePostWithoutLogin,
   setIsOpenModalShowLikes,
   setShowLikesWithoutLogin,
+  setIsOpenModalSaveWithoutLogin
 }) => {
   const navigate = useNavigate();
   const [isOpenSettingPost, setIsOpenSettingPost] = useState(false);
@@ -115,6 +116,7 @@ const CommentBox = ({
           }
           setIsOpenModalShowLikes={setIsOpenModalShowLikes}
           setShowLikesWithoutLogin={setShowLikesWithoutLogin}
+          setIsOpenModalSaveWithoutLogin={setIsOpenModalSaveWithoutLogin}
         />
         {isOpenSettingPost && (
           <ModalSettingPost

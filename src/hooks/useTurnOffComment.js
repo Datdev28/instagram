@@ -6,8 +6,6 @@ const useTurnOffComment = (post) => {
     try {
      const postRef = doc(fireStore, 'posts', post.id);
      const turnedOff = post.turnOfComment;
-     console.log("postRef", postRef);
-     console.log("turnedOff", turnedOff);
     if(turnedOff){
       await updateDoc(postRef, {turnOfComment: false});
     }else {

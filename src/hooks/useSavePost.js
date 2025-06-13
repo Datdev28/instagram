@@ -5,20 +5,32 @@ import { fireStore } from "../firebase/firebase";
 
 const useSavePost = (postId) => {
   const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
   const [isSave, setIsSave] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  console.log(user);
   const handleSavePost = async () => {
     try {
       if (isSaving) return;
       setIsSaving(true);
       const userRef = doc(fireStore, "users", user.uid);
-      if (isSave) {
-        setIsSave(false);
-      } else {
-        setIsSave(true);
-      }
+      setUser({
+        ...user,
+        savePosts: isSave
+          ? user.savePosts.filter((id) => id !== postId)
+          : [...user.savePosts, postId],
+      });
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...user,
+          savePosts: isSave
+            ? user.savePosts.filter((id) => id !== postId)
+            : [...user.savePosts, postId],
+        })
+      );
       await updateDoc(userRef, {
-        savePosts: isSaving ? arrayRemove(postId) : arrayUnion(postId),
+        savePosts: isSave ? arrayRemove(postId) : arrayUnion(postId),
       });
     } catch (error) {
       console.log(error);
@@ -28,7 +40,6 @@ const useSavePost = (postId) => {
   };
   useEffect(() => {
     if (user) {
-      console.log(user.savePosts);
       setIsSave(user.savePosts.includes(postId));
     }
   }, [user, postId]);

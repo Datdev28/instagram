@@ -19,6 +19,7 @@ const InteractWithPost = ({
   setIsOpenModalLikePostWithoutLogin,
   setIsOpenModalShowLikes,
   setShowLikesWithoutLogin,
+  setIsOpenModalSaveWithoutLogin
 }) => {
   const emojiRef = useRef(null);
   const [showEmoj, setShowEmoj] = useState(false);
@@ -33,7 +34,7 @@ const InteractWithPost = ({
     post?.id,
     commentInput
   );
-  const { isSaving, isSave, handleSavePost } = useSavePost(post?.id);
+  const { isSave, handleSavePost } = useSavePost(post?.id);
   const handleComment = async () => {
     setCommentPost(false);
     await handleCreateComment();
@@ -57,6 +58,13 @@ const InteractWithPost = ({
       setShowLikesWithoutLogin(true);
     }
   };
+  const handleClickSavePost = () => {
+    if(user){
+     handleSavePost()
+    }else {
+      setIsOpenModalSaveWithoutLogin(true);
+    }
+  }
   const handleClickEmoj = useCallback(
     (emojiData) => {
       if (commentInput.length + emojiData.native.length <= 300) {
@@ -103,11 +111,11 @@ const InteractWithPost = ({
         </div>
         {isSave ? (
           <FaBookmark className="cursor-pointer" 
-           onClick={handleSavePost}
+           onClick={handleClickSavePost}
           />
         ) : (
           <FaRegBookmark className="cursor-pointer" 
-           onClick={handleSavePost}
+           onClick={handleClickSavePost}
           />
         )}
       </div>

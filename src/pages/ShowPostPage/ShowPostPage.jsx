@@ -13,20 +13,24 @@ import InteractWithPost from "../../components/commentBox/InteractWithPost";
 import ModalLikePostWithoutLogin from "../../components/modal/ModalLikePostWithoutLogin";
 import { UserNotFound } from "../ProfilePage/ProfilePage";
 import ModalShowLikes from "../../components/modal/ModalShowLikes";
+import ModalSaveWithoutLogin from "../../components/modal/ModalSaveWithoutLogin";
 const ShowPostPage = () => {
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
   const { post, isLoading } = useGetPostByPostId(postId);
   const { relatedPosts } = useGetRelatedPosts(post?.createBy, postId);
-  const [isOpenModalLikePostWithoutLogin, setIsOpenModalLikePostWithoutLogin] = useState(false);
+  const [isOpenModalLikePostWithoutLogin, setIsOpenModalLikePostWithoutLogin] =
+    useState(false);
   const [isOpenModalShowLikes, setIsOpenModalShowLikes] = useState(false);
   const [showLikesWithoutLogin, setShowLikesWithoutLogin] = useState(false);
+  const [isOpenModalSaveWithoutLogin, setIsOpenModalSaveWithoutLogin] =
+    useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [postId]);
   const postNotFound = !post && !isLoading;
-  if(postNotFound) return <UserNotFound/>
+  if (postNotFound) return <UserNotFound />;
   return (
     post && (
       <div className="flex shrink-0 flex-col lg:max-w-5xl mx-auto gap-y-4 p-4 text-white">
@@ -63,10 +67,19 @@ const ShowPostPage = () => {
               }
               setIsOpenModalShowLikes={setIsOpenModalShowLikes}
               setShowLikesWithoutLogin={setShowLikesWithoutLogin}
+              setIsOpenModalSaveWithoutLogin={setIsOpenModalSaveWithoutLogin}
             />
           </div>
           <div className="sm:hidden flex-2 flex flex-col text-sm">
-            <InteractWithPost post={post} setIsOpenModalLikePostWithoutLogin={setIsOpenModalLikePostWithoutLogin} setIsOpenModalShowLikes={setIsOpenModalShowLikes} setShowLikesWithoutLogin={setShowLikesWithoutLogin}/>
+            <InteractWithPost
+              post={post}
+              setIsOpenModalLikePostWithoutLogin={
+                setIsOpenModalLikePostWithoutLogin
+              }
+              setIsOpenModalShowLikes={setIsOpenModalShowLikes}
+              setShowLikesWithoutLogin={setShowLikesWithoutLogin}
+              setIsOpenModalSaveWithoutLogin={setIsOpenModalSaveWithoutLogin}
+            />
           </div>
         </div>
         <hr className="border border-color-dash mt-4" />
@@ -117,12 +130,25 @@ const ShowPostPage = () => {
           {isOpenModalLikePostWithoutLogin && (
             <ModalLikePostWithoutLogin
               isOpenModalLikePostWithoutLogin={isOpenModalLikePostWithoutLogin}
-              setIsOpenModalLikePostWithoutLogin={setIsOpenModalLikePostWithoutLogin}
+              setIsOpenModalLikePostWithoutLogin={
+                setIsOpenModalLikePostWithoutLogin
+              }
               showLikesWithoutLogin={showLikesWithoutLogin}
             />
           )}
           {isOpenModalShowLikes && (
-            <ModalShowLikes post={post} isOpenModalShowLikes={isOpenModalShowLikes} setIsOpenModalShowLikes={setIsOpenModalShowLikes}/>
+            <ModalShowLikes
+              post={post}
+              isOpenModalShowLikes={isOpenModalShowLikes}
+              setIsOpenModalShowLikes={setIsOpenModalShowLikes}
+            />
+          )}
+          {isOpenModalSaveWithoutLogin && (
+            <ModalSaveWithoutLogin
+              isOpenModalSaveWithoutLogin={isOpenModalSaveWithoutLogin}
+              setIsOpenModalSaveWithoutLogin={setIsOpenModalSaveWithoutLogin}
+              post={post}
+            />
           )}
         </div>
         <Footer />

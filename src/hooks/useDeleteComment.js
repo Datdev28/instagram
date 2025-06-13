@@ -5,7 +5,6 @@ import { useState } from 'react';
 const useDeleteComment = (postId, comment) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const handleDeleteComment = async () => {
-    console.log(1);
     if(isDeleting) return
     setIsDeleting(true);
     try {
