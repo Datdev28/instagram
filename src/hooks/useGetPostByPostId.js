@@ -8,6 +8,7 @@ const useGetPostByPostId = ( postId ) => {
   const [isLoading, setIsLoading] = useState(true);
   const setProgress = useLoadingBarStore(state => state.setProgress)
  useEffect(() => {
+  if (!postId) return;
     setProgress(30);
     const postRef = doc(fireStore, "posts", postId);
     const unsubscribe = onSnapshot(postRef, (docSnap) => {

@@ -62,10 +62,11 @@ const ShowPostPage = () => {
                 setIsOpenModalLikePostWithoutLogin
               }
               setIsOpenModalShowLikes={setIsOpenModalShowLikes}
+              setShowLikesWithoutLogin={setShowLikesWithoutLogin}
             />
           </div>
           <div className="sm:hidden flex-2 flex flex-col text-sm">
-            <InteractWithPost post={post} setIsOpenModalLikePostWithoutLogin={setIsOpenModalLikePostWithoutLogin} setIsOpenModalShowLikes={setIsOpenModalShowLikes}/>
+            <InteractWithPost post={post} setIsOpenModalLikePostWithoutLogin={setIsOpenModalLikePostWithoutLogin} setIsOpenModalShowLikes={setIsOpenModalShowLikes} setShowLikesWithoutLogin={setShowLikesWithoutLogin}/>
           </div>
         </div>
         <hr className="border border-color-dash mt-4" />

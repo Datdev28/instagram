@@ -10,29 +10,30 @@ import { useNavigate } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import ModalConfirmDeleteComment from "../modal/ModalConfirmDeleteComment";
 import ModalConfirmReportComment from "../modal/ModalConfirmReportComment";
-import ModalListOfReasonsReport from "../modal/ModalListOfReasonsReport";
-const Comment = ({ comment }) => {
+const Comment = ({ comment, setIsOpenModalListOfReasons, setReportPost }) => {
   const navigate = useNavigate();
   const { userProfile } = useGetProfileUserById(comment.createBy);
   const user = useAuthStore((state) => state.user);
   const [isLike, setIsLike] = useState(false);
   const [isOpenModalDel, setIsOpenModalDel] = useState(false);
   const [isOpenModalReport, setIsOpenModalReport] = useState(false);
-  const [isOpenModalListOfReasons, setIsOpenModalListOfReasons] = useState(false)
   const { handleClickLike, liking } = useLikeComment(
     comment.id,
     comment.postId
   );
+  const ownerPost = comment.poster === user?.uid;
+  const ownerComment = comment.createBy === user?.uid;
   const handleLike = () => {
     if (liking) return;
     setIsLike(!isLike);
     handleClickLike();
   };
-  const handleDeleteComment = () => {
-    if (comment.createBy === user.uid || comment.poster === user.uid) {
+  const handleDeleteCommentOrReport = () => {
+    if (ownerPost || ownerComment) {
       setIsOpenModalDel(true);
     } else {
       setIsOpenModalReport(true);
+      setReportPost(false);
     }
   };
   useEffect(() => {
@@ -63,10 +64,12 @@ const Comment = ({ comment }) => {
               <span>{comment.likesOfComment.length} lượt thích</span>
             )}
             <span className="cursor-pointer">Trả lời</span>
-            <BsThreeDots
-              className="text-xl cursor-pointer opacity-0 group-hover:opacity-100"
-              onClick={handleDeleteComment}
-            />
+            {user && (
+              <BsThreeDots
+                className="text-xl cursor-pointer opacity-0 group-hover:opacity-100"
+                onClick={handleDeleteCommentOrReport}
+              />
+            )}
           </div>
         </div>
         {user &&
@@ -92,10 +95,11 @@ const Comment = ({ comment }) => {
           />
         )}
         {isOpenModalReport && (
-          <ModalConfirmReportComment isOpenModalReport={isOpenModalReport} setIsOpenModalReport={setIsOpenModalReport} setIsOpenModalListOfReasons={setIsOpenModalListOfReasons}/>
-        )}
-        {isOpenModalListOfReasons && (
-          <ModalListOfReasonsReport isOpenModalListOfReasons={isOpenModalListOfReasons} setIsOpenModalListOfReasons={setIsOpenModalListOfReasons}/>
+          <ModalConfirmReportComment
+            isOpenModalReport={isOpenModalReport}
+            setIsOpenModalReport={setIsOpenModalReport}
+            setIsOpenModalListOfReasons={setIsOpenModalListOfReasons}
+          />
         )}
       </div>
     )

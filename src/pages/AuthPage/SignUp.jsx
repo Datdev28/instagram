@@ -83,7 +83,7 @@ const SignUp = () => {
           )
         }
         {error && (
-            <div className="px-4 mt-[-12px] text-xs text-red-500">Email đã tồn tại</div>
+            <div className="px-4 mt-[-12px] h-4 text-xs text-red-500">Email đã tồn tại</div>
           )
         }
         <input

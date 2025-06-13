@@ -7,6 +7,9 @@ const ModalSettingPost = ({
   setIsOpenSettingPost,
   setIsOpenModalConfirmDeletePost,
   post,
+  openSettingWithoutOwn,
+  setIsOpenModalListOfReasons,
+  setReportPost
 }) => {
   const handleTurnOffComment = useTurnOffComment(post);
   const navigate = useNavigate();
@@ -27,7 +30,12 @@ const ModalSettingPost = ({
   const handleClickTurnOffLikes = () => {
     handleTurnOffLikes();
     setIsOpenSettingPost(false);
-  }
+  };
+  const handleOnClickReportPost = () => {
+    setIsOpenModalListOfReasons(true);
+    setIsOpenSettingPost(false);
+    setReportPost(true)
+  };
   return (
     <div>
       <Modal
@@ -59,30 +67,50 @@ const ModalSettingPost = ({
       >
         <div className="bg-color-dash text-white overflow-hidden rounded-3xl w-full flex flex-col items-center gap-y-2 select-none">
           <div className="flex flex-col w-full">
-            <div
-              className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer text-red-500 font-bold"
-              onClick={handleClickDelete}
-            >
-              Xóa
-            </div>
-            <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer ">
-              Chỉnh sửa
-            </div>
-            <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
-             onClick={handleClickTurnOffLikes}
-            >
-              {post.checkedHideLike
-                ? "Hiển thị số lượt thích với người khác"
-                : "Ẩn số lượt thích với người khác"}
-            </div>
-            <div
-              className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
-              onClick={handleClickTurnOffComment}
-            >
-              {post.turnOfComment
-                ? "Bật tính năng bình luận"
-                : "Tắt tính năng bình luận"}
-            </div>
+            {openSettingWithoutOwn ? (
+              <>
+                <div
+                  className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer text-red-500 font-bold"
+                  onClick={handleOnClickReportPost}
+                >
+                  Báo cáo
+                </div>
+                <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer text-red-500 font-bold">
+                  Bỏ theo dõi
+                </div>
+                <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer ">
+                  Thêm vào mục yêu thích
+                </div>
+              </>
+            ) : (
+              <>
+                <div
+                  className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer text-red-500 font-bold"
+                  onClick={handleClickDelete}
+                >
+                  Xóa
+                </div>
+                <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer ">
+                  Chỉnh sửa
+                </div>
+                <div
+                  className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
+                  onClick={handleClickTurnOffLikes}
+                >
+                  {post.checkedHideLike
+                    ? "Hiển thị số lượt thích với người khác"
+                    : "Ẩn số lượt thích với người khác"}
+                </div>
+                <div
+                  className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
+                  onClick={handleClickTurnOffComment}
+                >
+                  {post.turnOfComment
+                    ? "Bật tính năng bình luận"
+                    : "Tắt tính năng bình luận"}
+                </div>
+              </>
+            )}
             <div
               className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
               onClick={goToArticle}

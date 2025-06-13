@@ -6,6 +6,7 @@ import { RiArrowRightSLine } from "react-icons/ri";
 const ModalListOfReasonsReport = ({
   isOpenModalListOfReasons,
   setIsOpenModalListOfReasons,
+  reportPost
 }) => {
   return (
     <div>
@@ -38,7 +39,7 @@ const ModalListOfReasonsReport = ({
       >
         <motion.div className="bg-color-dash text-white overflow-hidden rounded-2xl w-full flex flex-col items-center gap-y-2 select-none">
           <div className="flex flex-col w-full">
-            <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note relative">
+            <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer relative">
               <p className="font-bold">Báo cáo</p>
               <IoMdClose
                 className="absolute top-2 right-4 text-2xl cursor-pointer"
@@ -47,7 +48,7 @@ const ModalListOfReasonsReport = ({
             </div>
             <div className="flex flex-col py-2">
               <div className="flex justify-between items-center py-2 px-4 font-bold">
-                <p>Tại sao bạn lại báo cáo bình luận này?</p>
+                <p>Tại sao bạn lại báo cáo {reportPost ? "bài viết" : "bình luận"} này?</p>
               </div>
               <div className="flex justify-between items-center cursor-pointer py-2 px-4">
                 <p>Đây là spam</p>

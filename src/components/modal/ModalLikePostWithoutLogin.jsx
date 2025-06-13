@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const ModalLikePostWithoutLogin = ({
   isOpenModalLikePostWithoutLogin,
   setIsOpenModalLikePostWithoutLogin,
+  showLikesWithoutLogin
 }) => {
   return (
     <div>
@@ -62,7 +63,7 @@ const ModalLikePostWithoutLogin = ({
                 alt="thông báo"
               />
               <p className="font-bold text-2xl text-center">
-                "Đăng nhập thích bài viết này"
+                {showLikesWithoutLogin ? "Đăng nhập xem lượt thích bài viết này" : "Đăng nhập thích bài viết này"}
               </p>
               <p className="text-xs text-color-text-gray text-center">
                 Bằng cách tiếp tục, bạn đồng ý với{" "}

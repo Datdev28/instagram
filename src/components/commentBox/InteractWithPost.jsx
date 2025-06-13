@@ -12,7 +12,7 @@ import AutoResizeTextarea from "../custom/textarea";
 import { BsEmojiSmile } from "react-icons/bs";
 import Emoj from "../emojPicker/Emoj";
 import convertDateTime from "../../utils/convertDateTime";
-const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalShowLikes }) => {
+const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalShowLikes, setShowLikesWithoutLogin }) => {
   const emojiRef = useRef(null);
   const [showEmoj, setShowEmoj] = useState(false);
   const [commentPost, setCommentPost] = useState(false);
@@ -35,8 +35,8 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenM
   const handleLike = () => {
     if (isLiking) return;
     if (!user) {
-      console.log(1);
       setIsOpenModalLikePostWithoutLogin(true);
+      setShowLikesWithoutLogin(false);
     } else {
       setIsLike(!isLike);
       handleLikePost();
@@ -45,6 +45,9 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenM
   const handleOpenModalUsersLike = () => {
    if(user){
     setIsOpenModalShowLikes(true);
+   }else {
+    setIsOpenModalLikePostWithoutLogin(true);
+    setShowLikesWithoutLogin(true);
    }
   }
   const handleClickEmoj = useCallback(

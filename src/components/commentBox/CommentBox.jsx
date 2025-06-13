@@ -7,12 +7,32 @@ import ModalConfirmDeletePost from "../modal/ModalConfirmDeletePost";
 import Comment from "./Comment";
 import InteractWithPost from "./InteractWithPost";
 import useAuthStore from "../../store/authStore";
-const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalShowLikes }) => {
+import ModalListOfReasonsReport from "../modal/ModalListOfReasonsReport";
+
+const CommentBox = ({
+  post,
+  setIsOpenModalLikePostWithoutLogin,
+  setIsOpenModalShowLikes,
+  setShowLikesWithoutLogin,
+}) => {
   const navigate = useNavigate();
   const [isOpenSettingPost, setIsOpenSettingPost] = useState(false);
   const [isOpenModalConfirmDeletePost, setIsOpenModalConfirmDeletePost] =
     useState(false);
+  const [isOpenModalListOfReasons, setIsOpenModalListOfReasons] =
+    useState(false);
+  const [openSettingWithoutOwn, setOpenSettingWithoutOwn] = useState(false);
+  const [reportPost, setReportPost] = useState(false);
   const user = useAuthStore((state) => state.user);
+  const ownUser = user?.uid === post?.createBy;
+  const handleClickOpenSettingPost = () => {
+    if (ownUser) {
+      setIsOpenSettingPost(true);
+    } else {
+      setOpenSettingWithoutOwn(true);
+      setIsOpenSettingPost(true);
+    }
+  };
   return (
     post && (
       <div className="w-full flex flex-col relative bg-black text-white">
@@ -34,7 +54,7 @@ const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalSh
           {user && (
             <HiOutlineDotsHorizontal
               className="cursor-pointer text-2xl"
-              onClick={() => setIsOpenSettingPost(true)}
+              onClick={handleClickOpenSettingPost}
             />
           )}
         </div>
@@ -78,7 +98,14 @@ const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalSh
           ) : (
             post.comments
               .sort((a, b) => b.createdAt - a.createdAt)
-              .map((comment) => <Comment key={comment.id} comment={comment} />)
+              .map((comment) => (
+                <Comment
+                  key={comment.id}
+                  comment={comment}
+                  setIsOpenModalListOfReasons={setIsOpenModalListOfReasons}
+                  setReportPost={setReportPost}
+                />
+              ))
           )}
         </div>
         <InteractWithPost
@@ -87,6 +114,7 @@ const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalSh
             setIsOpenModalLikePostWithoutLogin
           }
           setIsOpenModalShowLikes={setIsOpenModalShowLikes}
+          setShowLikesWithoutLogin={setShowLikesWithoutLogin}
         />
         {isOpenSettingPost && (
           <ModalSettingPost
@@ -94,6 +122,9 @@ const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalSh
             isOpenSettingPost={isOpenSettingPost}
             setIsOpenSettingPost={setIsOpenSettingPost}
             setIsOpenModalConfirmDeletePost={setIsOpenModalConfirmDeletePost}
+            openSettingWithoutOwn={openSettingWithoutOwn}
+            setIsOpenModalListOfReasons={setIsOpenModalListOfReasons}
+            setReportPost={setReportPost}
           />
         )}
         {isOpenModalConfirmDeletePost && (
@@ -101,6 +132,13 @@ const CommentBox = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalSh
             setIsOpenModalConfirmDeletePost={setIsOpenModalConfirmDeletePost}
             isOpenModalConfirmDeletePost={isOpenModalConfirmDeletePost}
             post={post}
+          />
+        )}
+        {isOpenModalListOfReasons && (
+          <ModalListOfReasonsReport
+            isOpenModalListOfReasons={isOpenModalListOfReasons}
+            setIsOpenModalListOfReasons={setIsOpenModalListOfReasons}
+            reportPost={reportPost}
           />
         )}
       </div>
