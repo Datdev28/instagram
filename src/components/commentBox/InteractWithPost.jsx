@@ -12,7 +12,14 @@ import AutoResizeTextarea from "../custom/textarea";
 import { BsEmojiSmile } from "react-icons/bs";
 import Emoj from "../emojPicker/Emoj";
 import convertDateTime from "../../utils/convertDateTime";
-const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenModalShowLikes, setShowLikesWithoutLogin }) => {
+import useSavePost from "../../hooks/useSavePost";
+import { FaBookmark } from "react-icons/fa";
+const InteractWithPost = ({
+  post,
+  setIsOpenModalLikePostWithoutLogin,
+  setIsOpenModalShowLikes,
+  setShowLikesWithoutLogin,
+}) => {
   const emojiRef = useRef(null);
   const [showEmoj, setShowEmoj] = useState(false);
   const [commentPost, setCommentPost] = useState(false);
@@ -26,7 +33,7 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenM
     post?.id,
     commentInput
   );
-
+  const { isSaving, isSave, handleSavePost } = useSavePost(post?.id);
   const handleComment = async () => {
     setCommentPost(false);
     await handleCreateComment();
@@ -43,13 +50,13 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenM
     }
   };
   const handleOpenModalUsersLike = () => {
-   if(user){
-    setIsOpenModalShowLikes(true);
-   }else {
-    setIsOpenModalLikePostWithoutLogin(true);
-    setShowLikesWithoutLogin(true);
-   }
-  }
+    if (user) {
+      setIsOpenModalShowLikes(true);
+    } else {
+      setIsOpenModalLikePostWithoutLogin(true);
+      setShowLikesWithoutLogin(true);
+    }
+  };
   const handleClickEmoj = useCallback(
     (emojiData) => {
       if (commentInput.length + emojiData.native.length <= 300) {
@@ -94,7 +101,15 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenM
           )}
           <FaRegComment className="cursor-pointer mt-[6px]" />
         </div>
-        <FaRegBookmark className="cursor-pointer" />
+        {isSave ? (
+          <FaBookmark className="cursor-pointer" 
+           onClick={handleSavePost}
+          />
+        ) : (
+          <FaRegBookmark className="cursor-pointer" 
+           onClick={handleSavePost}
+          />
+        )}
       </div>
       {post.likes.length > 0 ? (
         post.checkedHideLike ? (
@@ -113,14 +128,20 @@ const InteractWithPost = ({ post, setIsOpenModalLikePostWithoutLogin, setIsOpenM
                 {post.likes[0].userName}
               </p>
             </div>
-            <p className="inline cursor-pointer"
-             onClick={handleOpenModalUsersLike}
-            >và những người khác đã thích</p>
+            <p
+              className="inline cursor-pointer"
+              onClick={handleOpenModalUsersLike}
+            >
+              và những người khác đã thích
+            </p>
           </div>
         ) : (
-          <p className="font-semibold cursor-pointer"
-           onClick={handleOpenModalUsersLike}
-          >{post.likes.length} lượt thích</p>
+          <p
+            className="font-semibold cursor-pointer"
+            onClick={handleOpenModalUsersLike}
+          >
+            {post.likes.length} lượt thích
+          </p>
         )
       ) : (
         <p>Hãy là người đầu tiên thích bài viết này!</p>
