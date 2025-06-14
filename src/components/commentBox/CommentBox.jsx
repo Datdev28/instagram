@@ -8,7 +8,7 @@ import Comment from "./Comment";
 import InteractWithPost from "./InteractWithPost";
 import useAuthStore from "../../store/authStore";
 import ModalListOfReasonsReport from "../modal/ModalListOfReasonsReport";
-
+import ModalEditPost from "../modal/ModalEditPost";
 const CommentBox = ({
   post,
   setIsOpenModalLikePostWithoutLogin,
@@ -18,6 +18,7 @@ const CommentBox = ({
 }) => {
   const navigate = useNavigate();
   const [isOpenSettingPost, setIsOpenSettingPost] = useState(false);
+  const [isOpenModalEditPost, setIsOpenModalEditPost] = useState(false)
   const [isOpenModalConfirmDeletePost, setIsOpenModalConfirmDeletePost] =
     useState(false);
   const [isOpenModalListOfReasons, setIsOpenModalListOfReasons] =
@@ -127,6 +128,7 @@ const CommentBox = ({
             openSettingWithoutOwn={openSettingWithoutOwn}
             setIsOpenModalListOfReasons={setIsOpenModalListOfReasons}
             setReportPost={setReportPost}
+            setIsOpenModalEditPost={setIsOpenModalEditPost}
           />
         )}
         {isOpenModalConfirmDeletePost && (
@@ -141,6 +143,13 @@ const CommentBox = ({
             isOpenModalListOfReasons={isOpenModalListOfReasons}
             setIsOpenModalListOfReasons={setIsOpenModalListOfReasons}
             reportPost={reportPost}
+          />
+        )}
+        {isOpenModalEditPost && (
+          <ModalEditPost
+           isOpenModalEditPost={isOpenModalEditPost}
+           setIsOpenModalEditPost={setIsOpenModalEditPost}
+           post={post}
           />
         )}
       </div>

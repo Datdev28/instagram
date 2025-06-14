@@ -9,7 +9,8 @@ const ModalSettingPost = ({
   post,
   openSettingWithoutOwn,
   setIsOpenModalListOfReasons,
-  setReportPost
+  setReportPost,
+  setIsOpenModalEditPost
 }) => {
   const handleTurnOffComment = useTurnOffComment(post);
   const navigate = useNavigate();
@@ -36,6 +37,10 @@ const ModalSettingPost = ({
     setIsOpenSettingPost(false);
     setReportPost(true)
   };
+  const handleClickEditPost = () => {
+    setIsOpenModalEditPost(true);
+    setIsOpenSettingPost(false);
+  }
   return (
     <div>
       <Modal
@@ -90,7 +95,9 @@ const ModalSettingPost = ({
                 >
                   Xóa
                 </div>
-                <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer ">
+                <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
+                 onClick={handleClickEditPost}
+                >
                   Chỉnh sửa
                 </div>
                 <div
