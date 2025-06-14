@@ -10,7 +10,8 @@ const ModalSettingPost = ({
   openSettingWithoutOwn,
   setIsOpenModalListOfReasons,
   setReportPost,
-  setIsOpenModalEditPost
+  setIsOpenModalEditPost,
+  setIsOpenModalIntroduceAcc
 }) => {
   const handleTurnOffComment = useTurnOffComment(post);
   const navigate = useNavigate();
@@ -39,6 +40,10 @@ const ModalSettingPost = ({
   };
   const handleClickEditPost = () => {
     setIsOpenModalEditPost(true);
+    setIsOpenSettingPost(false);
+  }
+  const handleClickIntroduceAcc = () => {
+    setIsOpenModalIntroduceAcc(true);
     setIsOpenSettingPost(false);
   }
   return (
@@ -124,7 +129,9 @@ const ModalSettingPost = ({
             >
               Đi đến bài viết
             </div>
-            <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer">
+            <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer"
+             onClick={handleClickIntroduceAcc}
+            >
               Giới thiệu về tài khoản này
             </div>
             <div

@@ -8,7 +8,6 @@ const useSavePost = (postId) => {
   const setUser = useAuthStore((state) => state.setUser);
   const [isSave, setIsSave] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  console.log(user);
   const handleSavePost = async () => {
     try {
       if (isSaving) return;

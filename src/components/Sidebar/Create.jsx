@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MdOutlineAddComment } from "react-icons/md";
 import searchToggleStore from "../../store/searchToggleStore";
 import ModalCreatePost from "../modal/ModalCreatePost";

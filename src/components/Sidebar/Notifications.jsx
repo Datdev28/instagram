@@ -1,4 +1,3 @@
-import React from "react";
 import { IoMdHeartEmpty } from "react-icons/io";
 import searchToggleStore from "../../store/searchToggleStore";
 

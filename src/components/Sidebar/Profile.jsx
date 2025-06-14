@@ -1,4 +1,3 @@
-import React from "react";
 import useAuthStore from "../../store/authStore";
 import { Link } from "react-router-dom";
 import searchToggleStore from "../../store/searchToggleStore";

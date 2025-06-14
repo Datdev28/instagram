@@ -9,6 +9,7 @@ import InteractWithPost from "./InteractWithPost";
 import useAuthStore from "../../store/authStore";
 import ModalListOfReasonsReport from "../modal/ModalListOfReasonsReport";
 import ModalEditPost from "../modal/ModalEditPost";
+import ModalIntroduceAcc from "../modal/ModalIntroduceAcc";
 const CommentBox = ({
   post,
   setIsOpenModalLikePostWithoutLogin,
@@ -24,6 +25,7 @@ const CommentBox = ({
   const [isOpenModalListOfReasons, setIsOpenModalListOfReasons] =
     useState(false);
   const [openSettingWithoutOwn, setOpenSettingWithoutOwn] = useState(false);
+  const [isOpenModalIntroduceAcc, setIsOpenModalIntroduceAcc] = useState(false)
   const [reportPost, setReportPost] = useState(false);
   const user = useAuthStore((state) => state.user);
   const ownUser = user?.uid === post?.createBy;
@@ -129,6 +131,7 @@ const CommentBox = ({
             setIsOpenModalListOfReasons={setIsOpenModalListOfReasons}
             setReportPost={setReportPost}
             setIsOpenModalEditPost={setIsOpenModalEditPost}
+            setIsOpenModalIntroduceAcc={setIsOpenModalIntroduceAcc}
           />
         )}
         {isOpenModalConfirmDeletePost && (
@@ -150,6 +153,13 @@ const CommentBox = ({
            isOpenModalEditPost={isOpenModalEditPost}
            setIsOpenModalEditPost={setIsOpenModalEditPost}
            post={post}
+          />
+        )}
+        {isOpenModalIntroduceAcc && (
+          <ModalIntroduceAcc 
+           userId={post.createBy}
+           isOpenModalIntroduceAcc={isOpenModalIntroduceAcc}
+           setIsOpenModalIntroduceAcc={setIsOpenModalIntroduceAcc}
           />
         )}
       </div>

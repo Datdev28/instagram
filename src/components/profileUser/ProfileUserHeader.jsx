@@ -1,4 +1,3 @@
-import React from "react";
 import { RiSettings4Fill } from "react-icons/ri";
 import { useState } from "react";
 import ModalNote from "../modal/modalNoteProfile";
@@ -9,11 +8,13 @@ import ModalIsOpenEditProfile from "../../components/modal/ModalEditProfile";
 import useFollowUser from "../../hooks/useFollowUser";
 import ModalNotifiAuth from "../modal/ModalNotifiAuth";
 import ModalSetting from "../modal/ModalSettingAcc";
+import ModalIntroduceAcc from "../modal/ModalIntroduceAcc";
 const ProfileUserHeader = () => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
   const [modalIsOpenNotifiAuth, setModalIsOpenNotifiAuth] = useState(false);
   const [modalIsOpenSetting, setModalIsSetting] = useState(false);
+  const [isOpenModalIntroduceAcc, setIsOpenModalIntroduceAcc] = useState(false);
   const { userProfile } = userProfileStore();
   const userAuth = useAuthStore((state) => state.user);
   const { isLoading, isFollowing, handleFollowUser } = useFollowUser(
@@ -102,16 +103,22 @@ const ProfileUserHeader = () => {
             </div>
             <div className="flex items-center gap-x-10 font-semibold max-md:hidden">
               <p>
-                <span className="w-3 inline-block">{userProfile.posts.length}</span>
+                <span className="w-3 inline-block">
+                  {userProfile.posts.length}
+                </span>
                 <span className="text-color-text-gray">bài viết</span>
               </p>
               <p>
-                <span className="w-3 inline-block mx-[6px]">{userProfile.followers.length}</span>
+                <span className="w-3 inline-block mx-[6px]">
+                  {userProfile.followers.length}
+                </span>
                 <span className="text-color-text-gray">người theo dõi</span>
               </p>
               <p className="text-color-text-gray">
-                Đang theo dõi 
-                <span className="mx-[6px] inline-block text-white">{userProfile.following.length}</span>
+                Đang theo dõi
+                <span className="mx-[6px] inline-block text-white">
+                  {userProfile.following.length}
+                </span>
                 người dùng
               </p>
             </div>
@@ -145,22 +152,36 @@ const ProfileUserHeader = () => {
           <ModalSetting
             modalIsOpenSetting={modalIsOpenSetting}
             setModalIsSetting={setModalIsSetting}
+            setIsOpenModalIntroduceAcc={setIsOpenModalIntroduceAcc}
+          />
+        )}
+        {isOpenModalIntroduceAcc && (
+          <ModalIntroduceAcc
+            userId={userProfile.uid}
+            isOpenModalIntroduceAcc={isOpenModalIntroduceAcc}
+            setIsOpenModalIntroduceAcc={setIsOpenModalIntroduceAcc}
           />
         )}
         <div className="hidden max-md:flex flex-col w-full">
           <hr className="border-color-dash w-full" />
           <div className="flex items-center gap-x-12 justify-center">
             <p className="text-center">
-              <span className="w-5 inline-block">{userProfile.posts.length}</span>
+              <span className="w-5 inline-block">
+                {userProfile.posts.length}
+              </span>
               <span className="text-color-text-gray ">bài viết</span>
             </p>
             <p className="text-center">
-              <span className="w-5 inline-block">{userProfile.followers.length}</span>
+              <span className="w-5 inline-block">
+                {userProfile.followers.length}
+              </span>
               <span className="text-color-text-gray ">người theo dõi</span>
             </p>
             <p className="text-color-text-gray text-center">
               Đang theo dõi <br />{" "}
-              <span className="text-white w-6 inline-block">{userProfile.following.length}</span>
+              <span className="text-white w-6 inline-block">
+                {userProfile.following.length}
+              </span>
               <br /> người dùng
             </p>
           </div>

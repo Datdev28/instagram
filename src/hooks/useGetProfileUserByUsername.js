@@ -9,6 +9,7 @@ const useGetProfileUserByUsername = (userName) => {
   const { setProgress } = useLoadingBarStore();
   useEffect(() => {
     const getUserProfile = async () => {
+      setUserProfile(null);
       setProgress(30);
       try {
         const q = query(

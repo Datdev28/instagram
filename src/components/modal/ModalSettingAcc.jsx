@@ -4,13 +4,21 @@ import { Link } from "react-router-dom";
 import useLogOut from "../../hooks/useLogOut";
 import { useNavigate } from "react-router-dom";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
-const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
+const ModalSetting = ({
+  modalIsOpenSetting,
+  setModalIsSetting,
+  setIsOpenModalIntroduceAcc,
+}) => {
   useLockBodyScroll(modalIsOpenSetting);
   const { handleLogOut } = useLogOut();
   const navigate = useNavigate();
   const handleClickLogOut = async () => {
     await handleLogOut();
     navigate("/auth");
+  };
+  const handleClickIntroduceAcc = () => {
+    setIsOpenModalIntroduceAcc(true);
+    setModalIsSetting(false);
   };
   return (
     <div>
@@ -67,6 +75,12 @@ const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
               Đăng xuất
             </div>
             <div
+              className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+              onClick={handleClickIntroduceAcc}
+            >
+              Giới thiệu về tài khoản này
+            </div>
+            <div
               className="w-full  py-2 flex justify-center cursor-pointer hover:bg-color-note"
               onClick={() => setModalIsSetting(false)}
             >
@@ -79,4 +93,4 @@ const ModalNote = ({ modalIsOpenSetting, setModalIsSetting }) => {
   );
 };
 
-export default ModalNote;
+export default ModalSetting;
