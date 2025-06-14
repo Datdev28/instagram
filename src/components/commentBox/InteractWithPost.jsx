@@ -34,6 +34,7 @@ const InteractWithPost = ({
     post?.id,
     commentInput
   );
+  const ownerPost = post.createBy === user.uid
   const { isSave, handleSavePost } = useSavePost(post?.id);
   const handleComment = async () => {
     setCommentPost(false);
@@ -120,7 +121,7 @@ const InteractWithPost = ({
         )}
       </div>
       {post.likes.length > 0 ? (
-        post.checkedHideLike ? (
+        post.checkedHideLike && !ownerPost ? (
           <div className="space-x-1">
             <div className="inline space-x-2">
               <img
