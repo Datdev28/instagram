@@ -6,28 +6,35 @@ import useAuthStore from "../../store/authStore";
 import ModalNotifiAuth from "../modal/ModalNotifiAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 const ProfileUserPost = ({ post }) => {
-  const userAuth = useAuthStore(state => state.user);
+  const userAuth = useAuthStore((state) => state.user);
   const [isOpenModalNote, setIsOpenModalNote] = useState(false);
   const [modalFromPost, setModalFromPost] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const handleShowPost = () => {
-    if(userAuth){
-      navigate(`/p/${post.id}`, {state: {
-       background: location,
-      }});
-    }else {
-     setIsOpenModalNote(true);
-     setModalFromPost(true);
+    if (userAuth) {
+      const isMobile = window.innerWidth < 640;
+      if (isMobile) {
+        navigate(`/p/${post.id}`);
+      } else {
+        navigate(`/p/${post.id}`, {
+          state: {
+            background: location,
+          },
+        });
+      }
+    } else {
+      setIsOpenModalNote(true);
+      setModalFromPost(true);
     }
-  }
+  };
   return (
     <div className="flex relative group">
       <img
         src={post.imageOfPost[0]}
         className="object-cover w-full max-h-[440px] hover:opacity-40 cursor-pointer"
         alt="bài đăng"
-         onClick={handleShowPost}
+        onClick={handleShowPost}
       />
       <div className="flex absolute top-1/2 left-1/2 items-center gap-x-6 -translate-x-1/2 opacity-0 group-hover:opacity-100 text-white">
         <div className="flex items-center gap-x-2">
@@ -48,7 +55,13 @@ const ProfileUserPost = ({ post }) => {
           <IoMdImages className="text-xl" />
         </div>
       )}
-      {isOpenModalNote && <ModalNotifiAuth setModalIsOpenNotifiAuth={setIsOpenModalNote} modalIsOpenNotifiAuth={isOpenModalNote} modalFromPost={modalFromPost}/>}
+      {isOpenModalNote && (
+        <ModalNotifiAuth
+          setModalIsOpenNotifiAuth={setIsOpenModalNote}
+          modalIsOpenNotifiAuth={isOpenModalNote}
+          modalFromPost={modalFromPost}
+        />
+      )}
     </div>
   );
 };
