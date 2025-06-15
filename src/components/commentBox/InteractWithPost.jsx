@@ -155,6 +155,25 @@ const InteractWithPost = ({
       ) : (
         <p>Hãy là người đầu tiên thích bài viết này!</p>
       )}
+      <div className="sm:hidden">
+        {post.caption && (
+              <div className="flex gap-x-2">
+                <div className="flex flex-col gap-x-2 w-full">
+                  <div className="w-full">
+                    <span
+                      className="text-sm mr-2 cursor-pointer font-bold hover:text-color-text-gray"
+                      onClick={() => navigate(`/${post.byUserName}`)}
+                    >
+                      {post.byUserName}
+                    </span>
+                    <span className="font-normal break-words whitespace-pre-wrap text-sm">
+                      {post.caption}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+      </div>
       <p className="text-color-text-gray text-sm ">
         {convertDateTime(post.createdAt)} trước
       </p>
