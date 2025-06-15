@@ -85,7 +85,7 @@ const NavbarHeader = () => {
           )}
           {isLoading && (
             <img
-              src="searching.gif"
+              src="/searching.gif"
               className="w-[5rem] h-[5rem] m-auto"
               alt="đang tìm kiếm"
             />

@@ -33,25 +33,21 @@ const ShowPostPage = () => {
   if (postNotFound) return <UserNotFound />;
   return (
     post && (
-      <div className="flex shrink-0 flex-col lg:max-w-5xl mx-auto gap-y-4 p-4 text-white">
-        <div className="flex px-4 justify-between items-center sm:hidden max-sm:mt-6">
-          <div className="flex items-center gap-x-4">
-            <img
-              src={post.byAvaUser}
-              className="w-8 h-8 rounded-full object-cover cursor-pointer"
-              alt="hình ảnh đại diện"
-              onClick={() => navigate(`/${post.byUserName}`)}
-            />
-            <p
-              className="text-sm cursor-pointer font-bold hover:text-color-text-gray"
-              onClick={() => navigate(`/${post.byUserName}`)}
-            >
-              {post.byUserName}
-            </p>
-          </div>
-          <HiOutlineDotsHorizontal className="cursor-pointer text-2xl" />
+      <div className="flex shrink-0 flex-col lg:max-w-5xl mx-auto gap-y-3 p-4 text-white">
+        <div className="flex justify-between items-center sm:hidden max-sm:mt-6">
+          <CommentBox
+            post={post}
+            setIsOpenModalLikePostWithoutLogin={
+              setIsOpenModalLikePostWithoutLogin
+            }
+            setIsOpenModalShowLikes={setIsOpenModalShowLikes}
+            setShowLikesWithoutLogin={setShowLikesWithoutLogin}
+            setIsOpenModalSaveWithoutLogin={setIsOpenModalSaveWithoutLogin}
+            responsiveMobile={true}
+          />
         </div>
-        <div className=" flex w-full max-sm:flex-col max-sm:flex-2 max-sm:gap-y-4 sm:max-h-[80vh] min-h-[600px]">
+
+        <div className="flex w-full max-sm:flex-col max-sm:flex-2 max-sm:gap-y-2 sm:max-h-[80vh] min-h-[600px]">
           <div className="flex-[3] flex ">
             <SlideImage
               picked={picked}
@@ -82,7 +78,7 @@ const ShowPostPage = () => {
             />
           </div>
         </div>
-        <hr className="border border-color-dash mt-4" />
+        <hr className="border border-color-dash sm:mt-4"/>
         <div className="flex flex-col gap-y-2 mt-2">
           {relatedPosts.length > 0 && (
             <p className="text-color-text-gray text-sm font-semibold">
