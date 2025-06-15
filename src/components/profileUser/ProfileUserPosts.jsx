@@ -9,9 +9,9 @@ const ProfileUserPosts = () => {
   const { posts, isLoading } = useGetUserPost();
   const userProfile = userProfileStore(state => state.userProfile)
   const user = useAuthStore(state => state.user)
-  const ownNoPost = posts.length === 0 && !isLoading && user.uid === userProfile.uid;
-  const noPost = posts.length === 0 && !isLoading && user.uid !== userProfile.uid;
-  const havePost = posts.length > 0 && !isLoading;
+  const ownNoPost = posts.length === 0 && isLoading && user.uid === userProfile.uid;
+  const noPost = posts.length === 0 && isLoading && user.uid !== userProfile.uid;
+  const havePost = posts.length > 0 && isLoading;
   if(ownNoPost) return <OwnNoPosts/>
   if(noPost) return <NoPosts/>
   return (
@@ -26,7 +26,6 @@ const ProfileUserPosts = () => {
     </>
   );
 };
-
 export default ProfileUserPosts;
 
 const OwnNoPosts = () => {

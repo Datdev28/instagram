@@ -1,26 +1,43 @@
-import React from "react";
+import { useState } from "react";
 import ProfileUserHeader from "../../components/profileUser/ProfileUserHeader";
 import ProfileTabs from "../../components/profileUser/ProfileTabs";
 import ProfileUserPosts from "../../components/profileUser/ProfileUserPosts";
-import { useParams } from "react-router-dom";
+import { useParams, Outlet, useLocation } from "react-router-dom";
 import useGetProfileUserByUsername from "../../hooks/useGetProfileUserByUsername";
 import { Link } from "react-router-dom";
+import Footer from "../../components/footer/Footer";
 const ProfilePage = () => {
   const { username } = useParams();
   const { isLoading, userProfile } = useGetProfileUserByUsername(username);
+  const [pickCategory, setPickCategory] = useState("post");
   const findUserInfo = !userProfile && isLoading;
+  const localtion = useLocation();
   if (findUserInfo) return <UserNotFound />;
   return (
-    userProfile &&  (
-      <div className="text-white flex flex-col w-full items-center">
-        <div className="flex w-full flex-col items-center">
+    userProfile && (
+      <div className="text-white flex flex-col w-full items-center gap-y-2">
+        <div className="flex w-full flex-col items-center box-border">
           <ProfileUserHeader />
         </div>
-        <div className="flex w-full max-w-4xl flex-col">
-          <ProfileTabs />
+        <div className="flex w-full max-w-4xl flex-col box-border">
+          <ProfileTabs
+            pickCategory={pickCategory}
+            setPickCategory={setPickCategory}
+            userProfile={userProfile}
+          />
         </div>
-        <div className="w-full max-w-4xl flex justify-center">
-          <ProfileUserPosts />
+
+        {localtion.pathname === `/${username}` && (
+          <div className="w-full max-w-4xl flex justify-center min-h-[50vh]">
+            <ProfileUserPosts />
+          </div>
+        )}
+        
+        <div className="w-full max-w-4xl">
+          <Outlet />
+        </div>
+        <div className="w-full text-center">
+          <Footer/>
         </div>
       </div>
     )

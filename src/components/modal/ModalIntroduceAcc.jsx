@@ -67,7 +67,7 @@ const ModalIntroduceAcc = ({
               </div>
             </>
           ) : (
-            <div className="flex justify-center items-center bg-black min-h-[350px]">
+            <div className="flex justify-center items-center bg-black min-h-[188px]">
               <img
                 className="object-cover w-12 h-12 rounded-full"
                 src="/loading.gif"

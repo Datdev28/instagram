@@ -2,6 +2,7 @@ import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import useTurnOffComment from "../../hooks/useTurnOffComment";
 import useTurnOffLikes from "../../hooks/useTurnOffLikes";
+import useFollowUser from "../../hooks/useFollowUser";
 const ModalSettingPost = ({
   isOpenSettingPost,
   setIsOpenSettingPost,
@@ -16,6 +17,7 @@ const ModalSettingPost = ({
   const handleTurnOffComment = useTurnOffComment(post);
   const navigate = useNavigate();
   const handleTurnOffLikes = useTurnOffLikes(post);
+  const { isLoading, isFollowing, handleFollowUser } = useFollowUser(post.createBy);
   const handleClickDelete = () => {
     setIsOpenSettingPost(false);
     setIsOpenModalConfirmDeletePost(true);
@@ -45,6 +47,10 @@ const ModalSettingPost = ({
   const handleClickIntroduceAcc = () => {
     setIsOpenModalIntroduceAcc(true);
     setIsOpenSettingPost(false);
+  }
+  const handleClickFollow = () => {
+    setIsOpenSettingPost(false);
+     handleFollowUser()
   }
   return (
     <div>
@@ -85,11 +91,10 @@ const ModalSettingPost = ({
                 >
                   Báo cáo
                 </div>
-                <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer text-red-500 font-bold">
-                  Bỏ theo dõi
-                </div>
-                <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer ">
-                  Thêm vào mục yêu thích
+                <div className="w-full border-b border-b-color-btn-gray py-4 flex justify-center cursor-pointer text-red-500 font-bold"
+                 onClick={handleClickFollow}
+                >
+                  {isFollowing ? "Bỏ theo dõi" : "Theo dõi"}
                 </div>
               </>
             ) : (

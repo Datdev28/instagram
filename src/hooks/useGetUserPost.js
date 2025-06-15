@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import userProfileStore from '../store/userProfileStore';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { fireStore } from '../firebase/firebase';
@@ -13,7 +13,6 @@ const useGetUserPost = () => {
     setPosts([]);
     const getPost = async() => {
      try {
-      setIsLoading(true);
       const q = query(collection(fireStore, 'posts'), where('createBy',"==", userProfile.uid));
       const querySnapShot = await getDocs(q);
       const posts = []
@@ -23,7 +22,7 @@ const useGetUserPost = () => {
      } catch (error) {
       console.log(error);
      } finally {
-      setIsLoading(false);
+      setIsLoading(true);
      }
     }
     getPost();

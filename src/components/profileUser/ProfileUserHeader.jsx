@@ -130,6 +130,30 @@ const ProfileUserHeader = () => {
             </p>
           </div>
         </div>
+        <div className="hidden max-md:flex flex-col w-full">
+          <hr className="border-color-dash w-full" />
+          <div className="flex items-center gap-x-12 justify-center text-[14px] max-md:mt-4">
+            <p className="text-center">
+              <span className="w-5 inline-block">
+                {userProfile.posts.length}
+              </span>
+              <span className="text-color-text-gray ">bài viết</span>
+            </p>
+            <p className="text-center">
+              <span className="w-5 inline-block">
+                {userProfile.followers.length}
+              </span>
+              <span className="text-color-text-gray ">người theo dõi</span>
+            </p>
+            <p className="text-color-text-gray text-center">
+              Đang theo dõi <br />{" "}
+              <span className="text-white w-6 inline-block">
+                {userProfile.following.length}
+              </span>
+              <br /> người dùng
+            </p>
+          </div>
+        </div>
         {modalIsOpenNote && (
           <ModalNote
             modalIsOpenNote={modalIsOpenNote}
@@ -162,30 +186,6 @@ const ProfileUserHeader = () => {
             setIsOpenModalIntroduceAcc={setIsOpenModalIntroduceAcc}
           />
         )}
-        <div className="hidden max-md:flex flex-col w-full">
-          <hr className="border-color-dash w-full" />
-          <div className="flex items-center gap-x-12 justify-center">
-            <p className="text-center">
-              <span className="w-5 inline-block">
-                {userProfile.posts.length}
-              </span>
-              <span className="text-color-text-gray ">bài viết</span>
-            </p>
-            <p className="text-center">
-              <span className="w-5 inline-block">
-                {userProfile.followers.length}
-              </span>
-              <span className="text-color-text-gray ">người theo dõi</span>
-            </p>
-            <p className="text-color-text-gray text-center">
-              Đang theo dõi <br />{" "}
-              <span className="text-white w-6 inline-block">
-                {userProfile.following.length}
-              </span>
-              <br /> người dùng
-            </p>
-          </div>
-        </div>
       </div>
     )
   );

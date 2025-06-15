@@ -10,6 +10,7 @@ import QrPage from "./pages/QrPage/QrPage";
 import SuggestedPage from "./pages/SuggestedPage/SuggestedPage";
 import ModalShowPost from "./components/modal/ModalShowPost";
 import ShowPostPage from "./pages/ShowPostPage/ShowPostPage";
+import ProfileSavePost from "./components/profileUser/ProfileSavePost";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "./firebase/firebase";
@@ -21,7 +22,6 @@ function App() {
   const { setUser, user } = useAuthStore();
   const [loadingData, setLoadingData] = useState(false);
   const location = useLocation();
-  // render này để khi sử dụng 2 trình duyệt đăng nhập cùng 1 acc thay đổi thông tin thì nó đồng bộ lại dữ liệu
   const renderData = async () => {
     try {
       setLoadingData(true);
@@ -55,7 +55,9 @@ function App() {
             path="/"
             element={authUser ? <HomePage /> : <Navigate to="/auth" />}
           />
-          <Route path="/:username" element={<ProfilePage />} />
+          <Route path="/:username" element={<ProfilePage />}>
+           <Route path="saved" element={<ProfileSavePost/>}/>
+          </Route>
           <Route
             path="/qr"
             element={authUser ? <QrPage /> : <Navigate to="/auth" />}
@@ -66,8 +68,6 @@ function App() {
           />
           <Route
            path="p/:postId" element={<ShowPostPage/>}  
-           
-                     
           >
           </Route>
         </Routes>
