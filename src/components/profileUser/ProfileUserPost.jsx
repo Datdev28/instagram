@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { FaComment } from "react-icons/fa";
 import { IoMdImages } from "react-icons/io";
 import useAuthStore from "../../store/authStore";
 import ModalNotifiAuth from "../modal/ModalNotifiAuth";
 import { useLocation, useNavigate } from "react-router-dom";
-const ProfileUserPost = ({ post }) => {
+import useGetPostByPostId from "../../hooks/useGetPostByPostId";
+const ProfileUserPost = ({ post, postId, showPostSave = false }) => {
   const userAuth = useAuthStore((state) => state.user);
+  const postSave = useGetPostByPostId(postId);
   const [isOpenModalNote, setIsOpenModalNote] = useState(false);
   const [modalFromPost, setModalFromPost] = useState(false);
   const location = useLocation();
@@ -15,9 +17,9 @@ const ProfileUserPost = ({ post }) => {
     if (userAuth) {
       const isMobile = window.innerWidth < 640;
       if (isMobile) {
-        navigate(`/p/${post.id}`);
+        navigate(!showPostSave ? `/p/${post.id}` : `/p/${postSave.post.id}`);
       } else {
-        navigate(`/p/${post.id}`, {
+        navigate(!showPostSave ? `/p/${post.id}` : `/p/${postSave.post.id}`, {
           state: {
             background: location,
           },
@@ -28,10 +30,11 @@ const ProfileUserPost = ({ post }) => {
       setModalFromPost(true);
     }
   };
+  if (showPostSave && !postSave.post) return;
   return (
     <div className="flex relative group">
       <img
-        src={post.imageOfPost[0]}
+        src={!showPostSave ? post.imageOfPost[0] : postSave.post.imageOfPost[0]}
         className="object-cover w-full max-h-[450px] hover:opacity-40 cursor-pointer"
         alt="bài đăng"
         onClick={handleShowPost}
@@ -40,17 +43,21 @@ const ProfileUserPost = ({ post }) => {
         <div className="flex items-center gap-x-2">
           <FaHeart />
           <span className="font-semibold text-xl mt-[-3px]">
-            {post.likes.length}
+            {!showPostSave ? post.likes.length : postSave.post.likes.length}
           </span>
         </div>
         <div className="flex items-center gap-x-2">
           <FaComment />
           <span className="font-semibold text-xl mt-[-3px]">
-            {post.comments.length}
+            {!showPostSave
+              ? post.comments.length
+              : postSave.post.comments.length}
           </span>
         </div>
       </div>
-      {post.imageOfPost.length > 1 && (
+      {(!showPostSave
+        ? post.imageOfPost.length
+        : postSave.post.imageOfPost.length) > 1 && (
         <div className="absolute top-2 right-2">
           <IoMdImages className="text-xl" />
         </div>

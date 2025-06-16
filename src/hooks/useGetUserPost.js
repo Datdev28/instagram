@@ -11,6 +11,7 @@ const useGetUserPost = () => {
   const posts = usePostStore(state => state.posts);
   useEffect(() => {
     setPosts([]);
+    setIsLoading(false);
     const getPost = async() => {
      try {
       const q = query(collection(fireStore, 'posts'), where('createBy',"==", userProfile.uid));

@@ -14,7 +14,6 @@ const ProfileUserPosts = () => {
   const havePost = posts.length > 0 && isLoading;
   if(ownNoPost) return <OwnNoPosts/>
   if(noPost) return <NoPosts/>
-  console.log("posts của user",posts);
   return (
     <>
       {havePost && (

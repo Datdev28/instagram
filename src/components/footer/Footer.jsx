@@ -1,9 +1,7 @@
-import React from "react";
-
 const Footer = () => {
   return (
     <>
-      <p className="break-words text-xs text-color-text-gray text-center">
+      <p className="break-words text-xs text-color-text-gray text-center mt-10">
         Giới thiệu Trợ giúp Báo chí API Việc làm Quyền riêng tư Điều khoản Vị
         trí Ngôn ngữ Meta đã xác minh
       </p>

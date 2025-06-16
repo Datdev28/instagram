@@ -16,10 +16,10 @@ const ProfilePage = () => {
   return (
     userProfile && (
       <div className="text-white flex flex-col w-full items-center gap-y-2">
-        <div className="flex w-full flex-col items-center box-border">
+        <div className="flex w-full flex-col items-center">
           <ProfileUserHeader />
         </div>
-        <div className="flex w-full max-w-4xl flex-col box-border">
+        <div className="flex w-full max-w-4xl flex-col">
           <ProfileTabs
             pickCategory={pickCategory}
             setPickCategory={setPickCategory}

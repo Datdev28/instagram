@@ -11,6 +11,7 @@ import SuggestedPage from "./pages/SuggestedPage/SuggestedPage";
 import ModalShowPost from "./components/modal/ModalShowPost";
 import ShowPostPage from "./pages/ShowPostPage/ShowPostPage";
 import ProfileSavePosts from "./components/profileUser/ProfileSavePosts";
+import ProfileDetailSavePost from "./components/profileUser/profileDetailSavePost";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "./firebase/firebase";
@@ -56,8 +57,9 @@ function App() {
             element={authUser ? <HomePage /> : <Navigate to="/auth" />}
           />
           <Route path="/:username" element={<ProfilePage />}>
-           <Route path="saved" element={<ProfileSavePosts/>}/>
+            <Route path="saved" element={<ProfileSavePosts />}></Route>
           </Route>
+          <Route path="/:username/saved/all-posts" element={<ProfileDetailSavePost />}></Route>
           <Route
             path="/qr"
             element={authUser ? <QrPage /> : <Navigate to="/auth" />}
@@ -66,14 +68,11 @@ function App() {
             path="/explore"
             element={authUser ? <SuggestedPage /> : <Navigate to="/auth" />}
           />
-          <Route
-           path="p/:postId" element={<ShowPostPage/>}  
-          >
-          </Route>
+          <Route path="p/:postId" element={<ShowPostPage />}></Route>
         </Routes>
         {background && (
           <Routes>
-            <Route path="/p/:postId" element={<ModalShowPost/>}></Route>
+            <Route path="/p/:postId" element={<ModalShowPost />}></Route>
           </Routes>
         )}
       </PageLayout>

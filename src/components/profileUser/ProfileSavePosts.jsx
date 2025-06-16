@@ -1,7 +1,23 @@
+import { useNavigate, useParams } from "react-router-dom";
 import userProfileStore from "../../store/userProfileStore";
 import ProfileSavePost from "./ProfileSavePost";
+import { useEffect } from "react";
+import useAuthStore from "../../store/authStore";
 const ProfileSavePosts = () => {
-  const userProfile = userProfileStore(state => state.userProfile);
+  const userProfile = userProfileStore((state) => state.userProfile);
+  const setUserProfile = userProfileStore(state => state.setUserProfile)
+  const user = useAuthStore((state) => state.user);
+  const { username } = useParams();
+  const navigate = useNavigate();
+  const handleClickGoToAllPosts = () => {
+    navigate('all-posts');
+    setUserProfile(null);
+  }
+  useEffect(() => {
+    if (user && username !== user.userName) {
+      navigate(`/${username}`);
+    }
+  }, [username, user, navigate]);
   return (
     <div className="w-full flex flex-col mt-4 gap-y-6">
       <div className="flex justify-between items-center max-sm:px-4 whitespace-nowrap max-sm:gap-x-4">
@@ -13,11 +29,17 @@ const ProfileSavePosts = () => {
         </p>
       </div>
       <div className="flex max-sm:justify-center">
-        <div className="w-[280px] h-[280px] relative border border-color-btn-gray cursor-pointer group">
+        <div
+          className="w-[280px] h-[280px] relative border border-color-btn-gray cursor-pointer group"
+          onClick={handleClickGoToAllPosts}
+        >
           <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-0 transition-opacity z-20" />
-            {userProfile && userProfile.savePosts.slice(0,4).map((postId, index) => (
-             <ProfileSavePost postId={postId} index={index}/>
-            ))}
+          {userProfile &&
+            userProfile.savePosts
+              .slice(0, 4)
+              .map((postId, index) => (
+                <ProfileSavePost postId={postId} index={index} />
+              ))}
           <p className="absolute bottom-6 left-6 z-30 text-white font-semibold">
             Tất cả bài viết
           </p>
