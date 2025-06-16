@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { CiCamera } from "react-icons/ci";
 import ProfileUserPost from "./ProfileUserPost";
 import useGetUserPost from "../../hooks/useGetUserPost";
@@ -14,6 +14,7 @@ const ProfileUserPosts = () => {
   const havePost = posts.length > 0 && isLoading;
   if(ownNoPost) return <OwnNoPosts/>
   if(noPost) return <NoPosts/>
+  console.log("posts của user",posts);
   return (
     <>
       {havePost && (

@@ -27,17 +27,19 @@ const ProfilePage = () => {
           />
         </div>
 
-        {localtion.pathname === `/${username}` && (
-          <div className="w-full max-w-4xl flex justify-center min-h-[50vh]">
-            <ProfileUserPosts />
-          </div>
-        )}
-        
+        <div
+          className={`${
+            localtion.pathname === `/${username}` ? "flex" : "hidden"
+          } w-full max-w-4xl justify-center min-h-[50vh]`}
+        >
+          <ProfileUserPosts />
+        </div>
+
         <div className="w-full max-w-4xl">
           <Outlet />
         </div>
-        <div className="w-full text-center">
-          <Footer/>
+        <div className="w-full text-center mt-20">
+          <Footer />
         </div>
       </div>
     )

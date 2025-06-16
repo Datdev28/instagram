@@ -10,7 +10,7 @@ import QrPage from "./pages/QrPage/QrPage";
 import SuggestedPage from "./pages/SuggestedPage/SuggestedPage";
 import ModalShowPost from "./components/modal/ModalShowPost";
 import ShowPostPage from "./pages/ShowPostPage/ShowPostPage";
-import ProfileSavePost from "./components/profileUser/ProfileSavePost";
+import ProfileSavePosts from "./components/profileUser/ProfileSavePosts";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "./firebase/firebase";
@@ -56,7 +56,7 @@ function App() {
             element={authUser ? <HomePage /> : <Navigate to="/auth" />}
           />
           <Route path="/:username" element={<ProfilePage />}>
-           <Route path="saved" element={<ProfileSavePost/>}/>
+           <Route path="saved" element={<ProfileSavePosts/>}/>
           </Route>
           <Route
             path="/qr"
