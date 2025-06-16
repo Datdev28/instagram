@@ -5,14 +5,12 @@ import { useEffect } from "react";
 import useAuthStore from "../../store/authStore";
 const ProfileSavePosts = () => {
   const userProfile = userProfileStore((state) => state.userProfile);
-  const setUserProfile = userProfileStore(state => state.setUserProfile)
   const user = useAuthStore((state) => state.user);
   const { username } = useParams();
   const navigate = useNavigate();
   const handleClickGoToAllPosts = () => {
-    navigate('all-posts');
-    setUserProfile(null);
-  }
+    navigate("all-posts");
+  };
   useEffect(() => {
     if (user && username !== user.userName) {
       navigate(`/${username}`);
@@ -20,12 +18,9 @@ const ProfileSavePosts = () => {
   }, [username, user, navigate]);
   return (
     <div className="w-full flex flex-col mt-4 gap-y-6">
-      <div className="flex justify-between items-center max-sm:px-4 whitespace-nowrap max-sm:gap-x-4">
+      <div className="flex items-center max-sm:px-4 whitespace-nowrap max-sm:gap-x-4">
         <p className="text-color-text-gray text-xs">
           Chỉ mình bạn mới có thể xem mục đã lưu
-        </p>
-        <p className="cursor-pointer text-blue-500 max-sm:text-xs">
-          + Bộ sưu tập mới
         </p>
       </div>
       <div className="flex max-sm:justify-center">
