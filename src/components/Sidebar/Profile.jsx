@@ -12,7 +12,7 @@ const Profile = () => {
           alt="avatar"
           className="w-[2rem] h-[2rem] rounded-full object-cover "
         />
-        {!isOpenToggle && <p className={`max-lg:hidden`}>Trang cá nhân</p>}
+        {!isOpenToggle && <p className={`max-lg:hidden font-bold`}>Trang cá nhân</p>}
       </div>
     </Link>
   );

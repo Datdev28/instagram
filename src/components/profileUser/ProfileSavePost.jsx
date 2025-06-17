@@ -2,7 +2,6 @@ import useGetPostByPostId from "../../hooks/useGetPostByPostId";
 
 const ProfileSavePost = ({ postId, index }) => {
   const { post } = useGetPostByPostId(postId);
-  console.log(post)
   if(!post) return null
   return (
     <>
