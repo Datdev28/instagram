@@ -71,7 +71,7 @@ const ProfileSavePosts = () => {
                   .map((postId, index) => (
                     <ProfileSavePost postId={postId} index={index} />
                   ))}
-              <p className="absolute bottom-6 left-6 z-30 text-white font-semibold">
+              <p className="absolute bottom-6 left-6 z-30 text-white font-semibold max-w-[233px] truncate">
                 {colection.name}
               </p>
             </div>
