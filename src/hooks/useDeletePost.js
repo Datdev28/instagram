@@ -5,13 +5,14 @@ import {
   getDocs,
   updateDoc,
   collection,
-  getDoc
+  getDoc,
 } from "firebase/firestore";
 import { useState } from "react";
 import { fireStore } from "../firebase/firebase";
 import useAuthStore from "../store/authStore";
 import userProfileStore from "../store/userProfileStore";
 import usePostStore from "../store/postStore";
+import { toast } from "react-toastify";
 
 const useDeletePost = () => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -33,18 +34,13 @@ const useDeletePost = () => {
       if (!postDoc.exists()) {
         return;
       }
-
-      const postData = postDoc.data();
-      console.log("Post data:", postData);
-
       const savedByRef = collection(fireStore, "posts", postId, "savedBy");
       const savedByDocs = await getDocs(savedByRef);
-      
+
       const removeFromUserPromises = savedByDocs.docs.map(async (docSnap) => {
         const savedUserId = docSnap.id;
-        console.log("những user đã lưu: ", savedUserId);
         const savedUserRef = doc(fireStore, "users", savedUserId);
-      
+
         try {
           const savedUserDoc = await getDoc(savedUserRef);
           if (savedUserDoc.exists()) {
@@ -57,12 +53,9 @@ const useDeletePost = () => {
         }
 
         try {
-          // Xóa document savedBy của user đó
-          console.log("SaveBy: ",docSnap.data());
           await deleteDoc(docSnap.ref);
-          console.log("Deleted savedBy document for user:", savedUserId);
         } catch (savedByDeleteError) {
-          console.log("Error deleting savedBy document:", savedUserId, savedByDeleteError);
+          console.log(savedByDeleteError);
         }
       });
 
@@ -80,9 +73,8 @@ const useDeletePost = () => {
       // 5. Xóa khỏi store local
       deletePostInUserProfile(postId);
       deletePostInPosts(postId);
-
-    } catch (error) {
-      console.error("Lỗi khi xóa post:", error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setIsDeleting(false);
     }

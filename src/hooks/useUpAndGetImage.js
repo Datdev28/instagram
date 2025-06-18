@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 const useUpAndGetImage = () => {
   const handleImageUpload = async (files) => {
     const uploadedUrls = [];
@@ -21,8 +23,8 @@ const useUpAndGetImage = () => {
 
         const data = await res.json();
         uploadedUrls.push(data.secure_url);
-      } catch (error) {
-        console.error(error);
+      } catch {
+        toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       }
     }
     return uploadedUrls;

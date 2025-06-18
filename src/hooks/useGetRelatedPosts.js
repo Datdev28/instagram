@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { fireStore } from "../firebase/firebase";
+import { toast } from "react-toastify";
 
 const useGetRelatedPosts = (userUid, postId) => {
   const [relatedPosts, setRelatedPosts] = useState([]);
@@ -30,8 +31,8 @@ const useGetRelatedPosts = (userUid, postId) => {
           }
         });
         setRelatedPosts(posts);
-      } catch (error) {
-        console.log(error);
+      } catch {
+        toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       }
     };
     getRelatedPosts();

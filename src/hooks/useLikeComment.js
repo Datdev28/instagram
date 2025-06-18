@@ -2,6 +2,7 @@ import  { useState } from "react";
 import useAuthStore from "../store/authStore";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
+import { toast } from "react-toastify";
 
 const useLikeComment = (commentId, postId) => {
   const [liking, setLiking] = useState(false);
@@ -26,8 +27,8 @@ const useLikeComment = (commentId, postId) => {
         return comment
       });
       await updateDoc(postRef, {comments: comments});
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setLiking(false);
     }

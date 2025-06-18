@@ -3,6 +3,7 @@ import { auth, fireStore } from '../firebase/firebase';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import useAuthStore from '../store/authStore';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 const useSignUpWithEmailAndPassword = () => {
   const [existsUserName, setExistsUserName] = useState(false);
   const [
@@ -45,8 +46,8 @@ const useSignUpWithEmailAndPassword = () => {
       localStorage.setItem("user", JSON.stringify(userDoc))
       loginUser(userDoc);
       }
-    } catch (error) {
-      console.log(error)
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     }
   }
   return {loading, error, signUp, existsUserName}

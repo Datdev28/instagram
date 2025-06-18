@@ -3,6 +3,7 @@ import useAuthStore from "../store/authStore";
 import { fireStore } from '../firebase/firebase';
 import { collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import useUserProfileStore from "../store/userProfileStore";
+import { toast } from "react-toastify";
 
 const useEditProfile = () => {
 	const [isUpdating, setIsUpdating] = useState(false);
@@ -37,8 +38,8 @@ const useEditProfile = () => {
 			setAuthUser(updatedUser);
 			setUserProfile(updatedUser);
 			return false;
-		} catch (error) {
-      console.log(error)
+		} catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
 		}finally {
 			setIsUpdating(false);
 		}

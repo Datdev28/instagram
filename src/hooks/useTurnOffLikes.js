@@ -1,5 +1,6 @@
 import { doc, updateDoc } from 'firebase/firestore'
 import { fireStore } from '../firebase/firebase'
+import { toast } from 'react-toastify';
 
 const useTurnOffLikes = (post) => {
   const handleTurnOffLikes = async () => {
@@ -11,8 +12,8 @@ const useTurnOffLikes = (post) => {
     }else {
       await updateDoc(postRef, {checkedHideLike: true});
     } 
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     }
   }
   return handleTurnOffLikes

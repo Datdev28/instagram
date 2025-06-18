@@ -1,6 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useState } from "react";
 import { fireStore } from "../firebase/firebase";
+import { toast } from "react-toastify";
 
 const useSearchUser = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,8 +23,8 @@ const useSearchUser = () => {
       }
       const doc = querySnapShot.docs[0];
       setUser(doc.data());
-    } catch (error) {
-      setError(error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setIsLoading(false);
     }

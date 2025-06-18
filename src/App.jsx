@@ -16,6 +16,8 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "./firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 function App() {
   const [authUser, loading] = useAuthState(auth);
@@ -46,6 +48,15 @@ function App() {
   return (
     <>
       <PageLayout>
+        <ToastContainer
+          position="top-right" // ⬅️ Vị trí
+          autoClose={2000} // ⏱ Thời gian tự tắt (ms)
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+          theme="dark" // ✅ Có: light, dark, colored
+        />
         <LoadingBar height={3} color="#df9547" progress={progress} />
         <Routes location={background || location}>
           <Route
@@ -59,7 +70,10 @@ function App() {
           <Route path="/:username" element={<ProfilePage />}>
             <Route path="saved" element={<ProfileSavePosts />}></Route>
           </Route>
-          <Route path="/:username/saved/all-posts" element={<ProfileDetailSavePost />}></Route>
+          <Route
+            path="/:username/saved/all-posts"
+            element={<ProfileDetailSavePost />}
+          ></Route>
           <Route
             path="/qr"
             element={authUser ? <QrPage /> : <Navigate to="/auth" />}

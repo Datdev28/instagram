@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
 import useAuthStore from "../store/authStore";
+import { toast } from "react-toastify";
 const useGetSuggestedUsers = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestedUsers, setSuggestedUsers] = useState([]);
@@ -28,8 +29,8 @@ const useGetSuggestedUsers = () => {
           users.push(doc.data());
         });
         setSuggestedUsers(users);
-      } catch (error) {
-        console.log(error);
+      } catch {
+        toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       } finally {
         setIsLoading(true);
       }

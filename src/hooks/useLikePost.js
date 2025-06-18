@@ -2,6 +2,7 @@ import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { fireStore } from "../firebase/firebase";
 import useAuthStore from "../store/authStore";
+import { toast } from "react-toastify";
 const useLikePost = (post) => {
   const [isLiking, setIsLiking] = useState(false);
   const user = useAuthStore((state) => state.user);
@@ -25,8 +26,8 @@ const useLikePost = (post) => {
               fullName: user.fullName,
             }),
       });
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setIsLiking(false);
     }

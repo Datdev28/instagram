@@ -1,13 +1,25 @@
-import React from 'react'
-import useAuthStore from '../store/authStore'
-import userProfileStore from '../store/userProfileStore';
-import { fireStore } from '../firebase/firebase';
-import { addDoc, arrayUnion, collection, doc, updateDoc } from 'firebase/firestore';
+import React from "react";
+import useAuthStore from "../store/authStore";
+import userProfileStore from "../store/userProfileStore";
+import { fireStore } from "../firebase/firebase";
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { toast } from "react-toastify";
 const useCreatePost = () => {
   const user = useAuthStore((state) => state.user);
   const userProfile = userProfileStore((state) => state.userProfile);
   const addPost = userProfileStore((state) => state.addPost);
-  const handleCreatePost = async(imageUrls, caption, checkedHideLike, turnOfComment) => {
+  const handleCreatePost = async (
+    imageUrls,
+    caption,
+    checkedHideLike,
+    turnOfComment
+  ) => {
     const newPost = {
       caption: caption,
       likes: [],
@@ -21,15 +33,16 @@ const useCreatePost = () => {
       byAvaUser: user.profilePicURL,
     };
     try {
-      const postDocRef = await addDoc(collection(fireStore, 'posts'), newPost);
-      const userDocRef = doc(fireStore, 'users', user.uid);
-      await updateDoc(userDocRef, {posts: arrayUnion(postDocRef.id)});
-      if(user.uid === userProfile.uid) addPost({...newPost, id: postDocRef.id});
-    } catch (error) {
-      console.log(error);
+      const postDocRef = await addDoc(collection(fireStore, "posts"), newPost);
+      const userDocRef = doc(fireStore, "users", user.uid);
+      await updateDoc(userDocRef, { posts: arrayUnion(postDocRef.id) });
+      if (user.uid === userProfile.uid)
+        addPost({ ...newPost, id: postDocRef.id });
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     }
-  }
-  return {handleCreatePost}
-}
+  };
+  return { handleCreatePost };
+};
 
-export default useCreatePost
+export default useCreatePost;

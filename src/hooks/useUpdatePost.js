@@ -1,6 +1,7 @@
 import { doc, updateDoc } from 'firebase/firestore';
 import { useState } from 'react'
 import { fireStore } from '../firebase/firebase';
+import { toast } from 'react-toastify';
 
 const useUpdatePost = (post, valueText) => {
   const [isUpdating, setIsUpdating] = useState(false);
@@ -10,8 +11,8 @@ const useUpdatePost = (post, valueText) => {
     try {
     const postRef = doc(fireStore, 'posts', post.id);
     await updateDoc(postRef, {caption: valueText});
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setIsUpdating(false);
     }

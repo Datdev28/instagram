@@ -7,7 +7,7 @@ const ModalCreateNameCollection = ({
 }) => {
   const [nameCollectionInput, setNameCollectionIput] = useState("");
   const handleOnChangeCreateName = (e) => {
-    setNameCollectionIput(e.target.value)
+    setNameCollectionIput(e.target.value);
   }
   return (
     <Modal

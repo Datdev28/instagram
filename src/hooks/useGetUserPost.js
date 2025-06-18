@@ -3,6 +3,7 @@ import userProfileStore from '../store/userProfileStore';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { fireStore } from '../firebase/firebase';
 import usePostStore from '../store/postStore';
+import { toast } from 'react-toastify';
 
 const useGetUserPost = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,8 +21,8 @@ const useGetUserPost = () => {
       querySnapShot.forEach((doc) => posts.push({...doc.data(), id: doc.id}));
       posts.sort((a, b) => b.createdAt - a.createdAt)
       setPosts(posts);
-     } catch (error) {
-      console.log(error);
+     } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
      } finally {
       setIsLoading(true);
      }

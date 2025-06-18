@@ -1,6 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react'
 import { fireStore } from '../firebase/firebase';
+import { toast } from 'react-toastify';
 
 const useGetProfileUserById = (userId) => {
   const [userProfile, setUserProfile] = useState(null);
@@ -12,8 +13,8 @@ const useGetProfileUserById = (userId) => {
        if(document.exists()){
         setUserProfile(document.data());
        }
-     } catch (error) {
-       console.log(error);
+     } catch {
+       toast.error("Đã xảy ra lỗi. Hãy thử lại!");
      } 
    }
    getProfileUserById();

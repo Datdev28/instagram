@@ -2,6 +2,7 @@ import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import useAuthStore from "../store/authStore";
+import { toast } from "react-toastify";
 const useLogin = () => {
   const [signInWithEmailAndPassword, ,loading, error] =
     useSignInWithEmailAndPassword(auth);
@@ -18,8 +19,8 @@ const useLogin = () => {
         localStorage.setItem("user", JSON.stringify(docSnap.data()));
         loginUser(docSnap.data());
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     }
   };
   return { signIn, loading, error};

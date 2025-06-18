@@ -3,6 +3,7 @@ import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import useAuthStore from "../store/authStore";
 import { fireStore } from "../firebase/firebase";
 import userProfileStore from "../store/userProfileStore";
+import { toast } from "react-toastify";
 const useFollowUser = (userId) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -57,8 +58,8 @@ const useFollowUser = (userId) => {
           setIsFollowing(true);
         }
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setIsLoading(false);
     }

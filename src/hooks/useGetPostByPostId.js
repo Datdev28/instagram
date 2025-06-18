@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fireStore } from "../firebase/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import useLoadingBarStore from "../store/loadingBarStore";
+import { toast } from "react-toastify";
 
 const useGetPostByPostId = ( postId ) => {
   const [post, setPost] = useState(null);
@@ -18,8 +19,8 @@ const useGetPostByPostId = ( postId ) => {
       setProgress(100);
       setIsLoading(false);
 
-    }, (error) => {
-      console.log("Realtime error:", error);
+    }, () => {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       setProgress(100);
       setIsLoading(false);
     });

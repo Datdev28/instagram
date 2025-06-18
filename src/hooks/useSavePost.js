@@ -9,7 +9,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
-
+import { toast } from "react-toastify";
 const useSavePost = (postId) => {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
@@ -39,19 +39,17 @@ const useSavePost = (postId) => {
       if (isSave) {
         await deleteDoc(savedByRef);
       } else {
-        console.log("đã gọi setdoc")
         await setDoc(savedByRef, {
           userId: user.uid,
           userName: user.userName,
         });
       }
-    } catch (error) {
-      console.log("Error when saving post:", error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setIsSaving(false);
     }
   };
-
   useEffect(() => {
     if (user) {
       setIsSave(user.savePosts.includes(postId));

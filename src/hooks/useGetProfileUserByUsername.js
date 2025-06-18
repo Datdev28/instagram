@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fireStore } from "../firebase/firebase";
 import userProfileStore from "../store/userProfileStore";
 import useLoadingBarStore from "../store/loadingBarStore";
+import { toast } from "react-toastify";
 const useGetProfileUserByUsername = (userName) => {
   const [isLoading, setIsLoading] = useState(false);
   const { userProfile, setUserProfile } = userProfileStore();
@@ -27,8 +28,8 @@ const useGetProfileUserByUsername = (userName) => {
         const userDoc = doc.data();
         setUserProfile(userDoc);
         setProgress(100);
-      } catch (error) {
-        console.log(error);
+      } catch {
+        toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       }
     };
     getUserProfile();
