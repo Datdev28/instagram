@@ -10,6 +10,7 @@ const useGetCollectionsOfUser = () => {
   const { collections, setCollections } = useCollectionPostStore();
   useEffect(() => {
     const fetchDataCollections = async () => {
+      if(!user) return
       try {
         const collectionsRef = collection(fireStore, "users", user?.uid, "collections");
         const querySnapshot = await getDocs(collectionsRef);

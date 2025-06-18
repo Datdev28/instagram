@@ -9,7 +9,7 @@ const useGetCollectionByCollectionId = (collectionId) => {
   const [isGetting, setIsGetting] = useState(false);
   const user = useAuthStore((state) => state.user);
   useEffect(() => {
-    if(!collectionId) return
+    if(!collectionId || !user) return
     const fetDataCollection = async () => {
       try {
         const collectionRef = doc(fireStore,"users",user?.uid,"collections", collectionId);
