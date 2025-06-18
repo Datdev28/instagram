@@ -13,6 +13,7 @@ import { BsImages } from "react-icons/bs";
 import { CiCirclePlus } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
+import { toast } from "react-toastify";
 const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   const inputRef = useRef(null);
   const { selectedFile, handleImageChange, setSelectedFile } =
@@ -61,8 +62,8 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
           checkedHideLike,
           turnOfComment
         );
-      } catch (error) {
-        console.log(error);
+      } catch {
+        toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       } finally {
         setIsLoading(false);
       }

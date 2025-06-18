@@ -6,6 +6,7 @@ import usePreviewImage from "../../hooks/usePreviewImage";
 import useUpAndGetImage from "../../hooks/useUpAndGetImage";
 import useEditProfile from "../../hooks/useEditProfile";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
+import { toast } from "react-toastify";
 
 const ModalEditProfile = ({
   modalIsOpenEditProfile,
@@ -104,8 +105,8 @@ const ModalEditProfile = ({
         setErrorExitsUserName(false);
         setModalIsOpenEditProfile(false);
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       setIsUpdating(false);
     }
   };

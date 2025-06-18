@@ -16,7 +16,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "./firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 function App() {
@@ -32,8 +32,8 @@ function App() {
       const docSnap = await getDoc(docRef);
       localStorage.setItem("user", JSON.stringify(docSnap.data()));
       setUser(docSnap.data());
-    } catch (error) {
-      console.log(error);
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setLoadingData(false);
     }

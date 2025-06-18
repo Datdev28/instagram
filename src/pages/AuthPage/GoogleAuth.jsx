@@ -3,6 +3,7 @@ import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "../../firebase/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import useAuthStore from "../../store/authStore";
+import { toast } from "react-toastify";
 const GoogleAuth = () => {
   const [signInWithGoogle, , loading, error] = useSignInWithGoogle(auth);
   const login = useAuthStore((state) => state.login);
@@ -34,8 +35,8 @@ const GoogleAuth = () => {
           login(userDoc);
         }
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
+     toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     }
   };
   return (

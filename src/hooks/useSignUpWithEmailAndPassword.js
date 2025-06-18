@@ -24,7 +24,7 @@ const useSignUpWithEmailAndPassword = () => {
     try {
       const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
       if(!newUser && error){
-        console.log(error);
+        toast.error("Đã xảy ra lỗi. Hãy thử lại!");
         return
       }
       if(newUser){

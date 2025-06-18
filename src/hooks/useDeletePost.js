@@ -48,14 +48,14 @@ const useDeletePost = () => {
               savePosts: arrayRemove(postId),
             });
           }
-        } catch (userUpdateError) {
-          console.log(userUpdateError);
+        } catch {
+          toast.error("Đã xảy ra lỗi. Hãy thử lại!");
         }
 
         try {
           await deleteDoc(docSnap.ref);
-        } catch (savedByDeleteError) {
-          console.log(savedByDeleteError);
+        } catch  {
+          toast.error("Đã xảy ra lỗi. Hãy thử lại!");
         }
       });
 

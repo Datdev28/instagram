@@ -16,7 +16,6 @@ const ProfileSavePosts = () => {
   };
   const handleClickCreateCollection = () => {
     setIsOpenModalCreateNameCollection(true);
-    console.log(1)
   }
   useEffect(() => {
     if (user && username !== user.userName) {
