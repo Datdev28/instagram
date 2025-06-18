@@ -1,11 +1,14 @@
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import useLockBodyScroll from '../../hooks/useLockBodyScroll'
 const ModalSaveWithoutLogin = ({
   isOpenModalSaveWithoutLogin,
   setIsOpenModalSaveWithoutLogin,
   post
 }) => {
+  useLockBodyScroll(ModalSaveWithoutLogin);
+  
   return (
     <div>
       <Modal

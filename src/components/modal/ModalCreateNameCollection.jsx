@@ -1,14 +1,23 @@
 import Modal from "react-modal";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 const ModalCreateNameCollection = ({
   isOpenModalCreateNameCollection,
   setIsOpenModalCreateNameCollection,
+  setIsOpenModalShowSavePostsToPick,
+  nameCollectionInput,
+  setNameCollectionInput
 }) => {
-  const [nameCollectionInput, setNameCollectionIput] = useState("");
+  useLockBodyScroll(ModalCreateNameCollection);
   const handleOnChangeCreateName = (e) => {
-    setNameCollectionIput(e.target.value);
-  }
+    setNameCollectionInput(e.target.value);
+  };
+  const handleClickContinue = () => {
+    if (nameCollectionInput.trim().length > 0) {
+      setIsOpenModalShowSavePostsToPick(true);
+      setIsOpenModalCreateNameCollection(false);
+    }
+  };
   return (
     <Modal
       appElement={document.getElementById("root")}
@@ -37,19 +46,25 @@ const ModalCreateNameCollection = ({
         },
       }}
     >
-      <motion.div className="bg-color-dash text-white overflow-hidden rounded-md w-full flex flex-col gap-y-2 select-none">
+      <motion.div className="bg-color-dash text-white overflow-hidden rounded-md w-full flex flex-col  select-none">
         <div className="w-full bg-color-dash py-2 flex justify-center relative">
           <p className="font-bold">Bộ sưu tập mới</p>
         </div>
-        <div className="py-6 border border-t-color-input-gray border-b-color-input-gray px-4 border-l-0 border-r-0 flex items-center justify-center">
-           <input type="text" value={nameCollectionInput} onChange={handleOnChangeCreateName} className="rounded-md w-full px-2 py-5 h-3 border border-black  focus:border-color-input-gray focus:outline-none bg-black" placeholder="Tên bộ sưu tập"/>
+        <div className="py-8 border border-t-color-input-gray border-b-color-input-gray px-4 border-l-0 border-r-0 flex items-center justify-center">
+          <input
+            type="text"
+            value={nameCollectionInput}
+            onChange={handleOnChangeCreateName}
+            className="rounded-md w-full px-2 py-5 h-3 border border-black  focus:border-color-input-gray focus:outline-none bg-black"
+            placeholder="Tên bộ sưu tập"
+          />
         </div>
-        <div
-          className="w-full bg-color-dash py-2 flex justify-center cursor-pointer relative"
-          onClick={() => setIsOpenModalCreateNameCollection(false)}
+        <button
+          className="w-full bg-color-dash py-2 flex justify-center cursor-pointer relative active:bg-color-note"
+          onClick={handleClickContinue}
         >
           <p className="font-bold">Tiếp</p>
-        </div>
+        </button>
       </motion.div>
     </Modal>
   );

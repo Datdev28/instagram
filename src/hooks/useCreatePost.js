@@ -1,7 +1,7 @@
-import React from "react";
 import useAuthStore from "../store/authStore";
 import userProfileStore from "../store/userProfileStore";
 import { fireStore } from "../firebase/firebase";
+import { toast } from "react-toastify";
 import {
   addDoc,
   arrayUnion,
@@ -9,7 +9,6 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { toast } from "react-toastify";
 const useCreatePost = () => {
   const user = useAuthStore((state) => state.user);
   const userProfile = userProfileStore((state) => state.userProfile);

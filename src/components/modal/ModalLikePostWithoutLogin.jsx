@@ -1,11 +1,13 @@
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 const ModalLikePostWithoutLogin = ({
   isOpenModalLikePostWithoutLogin,
   setIsOpenModalLikePostWithoutLogin,
   showLikesWithoutLogin
 }) => {
+  useLockBodyScroll(ModalLikePostWithoutLogin);
   return (
     <div>
       <Modal

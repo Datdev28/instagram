@@ -34,7 +34,7 @@ const InteractWithPost = ({
     post?.id,
     commentInput
   );
-  const ownerPost = post.createBy === user.uid
+  const ownerPost = post.createBy === user?.uid
   const { isSave, handleSavePost } = useSavePost(post?.id);
   const handleComment = async () => {
     setCommentPost(false);

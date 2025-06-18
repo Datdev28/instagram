@@ -7,10 +7,10 @@ import ProfileUserPost from "./ProfileUserPost";
 import Footer from "../footer/Footer";
 import userProfileStore from "../../store/userProfileStore";
 import useGetProfileUserByUsername from "../../hooks/useGetProfileUserByUsername";
-const ProfileDetailSavePost = () => {
+const ProfileDetailSavePost = ({collection = false}) => {
   const navigate = useNavigate();
-  const { username } = useParams();
-  const {userProfile } = useGetProfileUserByUsername(username);
+  const {collectionId, username} = useParams();
+  const { userProfile } = useGetProfileUserByUsername(username);
   const setUserProfile = userProfileStore((state) => state.setUserProfile);
   const user = useAuthStore((state) => state.user);
   const handleClickBackSaved = () => {
@@ -40,7 +40,7 @@ const ProfileDetailSavePost = () => {
                 {userProfile &&
                   userProfile?.savePosts.map((post) => (
                     <ProfileUserPost
-                      key={post.id}
+                      key={post}
                       postId={post}
                       showPostSave={true}
                     />

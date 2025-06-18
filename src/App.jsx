@@ -75,6 +75,10 @@ function App() {
             element={<ProfileDetailSavePost />}
           ></Route>
           <Route
+            path="/:username/saved/:collectionId"
+            element={<ProfileDetailSavePost collection={true}/>}
+          ></Route>
+          <Route
             path="/qr"
             element={authUser ? <QrPage /> : <Navigate to="/auth" />}
           />
