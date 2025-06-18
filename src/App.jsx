@@ -76,7 +76,7 @@ function App() {
           ></Route>
           <Route
             path="/:username/saved/:collectionId"
-            element={<ProfileDetailSavePost collection={true}/>}
+            element={<ProfileDetailSavePost isCollection={true}/>}
           ></Route>
           <Route
             path="/qr"

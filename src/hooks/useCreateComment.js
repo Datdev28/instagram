@@ -14,7 +14,7 @@ const useCreateComment = (poster, postId, comment) => {
       id: uuidv4(),
       comment,
       createdAt: Date.now(),
-      createBy: user.uid,
+      createBy: user?.uid,
       postId,
       poster: poster,
       replyComment: [],

@@ -7,6 +7,7 @@ import ModalNotifiAuth from "../modal/ModalNotifiAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import useGetPostByPostId from "../../hooks/useGetPostByPostId";
 const ProfileUserPost = ({ post, postId, showPostSave = false }) => {
+  console.log("post", post);
   const userAuth = useAuthStore((state) => state.user);
   const postSave = useGetPostByPostId(postId);
   const [isOpenModalNote, setIsOpenModalNote] = useState(false);

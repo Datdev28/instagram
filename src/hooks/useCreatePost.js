@@ -27,17 +27,18 @@ const useCreatePost = () => {
       checkedHideLike: checkedHideLike,
       turnOfComment: turnOfComment,
       createdAt: Date.now(),
-      createBy: user.uid,
-      byUserName: user.userName,
-      byAvaUser: user.profilePicURL,
+      createBy: user?.uid,
+      byUserName: user?.userName,
+      byAvaUser: user?.profilePicURL,
     };
     try {
       const postDocRef = await addDoc(collection(fireStore, "posts"), newPost);
-      const userDocRef = doc(fireStore, "users", user.uid);
+      const userDocRef = doc(fireStore, "users", user?.uid);
       await updateDoc(userDocRef, { posts: arrayUnion(postDocRef.id) });
-      if (user.uid === userProfile.uid)
+      if (user.uid === userProfile?.uid)
         addPost({ ...newPost, id: postDocRef.id });
-    } catch {
+    } catch(error) {
+      console.log(error);
       toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     }
   };

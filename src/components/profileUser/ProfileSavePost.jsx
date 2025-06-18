@@ -6,7 +6,7 @@ const ProfileSavePost = ({ postId, index }) => {
   return (
     <>
       <img
-        src={post?.imageOfPost}
+        src={post?.imageOfPost[0]}
         alt="thumbnail"
         className={`absolute ${
           (index === 0 && "top-0 left-0") ||

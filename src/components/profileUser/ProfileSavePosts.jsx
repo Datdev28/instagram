@@ -17,7 +17,6 @@ const ProfileSavePosts = () => {
   const [isOpenModalShowSavePostsToPick, setIsOpenModalShowSavePostsToPick] =
     useState(false);
   const { collections } = useGetCollectionsOfUser();
-  console.log("collections", collections);
   const handleClickGoToAllPosts = () => {
     navigate("all-posts");
   };

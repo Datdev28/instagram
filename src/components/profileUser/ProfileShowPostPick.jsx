@@ -19,7 +19,7 @@ const ProfileShowPostPick = ({ postId, setPickPosts, pickPosts }) => {
       onClick={handleClickPickPost}
     >
       <img
-        src={post.imageOfPost}
+        src={post?.imageOfPost[0]}
         className="w-full object-cover aspect-square"
         alt="ảnh bài post"
       />

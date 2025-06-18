@@ -11,7 +11,7 @@ const useGetCollectionsOfUser = () => {
   useEffect(() => {
     const fetchDataCollections = async () => {
       try {
-        const collectionsRef = collection(fireStore, "users", user.uid, "collections");
+        const collectionsRef = collection(fireStore, "users", user?.uid, "collections");
         const querySnapshot = await getDocs(collectionsRef);
         const newCollections = [];
         if (!querySnapshot.empty) {
