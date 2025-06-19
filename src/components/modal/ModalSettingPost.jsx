@@ -26,7 +26,6 @@ const ModalSettingPost = ({
     navigate(`/p/${post.id}`);
     setIsOpenSettingPost(false);
   };
-
   const handleClickTurnOffComment = () => {
     handleTurnOffComment();
     setIsOpenSettingPost(false);

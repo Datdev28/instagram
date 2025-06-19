@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useCollectionPostStore from "../store/collectionSave";
+import useCollectionPostStore from "../store/collectionSaveStore";
 import { collection, getDocs } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
 import useAuthStore from "../store/authStore";

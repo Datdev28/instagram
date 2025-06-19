@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { fireStore } from '../firebase/firebase';
 import useAuthStore from '../store/authStore';
 import { toast } from 'react-toastify';
-import useCollectionPostStore from '../store/collectionSave';
+import useCollectionPostStore from '../store/collectionSaveStore';
 import { useState } from 'react';
 const useCreateCollection = (nameCollectionInput, pickPosts) => {
   const [isLoading, setIsLoading] = useState(false)
