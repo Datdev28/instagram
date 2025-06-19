@@ -11,7 +11,7 @@ import SuggestedPage from "./pages/SuggestedPage/SuggestedPage";
 import ModalShowPost from "./components/modal/ModalShowPost";
 import ShowPostPage from "./pages/ShowPostPage/ShowPostPage";
 import ProfileSavePosts from "./components/profileUser/ProfileSavePosts";
-import ProfileDetailSavePost from "./components/profileUser/profileDetailSavePost";
+import ProfileDetailCollection from "./components/profileUser/ProfileDetailCollection";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "./firebase/firebase";
@@ -72,11 +72,11 @@ function App() {
           </Route>
           <Route
             path="/:username/saved/all-posts"
-            element={<ProfileDetailSavePost />}
+            element={<ProfileDetailCollection />}
           ></Route>
           <Route
             path="/:username/saved/:collectionId"
-            element={<ProfileDetailSavePost isCollection={true}/>}
+            element={<ProfileDetailCollection isCollection={true}/>}
           ></Route>
           <Route
             path="/qr"

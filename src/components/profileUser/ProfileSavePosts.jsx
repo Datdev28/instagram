@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import userProfileStore from "../../store/userProfileStore";
-import ProfileSavePost from "./ProfileSavePost";
+import ImageSavePost from "./ImageSavePost";
 import { useEffect, useState } from "react";
 import useAuthStore from "../../store/authStore";
 import ModalCreateNameCollection from "../modal/ModalCreateNameCollection";
@@ -51,7 +51,7 @@ const ProfileSavePosts = () => {
             userProfile.savePosts
               .slice(0, 4)
               .map((postId, index) => (
-                <ProfileSavePost postId={postId} index={index} />
+                <ImageSavePost postId={postId} index={index} />
               ))}
           <p className="absolute bottom-6 left-6 z-30 text-white font-semibold">
             Tất cả bài viết
@@ -69,7 +69,7 @@ const ProfileSavePosts = () => {
                 colection.pickedPosts
                   .slice(0, 4)
                   .map((postId, index) => (
-                    <ProfileSavePost postId={postId} index={index} />
+                    <ImageSavePost postId={postId} index={index} />
                   ))}
               <p className="absolute bottom-6 left-6 z-30 text-white font-semibold max-w-[233px] truncate">
                 {colection.name}

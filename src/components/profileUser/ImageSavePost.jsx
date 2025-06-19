@@ -1,6 +1,6 @@
 import useGetPostByPostId from "../../hooks/useGetPostByPostId";
 
-const ProfileSavePost = ({ postId, index }) => {
+const ImageSavePost = ({ postId, index }) => {
   const { post } = useGetPostByPostId(postId);
   if(!post) return null
   return (
@@ -19,4 +19,4 @@ const ProfileSavePost = ({ postId, index }) => {
   );
 };
 
-export default ProfileSavePost;
+export default ImageSavePost;
