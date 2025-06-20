@@ -8,7 +8,7 @@ import Footer from "../footer/Footer";
 import userProfileStore from "../../store/userProfileStore";
 import useGetProfileUserByUsername from "../../hooks/useGetProfileUserByUsername";
 import useGetCollectionByCollectionId from "../../hooks/useGetCollectionByCollectionId";
-const ProfileDetailSavePost = ({ isCollection = false }) => {
+const ProfileDetailCollection = ({ isCollection = false }) => {
   const navigate = useNavigate();
   const { collectionId, username } = useParams();
   const { collection, isGetting } = useGetCollectionByCollectionId(collectionId);
@@ -43,17 +43,18 @@ const ProfileDetailSavePost = ({ isCollection = false }) => {
               <p className="text-xl text-white">Tất cả bài viết</p>
               <div className="grid grid-cols-3 gap-1 w-full">
                 {isCollection
-                  ? collection?.pickedPosts.map((post) => (
+                  ? collection?.pickedPosts.map((postId) => (
                       <ProfileUserPost
-                        key={post}
-                        postId={post}
+                        key={postId}
+                        postId={postId}
                         showPostSave={true}
+                        fromCollectionSmall={true}
                       />
                     ))
-                  : userProfile?.savePosts.map((post) => (
+                  : userProfile?.savePosts.map((postId) => (
                       <ProfileUserPost
-                        key={post}
-                        postId={post}
+                        key={postId}
+                        postId={postId}
                         showPostSave={true}
                       />
                     ))}
@@ -79,4 +80,4 @@ const ProfileDetailSavePost = ({ isCollection = false }) => {
   );
 };
 
-export default ProfileDetailSavePost;
+export default ProfileDetailCollection;

@@ -20,6 +20,7 @@ const useGetCollectionsOfUser = () => {
             newCollections.push(item.data());
           });
           setCollections(newCollections);
+          localStorage.setItem('collections', JSON.stringify(newCollections));
         }
       } catch {
         toast.error("Đã xảy ra lỗi! Hãy thử lại")

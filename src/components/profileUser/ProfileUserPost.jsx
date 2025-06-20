@@ -6,20 +6,38 @@ import useAuthStore from "../../store/authStore";
 import ModalNotifiAuth from "../modal/ModalNotifiAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import useGetPostByPostId from "../../hooks/useGetPostByPostId";
-const ProfileUserPost = ({ post, postId, showPostSave = false }) => {
-  console.log("post", post);
+import useIsToggleGoToPostFromCollectionStore from "../../store/isToggleGoToPostFromCollectionStore";
+const ProfileUserPost = ({
+  post,
+  postId,
+  showPostSave = false,
+  fromCollectionSmall = false,
+}) => {
   const userAuth = useAuthStore((state) => state.user);
   const postSave = useGetPostByPostId(postId);
   const [isOpenModalNote, setIsOpenModalNote] = useState(false);
   const [modalFromPost, setModalFromPost] = useState(false);
+  const setIsFromCollectionSmall = useIsToggleGoToPostFromCollectionStore(
+    (state) => state.setIsFromCollectionSmall
+  );
   const location = useLocation();
   const navigate = useNavigate();
   const handleShowPost = () => {
     if (userAuth) {
       const isMobile = window.innerWidth < 640;
       if (isMobile) {
+        if (fromCollectionSmall) {
+          setIsFromCollectionSmall(true);
+        } else {
+          setIsFromCollectionSmall(false);
+        }
         navigate(!showPostSave ? `/p/${post.id}` : `/p/${postSave.post.id}`);
       } else {
+        if (fromCollectionSmall) {
+          setIsFromCollectionSmall(true);
+        } else {
+          setIsFromCollectionSmall(false);
+        }
         navigate(!showPostSave ? `/p/${post.id}` : `/p/${postSave.post.id}`, {
           state: {
             background: location,

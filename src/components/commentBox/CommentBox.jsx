@@ -10,6 +10,7 @@ import useAuthStore from "../../store/authStore";
 import ModalListOfReasonsReport from "../modal/ModalListOfReasonsReport";
 import ModalEditPost from "../modal/ModalEditPost";
 import ModalIntroduceAcc from "../modal/ModalIntroduceAcc";
+import ModalConfirmCancleSavePost from "../modal/ModalConfirmCancleSavePost";
 const CommentBox = ({
   post,
   setIsOpenModalLikePostWithoutLogin,
@@ -27,6 +28,7 @@ const CommentBox = ({
     useState(false);
   const [openSettingWithoutOwn, setOpenSettingWithoutOwn] = useState(false);
   const [isOpenModalIntroduceAcc, setIsOpenModalIntroduceAcc] = useState(false);
+  const [isOpenModalConfirmCancleSavePost, setIsOpenModalConfirmCancleSavePost] = useState(false);
   const [reportPost, setReportPost] = useState(false);
   const user = useAuthStore((state) => state.user);
   const ownUser = user?.uid === post?.createBy;
@@ -123,6 +125,7 @@ const CommentBox = ({
               setIsOpenModalShowLikes={setIsOpenModalShowLikes}
               setShowLikesWithoutLogin={setShowLikesWithoutLogin}
               setIsOpenModalSaveWithoutLogin={setIsOpenModalSaveWithoutLogin}
+              setIsOpenModalConfirmCancleSavePost={setIsOpenModalConfirmCancleSavePost}
             />
           </>
         )}
@@ -166,6 +169,14 @@ const CommentBox = ({
             userId={post.createBy}
             isOpenModalIntroduceAcc={isOpenModalIntroduceAcc}
             setIsOpenModalIntroduceAcc={setIsOpenModalIntroduceAcc}
+          />
+        )}
+        {isOpenModalConfirmCancleSavePost && (
+          <ModalConfirmCancleSavePost
+            isOpenModalConfirmCancleSavePost={isOpenModalConfirmCancleSavePost}
+            setIsOpenModalConfirmCancleSavePost={
+              setIsOpenModalConfirmCancleSavePost
+            }
           />
         )}
       </div>

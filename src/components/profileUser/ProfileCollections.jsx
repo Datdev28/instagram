@@ -6,7 +6,7 @@ import useAuthStore from "../../store/authStore";
 import ModalCreateNameCollection from "../modal/ModalCreateNameCollection";
 import ModalShowSavePostsToPick from "../modal/ModalShowSavePostsToPick";
 import useGetCollectionsOfUser from "../../hooks/useGetCollectionsOfUser";
-const ProfileSavePosts = () => {
+const ProfileCollections = () => {
   const { username } = useParams();
   const navigate = useNavigate();
   const [nameCollectionInput, setNameCollectionInput] = useState("");
@@ -102,4 +102,4 @@ const ProfileSavePosts = () => {
   );
 };
 
-export default ProfileSavePosts;
+export default ProfileCollections;

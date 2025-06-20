@@ -14,12 +14,16 @@ import Emoj from "../emojPicker/Emoj";
 import convertDateTime from "../../utils/convertDateTime";
 import useSavePost from "../../hooks/useSavePost";
 import { FaBookmark } from "react-icons/fa";
+import includesCollection from "../../utils/includesCollection";
+import useIsToggleGoToPostFromCollectionStore from "../../store/isToggleGoToPostFromCollectionStore";
+import useCollectionPostStore from "../../store/collectionSaveStore";
 const InteractWithPost = ({
   post,
   setIsOpenModalLikePostWithoutLogin,
   setIsOpenModalShowLikes,
   setShowLikesWithoutLogin,
-  setIsOpenModalSaveWithoutLogin
+  setIsOpenModalSaveWithoutLogin,
+  setIsOpenModalConfirmCancleSavePost,
 }) => {
   const emojiRef = useRef(null);
   const [showEmoj, setShowEmoj] = useState(false);
@@ -34,7 +38,12 @@ const InteractWithPost = ({
     post?.id,
     commentInput
   );
-  const ownerPost = post.createBy === user?.uid
+  const ownerPost = post.createBy === user?.uid;
+  const isFromCollectionSmall = useIsToggleGoToPostFromCollectionStore(
+    (state) => state.isFromCollectionSmall
+  );
+  const collections = useCollectionPostStore((state) => state.collections);
+  console.log("123123", collections);
   const { isSave, handleSavePost } = useSavePost(post?.id);
   const handleComment = async () => {
     setCommentPost(false);
@@ -60,12 +69,22 @@ const InteractWithPost = ({
     }
   };
   const handleClickSavePost = () => {
-    if(user){
-     handleSavePost()
-    }else {
+    if (user) {
+      if (isFromCollectionSmall) {
+        setIsOpenModalConfirmCancleSavePost(true);
+      } else {
+        const hasPost = includesCollection(collections, post?.id);
+        console.log("hasPost", hasPost)
+        if (hasPost) {
+          setIsOpenModalConfirmCancleSavePost(true);
+        } else {
+          handleSavePost();
+        }
+      }
+    } else {
       setIsOpenModalSaveWithoutLogin(true);
     }
-  }
+  };
   const handleClickEmoj = useCallback(
     (emojiData) => {
       if (commentInput.length + emojiData.native.length <= 300) {
@@ -111,12 +130,14 @@ const InteractWithPost = ({
           <FaRegComment className="cursor-pointer mt-[6px]" />
         </div>
         {isSave ? (
-          <FaBookmark className="cursor-pointer" 
-           onClick={handleClickSavePost}
+          <FaBookmark
+            className="cursor-pointer"
+            onClick={handleClickSavePost}
           />
         ) : (
-          <FaRegBookmark className="cursor-pointer" 
-           onClick={handleClickSavePost}
+          <FaRegBookmark
+            className="cursor-pointer"
+            onClick={handleClickSavePost}
           />
         )}
       </div>
@@ -157,22 +178,22 @@ const InteractWithPost = ({
       )}
       <div className="sm:hidden">
         {post.caption && (
-              <div className="flex gap-x-2">
-                <div className="flex flex-col gap-x-2 w-full">
-                  <div className="w-full">
-                    <span
-                      className="text-sm mr-2 cursor-pointer font-bold hover:text-color-text-gray"
-                      onClick={() => navigate(`/${post.byUserName}`)}
-                    >
-                      {post.byUserName}
-                    </span>
-                    <span className="font-normal break-words whitespace-pre-wrap text-sm">
-                      {post.caption}
-                    </span>
-                  </div>
-                </div>
+          <div className="flex gap-x-2">
+            <div className="flex flex-col gap-x-2 w-full">
+              <div className="w-full">
+                <span
+                  className="text-sm mr-2 cursor-pointer font-bold hover:text-color-text-gray"
+                  onClick={() => navigate(`/${post.byUserName}`)}
+                >
+                  {post.byUserName}
+                </span>
+                <span className="font-normal break-words whitespace-pre-wrap text-sm">
+                  {post.caption}
+                </span>
               </div>
-            )}
+            </div>
+          </div>
+        )}
       </div>
       <p className="text-color-text-gray text-sm ">
         {convertDateTime(post.createdAt)} trước
