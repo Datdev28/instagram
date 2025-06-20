@@ -177,7 +177,7 @@ const SignUp = () => {
         disabled={!(inputSign.email && inputSign.password && inputSign.userName && inputSign.fullName && inputSign.confirmPassword)}
         >
           
-          {loading ? <img className="object-cover w-7 h-7 rounded-full" src="loading.gif" alt="loading" /> : "Đăng kí"}
+          {loading ? <img className="object-cover w-7 h-7 rounded-full" src="/loading.gif" alt="loading" /> : "Đăng kí"}
         </button>
       </form>
     </div>

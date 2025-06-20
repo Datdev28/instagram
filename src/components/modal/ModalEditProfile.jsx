@@ -262,7 +262,7 @@ const ModalEditProfile = ({
               {isUpdating ? (
                 <img
                   className="object-cover w-7 h-7 rounded-full"
-                  src="loading.gif"
+                  src="/loading.gif"
                   alt="gif"
                 />
               ) : (

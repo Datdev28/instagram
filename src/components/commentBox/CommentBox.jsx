@@ -177,6 +177,7 @@ const CommentBox = ({
             setIsOpenModalConfirmCancleSavePost={
               setIsOpenModalConfirmCancleSavePost
             }
+            postId={post.id}
           />
         )}
       </div>

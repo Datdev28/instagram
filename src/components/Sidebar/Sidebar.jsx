@@ -13,7 +13,7 @@ const Sidebar = () => {
     setIsOpenToggle(false);
   };
   return (
-    <div className="flex fixed z-10 text-white flex-col break-words pl-3 max-lg:pl-0 select-none">
+    <div className="flex fixed z-100 text-white flex-col break-words pl-3 max-lg:pl-0 select-none">
       <Link to="/" onClick={handleClick}>
         <div className="flex pb-12 px-2 max-lg:justify-center h-[80px]">
           {isOpenToggle ? (

@@ -52,7 +52,7 @@ const Login = () => {
           {loading ? (
             <img
               className="object-cover w-7 h-7 rounded-full"
-              src="loading.gif"
+              src="/loading.gif"
               alt="loading"
             />
           ) : (

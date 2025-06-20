@@ -13,7 +13,7 @@ const ImageSavePost = ({ postId, index }) => {
           (index === 1 && "top-0 right-0") ||
           (index === 2 && "bottom-0 left-0") ||
           (index === 3 && "bottom-0 right-0")
-        }  w-1/2 aspect-square object-cover z-10`}
+        }  w-1/2 aspect-square object-cover z-1`}
       />
     </>
   );

@@ -58,7 +58,7 @@
             toast.error("Đã xảy ra lỗi. Hãy thử lại!");
           }
         });
-
+        console.log("xóa", removeFromUserPromises);
         // Chờ tất cả các thao tác xóa khỏi users hoàn thành
         await Promise.all(removeFromUserPromises);
 

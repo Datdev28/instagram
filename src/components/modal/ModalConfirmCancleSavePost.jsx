@@ -2,13 +2,22 @@ import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { memo } from "react";
 import useIsToggleGoToPostFromCollectionStore from "../../store/isToggleGoToPostFromCollectionStore";
+import useUnsaveFromAllCollections from "../../hooks/useUnsaveFromAllCollections"
+import useSavePost from "../../hooks/useSavePost";
 const ModalConfirmCancleSavePost = ({
   isOpenModalConfirmCancleSavePost,
   setIsOpenModalConfirmCancleSavePost,
+  postId
 }) => {
   const isFromCollectionSmall = useIsToggleGoToPostFromCollectionStore(
     (state) => state.isFromCollectionSmall
   );
+  const {handleUnsaveFromAllCollections} =  useUnsaveFromAllCollections(postId);
+  const {handleSavePost} = useSavePost(postId);
+  const handleClickUnsavePostFromAllCollections = async () => {
+    await handleUnsaveFromAllCollections();
+    await handleSavePost();
+  }
   return (
     <div>
       <Modal
@@ -57,13 +66,14 @@ const ModalConfirmCancleSavePost = ({
                   : "Gỡ mục này khỏi mục đã lưu cũng sẽ gỡ mục khỏi bộ sưu tập."}
               </p>
             </div>
-            <div
-              className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
-            >
-              <p className="text-red-500 font-bold">Gỡ khỏi bộ sưu tập</p>
-            </div>
-            <div
-              className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+            {isFromCollectionSmall && (
+              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
+                <p className="text-red-500 font-bold">Gỡ khỏi bộ sưu tập</p>
+              </div>
+            )}
+
+            <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+             onClick={handleClickUnsavePostFromAllCollections}
             >
               <p className="text-red-500 font-bold">Gỡ</p>
             </div>
