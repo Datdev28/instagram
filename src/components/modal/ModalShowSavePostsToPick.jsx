@@ -23,7 +23,7 @@ const ModalShowPostSavesToPick = ({
     nameCollectionInput,
     pickPosts
   );
-  const { handleAddPostInCollection } = useAddPostInCollection(
+  const { handleAddPostInCollection, isAdding } = useAddPostInCollection(
     collectionId,
     pickPosts
   );
@@ -101,7 +101,7 @@ const ModalShowPostSavesToPick = ({
           className="w-full py-2 border-t border-t-color-note justify-center flex text-blue-600 font-semibold cursor-pointer"
           onClick={handleClickCreateCollection}
         >
-          {isLoading ? (
+          {isLoading || isAdding ? (
             <img
               className="object-cover w-7 h-7 rounded-full"
               src="/loading.gif"

@@ -16,8 +16,7 @@ const useDeleteCollection = (collectionId) => {
       const collectionRef = doc(fireStore, 'users', user.uid, 'collections', collectionId)
       await deleteDoc(collectionRef);
       deleteCollection(collectionId);
-    } catch (error) {
-      console.log(error);
+    } catch {
       toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setIsDeleting(false);

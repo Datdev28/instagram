@@ -19,7 +19,6 @@ const useUnsaveFromAllCollections = (postId, collectionId = null) => {
     (state) => state.unsavePostFromCollection
   );
   const handleUnsaveFromAllCollections = async () => {
-    console.log(collectionId);
     if (collectionId) {
       try {
         const collectionRef = doc(
@@ -31,8 +30,7 @@ const useUnsaveFromAllCollections = (postId, collectionId = null) => {
         );
         await updateDoc(collectionRef, { pickedPosts: arrayRemove(postId) });
         unsavePostFromCollection(collectionId, postId);
-      } catch (error) {
-        console.log(error);
+      } catch {
         toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       }
     } else {
@@ -46,18 +44,15 @@ const useUnsaveFromAllCollections = (postId, collectionId = null) => {
         const querySnapshot = await getDocs(collectionsRef);
         if (querySnapshot.empty) throw new Error("Bộ sưu tập trống!");
         const unsavePromises = querySnapshot.docs.map(async (docSnap) => {
-          console.log("123", docSnap.data().pickedPosts);
           try {
             await updateDoc(docSnap.ref, { pickedPosts: arrayRemove(postId) });
-          } catch (error) {
-            console.log(error);
+          } catch {
             toast.error("Đã xảy ra lỗi! Hãy thử lại");
           }
         });
         await Promise.all(unsavePromises);
         unsavePostFromAllCollections(postId);
-      } catch (error) {
-        console.log(error);
+      } catch {
         toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       }
     }

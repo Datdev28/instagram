@@ -37,8 +37,7 @@ const useCreatePost = () => {
       await updateDoc(userDocRef, { posts: arrayUnion(postDocRef.id) });
       if (user.uid === userProfile?.uid)
         addPost({ ...newPost, id: postDocRef.id });
-    } catch(error) {
-      console.log(error);
+    } catch {
       toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     }
   };

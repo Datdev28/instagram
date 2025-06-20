@@ -27,7 +27,6 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
   const [isOpenModalConfirmDelCollection, setIsOpenModalConfirmDelCollection] =
     useState(false);
   const collections = useCollectionPostStore(state => state.collections);
-  console.log("collections", collections);
   const user = useAuthStore((state) => state.user);
   const handleClickBackSaved = () => {
     navigate(`/${user?.userName}/saved`);
