@@ -9,19 +9,25 @@ import userProfileStore from "../../store/userProfileStore";
 import useGetProfileUserByUsername from "../../hooks/useGetProfileUserByUsername";
 import useGetCollectionByCollectionId from "../../hooks/useGetCollectionByCollectionId";
 import ModalSettingCollection from "../modal/ModalSettingCollection";
+import ModalShowPostSavesToPick from "../modal/ModalShowSavePostsToPick";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import ModalConfirmDeleteCollection from "../modal/ModalConfirmDeleteCollection";
+import useCollectionPostStore from "../../store/collectionSaveStore";
 const ProfileDetailCollection = ({ isCollection = false }) => {
   const navigate = useNavigate();
   const { collectionId, username } = useParams();
   const { collection, isGetting } =
     useGetCollectionByCollectionId(collectionId);
+  const [isOpenModalShowSavePostsToPick, setIsOpenModalShowSavePostsToPick] =
+    useState(false);
   const { userProfile } = useGetProfileUserByUsername(username);
   const setUserProfile = userProfileStore((state) => state.setUserProfile);
   const [isOpenModalSettingCollection, setIsOpenModalSettingCollection] =
     useState(false);
   const [isOpenModalConfirmDelCollection, setIsOpenModalConfirmDelCollection] =
     useState(false);
+  const collections = useCollectionPostStore(state => state.collections);
+  console.log("collections", collections);
   const user = useAuthStore((state) => state.user);
   const handleClickBackSaved = () => {
     navigate(`/${user?.userName}/saved`);
@@ -99,7 +105,10 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
             <ModalSettingCollection
               isOpenModalSettingCollection={isOpenModalSettingCollection}
               setIsOpenModalSettingCollection={setIsOpenModalSettingCollection}
-              setIsOpenModalConfirmDelCollection={setIsOpenModalConfirmDelCollection}
+              setIsOpenModalConfirmDelCollection={
+                setIsOpenModalConfirmDelCollection
+              }
+              setIsOpenModalShowSavePostsToPick={setIsOpenModalShowSavePostsToPick}
               collectionId={collectionId}
             />
           )}
@@ -109,6 +118,16 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
               setIsOpenModalConfirmDelCollection={
                 setIsOpenModalConfirmDelCollection
               }
+              collectionId={collectionId}
+            />
+          )}
+          {isOpenModalShowSavePostsToPick && (
+            <ModalShowPostSavesToPick
+              isOpenModalShowSavePostsToPick={isOpenModalShowSavePostsToPick}
+              setIsOpenModalShowSavePostsToPick={
+                setIsOpenModalShowSavePostsToPick
+              }
+              addPostFromCollection={true}
               collectionId={collectionId}
             />
           )}

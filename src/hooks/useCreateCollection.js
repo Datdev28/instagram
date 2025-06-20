@@ -15,13 +15,13 @@ const useCreateCollection = (nameCollectionInput, pickPosts) => {
       if(isLoading) return;
       setIsLoading(true);
       const newId = uuidv4()
-      const userRef = doc(fireStore, 'users', user.uid, 'collections', newId);
+      const collectionRef = doc(fireStore, 'users', user.uid, 'collections', newId);
       const collection = {
         id: newId,
         pickedPosts: pickPosts,
         name: nameCollectionInput
       }
-      await setDoc(userRef, collection);
+      await setDoc(collectionRef, collection);
       setCollections([...collections, collection]);
     } catch {
       toast.error("Đã xảy ra lỗi. Hãy thử lại!")

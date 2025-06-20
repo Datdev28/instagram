@@ -6,12 +6,17 @@ const ModalSettingCollection = ({
   isOpenModalSettingCollection,
   setIsOpenModalSettingCollection,
   setIsOpenModalConfirmDelCollection,
+  setIsOpenModalShowSavePostsToPick
 }) => {
   useLockBodyScroll(isOpenModalSettingCollection);
   const handleClickDelCollection = () => {
     setIsOpenModalConfirmDelCollection(true);
     setIsOpenModalSettingCollection(false);
   };
+  const handleClickAddPostInCollection = () => {
+    setIsOpenModalShowSavePostsToPick(true);
+    setIsOpenModalSettingCollection(false);
+  }
   return (
     <div>
       <Modal
@@ -58,7 +63,9 @@ const ModalSettingCollection = ({
             >
               Xóa bộ sưu tập
             </div>
-            <div className="w-full border-b border-b-color-btn-gray py-3 flex justify-center cursor-pointer hover:bg-color-note">
+            <div className="w-full border-b border-b-color-btn-gray py-3 flex justify-center cursor-pointer hover:bg-color-note"
+            onClick={handleClickAddPostInCollection  }
+            >
               Thêm từ mục đã lưu
             </div>
             <div className="w-full border-b border-b-color-btn-gray py-3 flex justify-center cursor-pointer hover:bg-color-note">

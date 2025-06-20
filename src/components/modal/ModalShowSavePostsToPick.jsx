@@ -7,11 +7,14 @@ import userProfileStore from "../../store/userProfileStore";
 import ProfileShowPostPick from "../profileUser/ProfileShowPostPick";
 import { useState } from "react";
 import useCreateCollection from "../../hooks/useCreateCollection";
+import useAddPostInCollection from "../../hooks/useAddPostInCollection";
 const ModalShowPostSavesToPick = ({
   isOpenModalShowSavePostsToPick,
   setIsOpenModalShowSavePostsToPick,
+  addPostFromCollection = false,
   setIsOpenModalCreateNameCollection,
   nameCollectionInput,
+  collectionId,
 }) => {
   useLockBodyScroll(ModalShowPostSavesToPick);
   const userProfile = userProfileStore((state) => state.userProfile);
@@ -20,15 +23,23 @@ const ModalShowPostSavesToPick = ({
     nameCollectionInput,
     pickPosts
   );
-
+  const { handleAddPostInCollection } = useAddPostInCollection(
+    collectionId,
+    pickPosts
+  );
   const handleClickBackCreateName = () => {
     setIsOpenModalCreateNameCollection(true);
     setIsOpenModalShowSavePostsToPick(false);
   };
 
   const handleClickCreateCollection = async () => {
-    await handleCreateCollection();
-    setIsOpenModalShowSavePostsToPick(false);
+    if (addPostFromCollection) {
+      await handleAddPostInCollection();
+      setIsOpenModalShowSavePostsToPick(false);
+    } else {
+      await handleCreateCollection();
+      setIsOpenModalShowSavePostsToPick(false);
+    }
   };
   return (
     <Modal
@@ -44,7 +55,7 @@ const ModalShowPostSavesToPick = ({
           zIndex: 50,
         },
         content: {
-          top: "2rem",
+          top: "3rem",
           left: "auto",
           right: "auto",
           bottom: "auto",
@@ -59,14 +70,17 @@ const ModalShowPostSavesToPick = ({
       }}
     >
       <motion.div className="bg-color-dash text-white overflow-hidden rounded-md w-full flex flex-col select-none  custom-scrollbar ">
-        <div className="w-full bg-color-dash py-2 flex justify-between relative items-center px-4">
-          <MdKeyboardArrowLeft
-            className="text-3xl cursor-pointer"
-            onClick={handleClickBackCreateName}
-          />
+        <div className="w-full bg-color-dash py-2 flex justify-center relative items-center px-4 relative">
+          {!addPostFromCollection && (
+            <MdKeyboardArrowLeft
+              className="text-3xl cursor-pointer"
+              onClick={handleClickBackCreateName}
+            />
+          )}
           <p className="font-bold">Thêm từ mục Đã lưu</p>
+
           <IoMdClose
-            className="text-3xl cursor-pointer"
+            className="text-3xl cursor-pointer absolute right-2 top-1"
             onClick={() => setIsOpenModalShowSavePostsToPick(false)}
           />
         </div>
