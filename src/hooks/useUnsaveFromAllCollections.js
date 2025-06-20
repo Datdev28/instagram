@@ -19,6 +19,7 @@ const useUnsaveFromAllCollections = (postId, collectionId = null) => {
     (state) => state.unsavePostFromCollection
   );
   const handleUnsaveFromAllCollections = async () => {
+    console.log(collectionId);
     if (collectionId) {
       try {
         const collectionRef = doc(

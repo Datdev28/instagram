@@ -1,19 +1,18 @@
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { memo } from "react";
-import useIsToggleGoToPostFromCollectionStore from "../../store/isToggleGoToPostFromCollectionStore";
+import useFromCollection from "../../store/fromCollection";
 import useUnsaveFromAllCollections from "../../hooks/useUnsaveFromAllCollections"
 import useSavePost from "../../hooks/useSavePost";
 const ModalConfirmCancleSavePost = ({
   isOpenModalConfirmCancleSavePost,
   setIsOpenModalConfirmCancleSavePost,
   postId,
-  collectionId
 }) => {
-  const isFromCollectionSmall = useIsToggleGoToPostFromCollectionStore(
-    (state) => state.isFromCollectionSmall
+  const fromCollection = useFromCollection(
+    (state) => state.fromCollection
   );
-  const {handleUnsaveFromAllCollections} =  useUnsaveFromAllCollections(postId, collectionId);
+  const {handleUnsaveFromAllCollections} =  useUnsaveFromAllCollections(postId, fromCollection.collectionId);
   const {handleSavePost} = useSavePost(postId);
   const handleClickUnsavePostFromAllCollections = async () => {
     setIsOpenModalConfirmCancleSavePost(false);
@@ -22,7 +21,7 @@ const ModalConfirmCancleSavePost = ({
   }
   const handleClickUnSavePostFromCollection = async() => {
     setIsOpenModalConfirmCancleSavePost(false);
-    handleUnsaveFromAllCollections();
+    await handleUnsaveFromAllCollections();
   }
   return (
     <div>
@@ -67,14 +66,17 @@ const ModalConfirmCancleSavePost = ({
             <div className="w-full border-b border-b-color-btn-gray py-6 gap-y-2 flex flex-col text-center">
               <p>Gỡ khỏi mục đã lưu và bộ sưu tập?</p>
               <p className="text-color-text-gray text-sm px-4">
-                {isFromCollectionSmall
+                {fromCollection.isCollectionSmall
                   ? "Bạn có thể gỡ bài viết khỏi bộ sưu tập này hoặc gỡ khỏi mọi nơi bạn đã lưu"
                   : "Gỡ mục này khỏi mục đã lưu cũng sẽ gỡ mục khỏi bộ sưu tập."}
               </p>
             </div>
-            {isFromCollectionSmall && (
-              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
-                <p className="text-red-500 font-bold">Gỡ khỏi bộ sưu tập</p>
+            {fromCollection.isCollectionSmall && (
+              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+              onClick={handleClickUnSavePostFromCollection}
+              >
+                <p className="text-red-500 font-bold"
+                >Gỡ khỏi bộ sưu tập</p>
               </div>
             )}
 

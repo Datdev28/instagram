@@ -15,7 +15,7 @@ import convertDateTime from "../../utils/convertDateTime";
 import useSavePost from "../../hooks/useSavePost";
 import { FaBookmark } from "react-icons/fa";
 import includesCollection from "../../utils/includesCollection";
-import useIsToggleGoToPostFromCollectionStore from "../../store/isToggleGoToPostFromCollectionStore";
+import useFromCollection from "../../store/fromCollection";
 import useCollectionPostStore from "../../store/collectionSaveStore";
 const InteractWithPost = ({
   post,
@@ -39,8 +39,8 @@ const InteractWithPost = ({
     commentInput
   );
   const ownerPost = post.createBy === user?.uid;
-  const isFromCollectionSmall = useIsToggleGoToPostFromCollectionStore(
-    (state) => state.isFromCollectionSmall
+  const fromCollection = useFromCollection (
+    (state) => state.fromCollection
   );
   const collections = useCollectionPostStore((state) => state.collections);
   const { isSave, handleSavePost } = useSavePost(post?.id);
@@ -69,7 +69,7 @@ const InteractWithPost = ({
   };
   const handleClickSavePost = () => {
     if (user) {
-      if (isFromCollectionSmall) {
+      if (fromCollection.isCollectionSmall) {
         setIsOpenModalConfirmCancleSavePost(true);
       } else {
         const hasPost = includesCollection(collections, post?.id);

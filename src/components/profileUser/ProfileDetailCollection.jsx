@@ -49,6 +49,7 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
                         postId={postId}
                         showPostSave={true}
                         fromCollectionSmall={true}
+                        collectionId={collectionId}
                       />
                     ))
                   : userProfile?.savePosts.map((postId) => (
