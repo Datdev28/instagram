@@ -49,13 +49,13 @@ function App() {
     <>
       <PageLayout>
         <ToastContainer
-          position="top-right" // ⬅️ Vị trí
-          autoClose={2000} // ⏱ Thời gian tự tắt (ms)
+          position="top-right" 
+          autoClose={2000} 
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
           pauseOnHover
-          theme="dark" // ✅ Có: light, dark, colored
+          theme="dark" 
         />
         <LoadingBar height={3} color="#df9547" progress={progress} />
         <Routes location={background || location}>
@@ -67,8 +67,8 @@ function App() {
             path="/"
             element={authUser ? <HomePage /> : <Navigate to="/auth" />}
           />
-          <Route path="/:username" element={<ProfilePage />}>
-            <Route path="saved" element={<ProfileCollections />}></Route>
+          <Route path="/:username" element={<ProfilePage/>}>
+            <Route path="saved" element={<ProfileCollections/>}></Route>
           </Route>
           <Route
             path="/:username/saved/all-posts"
