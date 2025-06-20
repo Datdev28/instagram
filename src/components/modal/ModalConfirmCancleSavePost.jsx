@@ -15,6 +15,7 @@ const ModalConfirmCancleSavePost = ({
   const {handleUnsaveFromAllCollections} =  useUnsaveFromAllCollections(postId);
   const {handleSavePost} = useSavePost(postId);
   const handleClickUnsavePostFromAllCollections = async () => {
+    setIsOpenModalConfirmCancleSavePost(false);
     await handleUnsaveFromAllCollections();
     await handleSavePost();
   }

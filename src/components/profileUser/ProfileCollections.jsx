@@ -51,7 +51,7 @@ const ProfileCollections = () => {
             userProfile.savePosts
               .slice(0, 4)
               .map((postId, index) => (
-                <ImageSavePost postId={postId} index={index} />
+                <ImageSavePost postId={postId} key={postId} index={index} />
               ))}
           <p className="absolute bottom-6 left-6 z-1 text-white font-semibold">
             Tất cả bài viết
@@ -69,7 +69,7 @@ const ProfileCollections = () => {
                 colection.pickedPosts
                   .slice(0, 4)
                   .map((postId, index) => (
-                    <ImageSavePost postId={postId} index={index} />
+                    <ImageSavePost postId={postId} key={postId} index={index} />
                   ))}
               <p className="absolute bottom-6 left-6 z-1 text-white font-semibold max-w-[233px] truncate">
                 {colection.name}
