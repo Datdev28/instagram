@@ -43,7 +43,6 @@ const InteractWithPost = ({
     (state) => state.isFromCollectionSmall
   );
   const collections = useCollectionPostStore((state) => state.collections);
-  console.log("123123", collections);
   const { isSave, handleSavePost } = useSavePost(post?.id);
   const handleComment = async () => {
     setCommentPost(false);
@@ -74,7 +73,6 @@ const InteractWithPost = ({
         setIsOpenModalConfirmCancleSavePost(true);
       } else {
         const hasPost = includesCollection(collections, post?.id);
-        console.log("hasPost", hasPost)
         if (hasPost) {
           setIsOpenModalConfirmCancleSavePost(true);
         } else {

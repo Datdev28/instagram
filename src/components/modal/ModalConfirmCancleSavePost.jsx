@@ -7,17 +7,22 @@ import useSavePost from "../../hooks/useSavePost";
 const ModalConfirmCancleSavePost = ({
   isOpenModalConfirmCancleSavePost,
   setIsOpenModalConfirmCancleSavePost,
-  postId
+  postId,
+  collectionId
 }) => {
   const isFromCollectionSmall = useIsToggleGoToPostFromCollectionStore(
     (state) => state.isFromCollectionSmall
   );
-  const {handleUnsaveFromAllCollections} =  useUnsaveFromAllCollections(postId);
+  const {handleUnsaveFromAllCollections} =  useUnsaveFromAllCollections(postId, collectionId);
   const {handleSavePost} = useSavePost(postId);
   const handleClickUnsavePostFromAllCollections = async () => {
     setIsOpenModalConfirmCancleSavePost(false);
     await handleUnsaveFromAllCollections();
     await handleSavePost();
+  }
+  const handleClickUnSavePostFromCollection = async() => {
+    setIsOpenModalConfirmCancleSavePost(false);
+    handleUnsaveFromAllCollections();
   }
   return (
     <div>

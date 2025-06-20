@@ -6,15 +6,12 @@ import SlideImage from "../slideImage/SlideImage";
 import CommentBox from "../commentBox/CommentBox";
 import useGetPostByPostId from "../../hooks/useGetPostByPostId";
 import ModalShowLikes from "./ModalShowLikes";
-import useIsToggleGoToPostFromCollectionStore from "../../store/isToggleGoToPostFromCollectionStore";
 const ModalShowPost = () => {
   const navigate = useNavigate();
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
   const {post} = useGetPostByPostId(postId);
   const [isOpenModalShowLikes, setIsOpenModalShowLikes] = useState(false);
-  const isFromCollectionSmall = useIsToggleGoToPostFromCollectionStore(state => state.isFromCollectionSmall);
-  console.log("isFromCollectionSmall", isFromCollectionSmall)
   useEffect(() => {
   const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 

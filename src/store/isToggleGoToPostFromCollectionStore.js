@@ -1,8 +1,6 @@
 import { create } from "zustand";
 const useIsToggleGoToPostFromCollectionStore = create((set) => ({
- isFromCollectionSmall: false,
- setIsFromCollectionSmall: (value) => set({isFromCollectionSmall: value}),
- idCollectionSmall: null,
- setIdCollectionSmaill: (id) => set({idCollectionSmall: id})
+ isFromCollectionSmall: {isToggle: false, collectionId: null},
+ setIsFromCollectionSmall: (boolean, collectionId) => set({isFromCollectionSmall: boolean, collectionId}),
 }));
 export default useIsToggleGoToPostFromCollectionStore;

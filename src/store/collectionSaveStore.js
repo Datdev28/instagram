@@ -7,6 +7,14 @@ const useCollectionPostStore = create((set) => ({
    ...collection,
    pickedPosts:  collection.pickedPosts.filter((id) => id !== postId)
   }))
+ })),
+ unsavePostFromCollection: (collectionId, postId) => set((state) => ({
+  collections: state.collections.map((collection) => {
+    if(collection.id === collectionId){
+      return {...collection, pickedPosts: collection.pickedPosts.filter((id) => id !== postId)}
+    }
+    return collection;
+  })
  }))
 }));
 export default useCollectionPostStore;
