@@ -28,8 +28,6 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
   const [nameCollectionInput, setNameCollectionInput] = useState("");
   const [isOpenModalConfirmDelCollection, setIsOpenModalConfirmDelCollection] =
     useState(false);
-  console.log("collection", collection.name);
-  console.log("nameCollectionInput", nameCollectionInput);
   const user = useAuthStore((state) => state.user);
   const handleClickBackSaved = () => {
     navigate(`/${user?.userName}/saved`);
@@ -153,6 +151,8 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
               }
               nameCollectionInput={nameCollectionInput}
               setNameCollectionInput={setNameCollectionInput}
+              isEditName={true}
+              collectionId={collectionId}
             />
           )}
         </div>

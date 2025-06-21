@@ -15,7 +15,16 @@ const useCollectionPostStore = create((set, get) => ({
     set({ collections: newCollections });
     localStorage.setItem("collections", JSON.stringify(newCollections));
   },
-
+  editNameCollection: (collectionId, newNameCollection) => {
+    const newCollections = get().collections.map((collection) => {
+      if(collection.id === collectionId){
+        return {...collection, name: newNameCollection}
+      }
+      return collection;
+    });
+    set({collections: newCollections});
+    localStorage.setItem('collections', JSON.stringify(newCollections));
+  },
   unsavePostFromAllCollections: (postId) => {
     const newCollections = get().collections.map((collection) => ({
       ...collection,

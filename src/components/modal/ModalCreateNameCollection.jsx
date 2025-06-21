@@ -1,13 +1,18 @@
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
+import useEditNameCollection from "../../hooks/useEditNameCollection";
 const ModalCreateNameCollection = ({
   isOpenModalCreateNameCollection,
   setIsOpenModalCreateNameCollection,
   setIsOpenModalShowSavePostsToPick,
   nameCollectionInput,
-  setNameCollectionInput
+  setNameCollectionInput,
+  isEditName = false,
+  collectionId,
 }) => {
+  const { handeEditNameCollection, isEditing } =
+    useEditNameCollection(collectionId);
   useLockBodyScroll(ModalCreateNameCollection);
   const handleOnChangeCreateName = (e) => {
     setNameCollectionInput(e.target.value);
@@ -15,6 +20,12 @@ const ModalCreateNameCollection = ({
   const handleClickContinue = () => {
     if (nameCollectionInput.trim().length > 0) {
       setIsOpenModalShowSavePostsToPick(true);
+      setIsOpenModalCreateNameCollection(false);
+    }
+  };
+  const handeClickEditName = async () => {
+    if (nameCollectionInput.trim().length > 0) {
+      await handeEditNameCollection(nameCollectionInput);
       setIsOpenModalCreateNameCollection(false);
     }
   };
@@ -59,12 +70,29 @@ const ModalCreateNameCollection = ({
             placeholder="Tên bộ sưu tập"
           />
         </div>
-        <button
-          className="w-full bg-color-dash py-2 flex justify-center cursor-pointer relative active:bg-color-note"
-          onClick={handleClickContinue}
-        >
-          <p className="font-bold">Tiếp</p>
-        </button>
+        {isEditName ? (
+          <button
+            className="w-full bg-color-dash py-2 flex justify-center cursor-pointer relative active:bg-color-note"
+            onClick={handeClickEditName}
+          >
+            {isEditing ? (
+              <img
+                className="object-cover w-7 h-7 rounded-full"
+                src="/loading.gif"
+                alt="gif"
+              />
+            ) : (
+              <p className="font-bold text-blue-500">Xong</p>
+            )}
+          </button>
+        ) : (
+          <button
+            className="w-full bg-color-dash py-2 flex justify-center cursor-pointer relative active:bg-color-note"
+            onClick={handleClickContinue}
+          >
+            <p className="font-bold">Tiếp</p>
+          </button>
+        )}
       </motion.div>
     </Modal>
   );

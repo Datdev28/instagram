@@ -15,6 +15,7 @@ const ModalShowPostSavesToPick = ({
   setIsOpenModalCreateNameCollection,
   nameCollectionInput,
   collectionId,
+  setNameCollectionInput
 }) => {
   useLockBodyScroll(ModalShowPostSavesToPick);
   const userProfile = userProfileStore((state) => state.userProfile);
@@ -38,6 +39,7 @@ const ModalShowPostSavesToPick = ({
       setIsOpenModalShowSavePostsToPick(false);
     } else {
       await handleCreateCollection();
+      setNameCollectionInput("")
       setIsOpenModalShowSavePostsToPick(false);
     }
   };

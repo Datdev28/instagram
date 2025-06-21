@@ -38,7 +38,7 @@ const ProfileCollections = () => {
           className="cursor-pointer text-blue-500"
           onClick={handleClickCreateCollection}
         >
-          + Thêm bộ sưu
+          + Bộ sưu tập mới
         </p>
       </div>
       <div className="grid grid-cols-3 max-xl:grid-cols-2 max-sm:grid-cols-1 place-items-center gap-y-6">
@@ -96,6 +96,7 @@ const ProfileCollections = () => {
             setIsOpenModalCreateNameCollection
           }
           nameCollectionInput={nameCollectionInput}
+          setNameCollectionInput={setNameCollectionInput}
         />
       )}
     </div>
