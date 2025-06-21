@@ -7,11 +7,12 @@ import useUpAndGetImage from "../../hooks/useUpAndGetImage";
 import useEditProfile from "../../hooks/useEditProfile";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 import { toast } from "react-toastify";
-
+import { useNavigate } from "react-router-dom";
 const ModalEditProfile = ({
   modalIsOpenEditProfile,
   setModalIsOpenEditProfile,
 }) => {
+  const navigate = useNavigate()
   useLockBodyScroll(modalIsOpenEditProfile);
   const refInputs = useRef(null);
   const { user } = useAuthStore();
@@ -102,6 +103,7 @@ const ModalEditProfile = ({
         setErrorExitsUserName(true);
         setModalIsOpenEditProfile(true);
       } else {
+        navigate(`/${inputs.userName || user.userName}`);
         setErrorExitsUserName(false);
         setModalIsOpenEditProfile(false);
       }
@@ -255,13 +257,13 @@ const ModalEditProfile = ({
             </button>
             <button
               onClick={handleSaveProfile}
-              className={`px-4 py-2 text-white bg-blue-400 rounded hover:bg-blue-500 ${
+              className={`px-4 py-2 w-16 text-white bg-blue-400 rounded hover:bg-blue-500 ${
                 isUpdating ? "cursor-pointer" : ""
               }`}
             >
               {isUpdating ? (
                 <img
-                  className="object-cover w-7 h-7 rounded-full"
+                  className="object-cover w-6 h-6 rounded-full"
                   src="/loading.gif"
                   alt="gif"
                 />

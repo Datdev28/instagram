@@ -7,26 +7,29 @@ import ProfileUserPost from "./ProfileUserPost";
 import Footer from "../footer/Footer";
 import userProfileStore from "../../store/userProfileStore";
 import useGetProfileUserByUsername from "../../hooks/useGetProfileUserByUsername";
-import useGetCollectionByCollectionId from "../../hooks/useGetCollectionByCollectionId";
 import ModalSettingCollection from "../modal/ModalSettingCollection";
 import ModalShowPostSavesToPick from "../modal/ModalShowSavePostsToPick";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import ModalConfirmDeleteCollection from "../modal/ModalConfirmDeleteCollection";
-import useCollectionPostStore from "../../store/collectionSaveStore";
+import useGetCollectionFromCollections from "../../hooks/useGetCollectionFromCollections";
+import ModalCreateNameCollection from "../modal/ModalCreateNameCollection";
 const ProfileDetailCollection = ({ isCollection = false }) => {
   const navigate = useNavigate();
   const { collectionId, username } = useParams();
-  const { collection, isGetting } =
-    useGetCollectionByCollectionId(collectionId);
+  const { collection } = useGetCollectionFromCollections(collectionId);
   const [isOpenModalShowSavePostsToPick, setIsOpenModalShowSavePostsToPick] =
     useState(false);
   const { userProfile } = useGetProfileUserByUsername(username);
   const setUserProfile = userProfileStore((state) => state.setUserProfile);
   const [isOpenModalSettingCollection, setIsOpenModalSettingCollection] =
     useState(false);
+  const [isOpenModalCreateNameCollection, setIsOpenModalCreateNameCollection] =
+    useState(false);
+  const [nameCollectionInput, setNameCollectionInput] = useState("");
   const [isOpenModalConfirmDelCollection, setIsOpenModalConfirmDelCollection] =
     useState(false);
-  const collections = useCollectionPostStore(state => state.collections);
+  console.log("collection", collection.name);
+  console.log("nameCollectionInput", nameCollectionInput);
   const user = useAuthStore((state) => state.user);
   const handleClickBackSaved = () => {
     navigate(`/${user?.userName}/saved`);
@@ -38,8 +41,13 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
     }
   }, [username, user, navigate]);
   const noPickedPost =
-    (collection?.pickedPosts.length === 0 && isGetting) ||
+    collection?.pickedPosts?.length === 0 ||
     userProfile?.savePosts.length === 0;
+  useEffect(() => {
+    if (collection?.name) {
+      setNameCollectionInput(collection.name);
+    }
+  }, [collection?.name]);
   return (
     userProfile && (
       <div className="w-full flex flex-col items-center px-2 max-sm:mt-10 mt-4 text-white">
@@ -55,14 +63,16 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
             <p className="text-xl text-white break-all pr-4">
               {isCollection ? `${collection?.name}` : "Tất cả bài viết"}
             </p>
-            <HiOutlineDotsHorizontal
-              className="text-2xl cursor-pointer"
-              onClick={() => setIsOpenModalSettingCollection(true)}
-            />
+            {isCollection && (
+              <HiOutlineDotsHorizontal
+                className="text-2xl cursor-pointer"
+                onClick={() => setIsOpenModalSettingCollection(true)}
+              />
+            )}
           </div>
           {(!isCollection
             ? userProfile?.savePosts.length > 0
-            : collection?.pickedPosts.length > 0) && (
+            : collection?.pickedPosts?.length > 0) && (
             <div className="flex flex-col gap-y-2 min-h-[50vh] max-sm:min-h-[30vh]">
               <div className="grid grid-cols-3 gap-1 w-full">
                 {isCollection
@@ -107,7 +117,12 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
               setIsOpenModalConfirmDelCollection={
                 setIsOpenModalConfirmDelCollection
               }
-              setIsOpenModalShowSavePostsToPick={setIsOpenModalShowSavePostsToPick}
+              setIsOpenModalShowSavePostsToPick={
+                setIsOpenModalShowSavePostsToPick
+              }
+              setIsOpenModalCreateNameCollection={
+                setIsOpenModalCreateNameCollection
+              }
               collectionId={collectionId}
             />
           )}
@@ -128,6 +143,16 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
               }
               addPostFromCollection={true}
               collectionId={collectionId}
+            />
+          )}
+          {isOpenModalCreateNameCollection && (
+            <ModalCreateNameCollection
+              isOpenModalCreateNameCollection={isOpenModalCreateNameCollection}
+              setIsOpenModalCreateNameCollection={
+                setIsOpenModalCreateNameCollection
+              }
+              nameCollectionInput={nameCollectionInput}
+              setNameCollectionInput={setNameCollectionInput}
             />
           )}
         </div>

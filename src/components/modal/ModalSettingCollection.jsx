@@ -1,12 +1,12 @@
 import Modal from "react-modal";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 const ModalSettingCollection = ({
   isOpenModalSettingCollection,
   setIsOpenModalSettingCollection,
   setIsOpenModalConfirmDelCollection,
-  setIsOpenModalShowSavePostsToPick
+  setIsOpenModalShowSavePostsToPick,
+  setIsOpenModalCreateNameCollection,
 }) => {
   useLockBodyScroll(isOpenModalSettingCollection);
   const handleClickDelCollection = () => {
@@ -16,7 +16,11 @@ const ModalSettingCollection = ({
   const handleClickAddPostInCollection = () => {
     setIsOpenModalShowSavePostsToPick(true);
     setIsOpenModalSettingCollection(false);
-  }
+  };
+  const handleClickEditPostInCollection = () => {
+    setIsOpenModalCreateNameCollection(true);
+    setIsOpenModalSettingCollection(false);
+  };
   return (
     <div>
       <Modal
@@ -63,12 +67,16 @@ const ModalSettingCollection = ({
             >
               Xóa bộ sưu tập
             </div>
-            <div className="w-full border-b border-b-color-btn-gray py-3 flex justify-center cursor-pointer hover:bg-color-note"
-            onClick={handleClickAddPostInCollection  }
+            <div
+              className="w-full border-b border-b-color-btn-gray py-3 flex justify-center cursor-pointer hover:bg-color-note"
+              onClick={handleClickAddPostInCollection}
             >
               Thêm từ mục đã lưu
             </div>
-            <div className="w-full border-b border-b-color-btn-gray py-3 flex justify-center cursor-pointer hover:bg-color-note">
+            <div
+              className="w-full border-b border-b-color-btn-gray py-3 flex justify-center cursor-pointer hover:bg-color-note"
+              onClick={handleClickEditPostInCollection}
+            >
               Chỉnh sửa bộ sưu tập
             </div>
             <div

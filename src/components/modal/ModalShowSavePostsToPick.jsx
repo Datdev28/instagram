@@ -70,7 +70,7 @@ const ModalShowPostSavesToPick = ({
       }}
     >
       <motion.div className="bg-color-dash text-white overflow-hidden rounded-md w-full flex flex-col select-none  custom-scrollbar ">
-        <div className="w-full bg-color-dash py-2 flex justify-center relative items-center px-4 relative">
+        <div className="w-full bg-color-dash py-2 flex justify-center items-center px-4 relative">
           {!addPostFromCollection && (
             <MdKeyboardArrowLeft
               className="text-3xl cursor-pointer"
@@ -84,7 +84,7 @@ const ModalShowPostSavesToPick = ({
             onClick={() => setIsOpenModalShowSavePostsToPick(false)}
           />
         </div>
-        <div className="max-h-[580px] h-full overflow-y-auto min-h-[500px]">
+        <div className="max-h-[580px] h-full overflow-y-auto min-h-[500px] pb-3">
           <div className="grid grid-cols-3 w-full">
             {userProfile &&
               userProfile.savePosts.map((postId) => (
