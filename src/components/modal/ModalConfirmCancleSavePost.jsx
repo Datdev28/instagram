@@ -12,16 +12,16 @@ const ModalConfirmCancleSavePost = ({
   const fromCollection = useFromCollection(
     (state) => state.fromCollection
   );
-  const {handleUnsaveFromAllCollections} =  useUnsaveFromAllCollections(postId, fromCollection.collectionId);
+  const {handleUnsaveFromAllCollections} =  useUnsaveFromAllCollections(postId);
   const {handleSavePost} = useSavePost(postId);
   const handleClickUnsavePostFromAllCollections = async () => {
     setIsOpenModalConfirmCancleSavePost(false);
-    await handleUnsaveFromAllCollections();
+    await handleUnsaveFromAllCollections(null);
     await handleSavePost();
   }
   const handleClickUnSavePostFromCollection = async() => {
     setIsOpenModalConfirmCancleSavePost(false);
-    await handleUnsaveFromAllCollections();
+    await handleUnsaveFromAllCollections(fromCollection.collectionId);
   }
   return (
     <div>

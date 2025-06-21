@@ -10,7 +10,7 @@ import { fireStore } from "../firebase/firebase";
 import useAuthStore from "../store/authStore";
 import useCollectionPostStore from "../store/collectionSaveStore";
 
-const useUnsaveFromAllCollections = (postId, collectionId = null) => {
+const useUnsaveFromAllCollections = (postId) => {
   const user = useAuthStore((state) => state.user);
   const unsavePostFromAllCollections = useCollectionPostStore(
     (state) => state.unsavePostFromAllCollections
@@ -18,7 +18,8 @@ const useUnsaveFromAllCollections = (postId, collectionId = null) => {
   const unsavePostFromCollection = useCollectionPostStore(
     (state) => state.unsavePostFromCollection
   );
-  const handleUnsaveFromAllCollections = async () => {
+  const handleUnsaveFromAllCollections = async (collectionId = null) => {
+    console.log(collectionId);
     if (collectionId) {
       try {
         const collectionRef = doc(
