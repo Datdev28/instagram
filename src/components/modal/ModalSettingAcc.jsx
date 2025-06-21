@@ -9,6 +9,7 @@ const ModalSetting = ({
   modalIsOpenSetting,
   setModalIsSetting,
   setIsOpenModalIntroduceAcc,
+  setIsOpenModalReportAccount,
 }) => {
   useLockBodyScroll(modalIsOpenSetting);
   const { username } = useParams();
@@ -23,6 +24,10 @@ const ModalSetting = ({
     setIsOpenModalIntroduceAcc(true);
     setModalIsSetting(false);
   };
+  const handleClickReportAcc = () => {
+    setIsOpenModalReportAccount(true);
+    setModalIsSetting(false);
+  }
   const isOwnerProfile = username === user.userName;
   return (
     <div>
@@ -81,7 +86,9 @@ const ModalSetting = ({
                 <div className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
                   Chặn
                 </div>
-                <div className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
+                <div className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+                 onClick={handleClickReportAcc}
+                >
                   Báo cáo
                 </div>
               </>

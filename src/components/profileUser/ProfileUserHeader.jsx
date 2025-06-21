@@ -9,12 +9,21 @@ import useFollowUser from "../../hooks/useFollowUser";
 import ModalNotifiAuth from "../modal/ModalNotifiAuth";
 import ModalSetting from "../modal/ModalSettingAcc";
 import ModalIntroduceAcc from "../modal/ModalIntroduceAcc";
+import ModalReportAccount from "../modal/ModalReportAccount";
+import ModalReasonReportAccount from "../modal/ModalReasonReportAccount";
+import ModalReponseForReport from "../modal/ModalReponseForReport";
 const ProfileUserHeader = () => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
   const [modalIsOpenNotifiAuth, setModalIsOpenNotifiAuth] = useState(false);
   const [modalIsOpenSetting, setModalIsSetting] = useState(false);
   const [isOpenModalIntroduceAcc, setIsOpenModalIntroduceAcc] = useState(false);
+  const [isOpenModalReportAccount, setIsOpenModalReportAccount] =
+    useState(false);
+  const [isOpenModalReponseForReport, setIsOpenModalReponseForReport] =
+    useState(false);
+  const [isOpenModalReasonReportAccount, setIsOpenModalReasonReportAccount] =
+    useState(false);
   const { userProfile } = userProfileStore();
   const userAuth = useAuthStore((state) => state.user);
   const { isLoading, isFollowing, handleFollowUser } = useFollowUser(
@@ -97,7 +106,8 @@ const ProfileUserHeader = () => {
                   <button className="px-4 py-1 bg-color-btn-gray rounded-sm hover:bg-color-dash cursor-pointer max-xl:px-2">
                     Nhắn tin
                   </button>
-                  <HiDotsHorizontal className="text-2xl text-white cursor-pointer" 
+                  <HiDotsHorizontal
+                    className="text-2xl text-white cursor-pointer"
                     onClick={() => setModalIsSetting(true)}
                   />
                 </div>
@@ -179,6 +189,7 @@ const ProfileUserHeader = () => {
             modalIsOpenSetting={modalIsOpenSetting}
             setModalIsSetting={setModalIsSetting}
             setIsOpenModalIntroduceAcc={setIsOpenModalIntroduceAcc}
+            setIsOpenModalReportAccount={setIsOpenModalReportAccount}
           />
         )}
         {isOpenModalIntroduceAcc && (
@@ -186,6 +197,31 @@ const ProfileUserHeader = () => {
             userId={userProfile.uid}
             isOpenModalIntroduceAcc={isOpenModalIntroduceAcc}
             setIsOpenModalIntroduceAcc={setIsOpenModalIntroduceAcc}
+          />
+        )}
+        {isOpenModalReportAccount && (
+          <ModalReportAccount
+            isOpenModalReportAccount={isOpenModalReportAccount}
+            setIsOpenModalReportAccount={setIsOpenModalReportAccount}
+            setIsOpenModalReasonReportAccount={
+              setIsOpenModalReasonReportAccount
+            }
+          />
+        )}
+        {isOpenModalReasonReportAccount && (
+          <ModalReasonReportAccount
+            isOpenModalReasonReportAccount={isOpenModalReasonReportAccount}
+            setIsOpenModalReasonReportAccount={
+              setIsOpenModalReasonReportAccount
+            }
+            setIsOpenModalReportAccount={setIsOpenModalReportAccount}
+            setIsOpenModalReponseForReport={setIsOpenModalReponseForReport}
+          />
+        )}
+        {isOpenModalReponseForReport && (
+          <ModalReponseForReport
+            isOpenModalReponseForReport={isOpenModalReponseForReport}
+            setIsOpenModalReponseForReport={setIsOpenModalReponseForReport}
           />
         )}
       </div>

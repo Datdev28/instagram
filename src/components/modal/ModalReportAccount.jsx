@@ -3,17 +3,23 @@ import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import { RiArrowRightSLine } from "react-icons/ri";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 const ModalReportAccount = ({
-  isOpenModalListOfReasons,
-  setIsOpenModalListOfReasons,
-  reportPost
+  isOpenModalReportAccount,
+  setIsOpenModalReportAccount,
+  setIsOpenModalReasonReportAccount,
 }) => {
+  useLockBodyScroll(isOpenModalReportAccount);
+  const handleClickReportUserPost = () => {
+    setIsOpenModalReasonReportAccount(true);
+    setIsOpenModalReportAccount(false);
+  };
   return (
     <div>
       <Modal
         appElement={document.getElementById("root")}
-        isOpen={isOpenModalListOfReasons}
-        onRequestClose={() => setIsOpenModalListOfReasons(false)}
+        isOpen={isOpenModalReportAccount}
+        onRequestClose={() => setIsOpenModalReportAccount(false)}
         style={{
           overlay: {
             backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -43,15 +49,18 @@ const ModalReportAccount = ({
               <p className="font-bold">Báo cáo</p>
               <IoMdClose
                 className="absolute top-2 right-4 text-2xl cursor-pointer"
-                onClick={() => setIsOpenModalListOfReasons(false)}
+                onClick={() => setIsOpenModalReportAccount(false)}
               />
             </div>
             <div className="flex flex-col py-2">
               <div className="flex justify-between items-center py-2 px-4 font-bold">
                 <p>Tại sao bạn lại báo cáo người dùng này?</p>
               </div>
-              <div className="flex justify-between items-center cursor-pointer py-2 px-4">
-                <p>Đăng nội dung không nên xuất hiện trên Instagram</p>
+              <div
+                className="flex justify-between items-center cursor-pointer py-2 px-4"
+                onClick={handleClickReportUserPost}
+              >
+                <p className="text-sm">Đăng nội dung không nên xuất hiện trên Instagram</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
               </div>
             </div>
