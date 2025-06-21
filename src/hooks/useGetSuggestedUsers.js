@@ -1,42 +1,45 @@
 import { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
 import useAuthStore from "../store/authStore";
 import { toast } from "react-toastify";
+import useLoadingBarStore from "../store/loadingBarStore";
+
 const useGetSuggestedUsers = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestedUsers, setSuggestedUsers] = useState([]);
   const { user } = useAuthStore();
+  const setProgress = useLoadingBarStore(state => state.setProgress);
   useEffect(() => {
     const getSuggestedUsers = async () => {
+      if (!user) return;
+      setProgress(30);
       try {
-        const q = query(
-          collection(fireStore, "users"),
-          where("uid", "not-in", [user.uid, ...user.following.slice(0, 9)]),
-          orderBy("uid"),
-          limit(5)
+        const snapshot = await getDocs(collection(fireStore, "users"));
+        const allUsers = snapshot.docs.map((doc) => doc.data());
+
+        const blockedUserIds = user.blackList;
+        const followingIds = user.following;
+
+        const filteredUsers = allUsers.filter(
+          (u) =>
+            u.uid !== user.uid &&
+            !followingIds?.includes(u.uid) &&
+            !blockedUserIds?.includes(u.uid)
         );
-        const querySnapShot = await getDocs(q);
-        let users = [];
-        querySnapShot.forEach((doc) => {
-          users.push(doc.data());
-        });
-        setSuggestedUsers(users);
-      } catch {
+        setSuggestedUsers(filteredUsers.slice(0, 10));
+      } catch (error) {
+        console.error(error);
         toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       } finally {
+        setProgress(100);
         setIsLoading(true);
       }
     };
-    if (user) getSuggestedUsers();
+
+    getSuggestedUsers();
   }, [user]);
+
   return { suggestedUsers, isLoading };
 };
 

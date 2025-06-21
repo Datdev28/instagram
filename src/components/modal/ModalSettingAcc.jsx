@@ -1,25 +1,29 @@
 import Modal from "react-modal";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useLogOut from "../../hooks/useLogOut";
 import { useNavigate } from "react-router-dom";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
+import useAuthStore from "../../store/authStore";
 const ModalSetting = ({
   modalIsOpenSetting,
   setModalIsSetting,
   setIsOpenModalIntroduceAcc,
 }) => {
   useLockBodyScroll(modalIsOpenSetting);
+  const { username } = useParams();
   const { handleLogOut } = useLogOut();
   const navigate = useNavigate();
   const handleClickLogOut = async () => {
     await handleLogOut();
     navigate("/auth");
   };
+  const user = useAuthStore((state) => state.user);
   const handleClickIntroduceAcc = () => {
     setIsOpenModalIntroduceAcc(true);
     setModalIsSetting(false);
   };
+  const isOwnerProfile = username === user.userName;
   return (
     <div>
       <Modal
@@ -60,20 +64,33 @@ const ModalSetting = ({
           className="bg-color-dash text-white overflow-hidden rounded-md w-full flex flex-col items-center gap-y-2 select-none"
         >
           <div className="flex flex-col w-full">
-            <Link to="/qr">
+            {isOwnerProfile ? (
+              <>
+                <div
+                  className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+                  onClick={handleClickLogOut}
+                >
+                  Đăng xuất
+                </div>
+                <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
+                  Thông báo
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
+                  Chặn
+                </div>
+                <div className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
+                  Báo cáo
+                </div>
+              </>
+            )}
+            <Link to={`/qr/${username}`}>
               <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
                 Mã QR
               </div>
             </Link>
-            <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
-              Thông báo
-            </div>
-            <div
-              className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
-              onClick={handleClickLogOut}
-            >
-              Đăng xuất
-            </div>
             <div
               className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
               onClick={handleClickIntroduceAcc}

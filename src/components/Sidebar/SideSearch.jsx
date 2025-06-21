@@ -39,7 +39,7 @@ const SideSearch = () => {
     reState();
   }, [isOpenToggle]);
   return (
-    <div className="flex flex-col pl-4 text-white w-full gap-y-5 max-md:hidden">
+    <div className="flex flex-col pl-4 text-white w-full gap-y-5 max-sm:hidden">
       <p className="text-2xl font-bold px-4">Tìm kiếm</p>
       <div className="flex items-center px-4 gap-x-4">
         <div className="relative w-full">

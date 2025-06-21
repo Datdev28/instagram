@@ -97,7 +97,9 @@ const ProfileUserHeader = () => {
                   <button className="px-4 py-1 bg-color-btn-gray rounded-sm hover:bg-color-dash cursor-pointer max-xl:px-2">
                     Nhắn tin
                   </button>
-                  <HiDotsHorizontal className="text-2xl text-white cursor-pointer" />
+                  <HiDotsHorizontal className="text-2xl text-white cursor-pointer" 
+                    onClick={() => setModalIsSetting(true)}
+                  />
                 </div>
               )}
             </div>

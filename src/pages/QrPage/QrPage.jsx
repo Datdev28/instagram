@@ -1,18 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import QRCodeStyling from "qr-code-styling";
-import useAuthStore from "../../store/authStore";
+import { useParams } from "react-router-dom";
 
 const InstagramQRCode = () => {
   const ref = useRef(null);
   const [color, setColor] = useState("#000000");
-  const { user } = useAuthStore();
   const [qrCode, setQrCode] = useState(null);
-
+  const {username} = useParams();
   useEffect(() => {
     const newQrCode = new QRCodeStyling({
       width: 200,
       height: 200,
-      data: "https://datdev28.github.io/instagram/#/" + user.userName,
+      data: "https://datdev28.github.io/instagram/#/" + username,
       image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png",
       dotsOptions: {
         color: color,
@@ -34,9 +33,7 @@ const InstagramQRCode = () => {
         type: "dot"
       }
     });
-
     setQrCode(newQrCode);
-    
     return () => {
       if (ref.current) {
         while (ref.current.firstChild) {
@@ -44,7 +41,7 @@ const InstagramQRCode = () => {
         }
       }
     };
-  }, [color, user.userName]);
+  }, [color, username]);
 
   useEffect(() => {
     if (qrCode && ref.current) {
@@ -59,7 +56,7 @@ const InstagramQRCode = () => {
     if (qrCode) {
       qrCode.download({
         extension: "png",
-        name: `instagram-${user.userName}`
+        name: `instagram-${username}`
       });
     }
   };

@@ -46,14 +46,14 @@ const ProfileCollections = () => {
           className="w-[280px] h-[280px] relative border border-color-btn-gray cursor-pointer group"
           onClick={handleClickGoToAllPosts}
         >
-          <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-0 transition-opacity z-1" />
+          <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-0 transition-opacity z-10" />
           {userProfile &&
             userProfile.savePosts
               .slice(0, 4)
               .map((postId, index) => (
                 <ImageSavePost postId={postId} key={postId} index={index} />
               ))}
-          <p className="absolute bottom-6 left-6 z-1 text-white font-semibold">
+          <p className="absolute bottom-6 left-6 z-0 text-white font-semibold">
             Tất cả bài viết
           </p>
         </div>
@@ -64,14 +64,14 @@ const ProfileCollections = () => {
              key={colection.id}
              onClick={() => navigate(`/${user.userName}/saved/${colection.id}`)}
             >
-              <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-0 transition-opacity z-1" />
+              <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-0 transition-opacity z-10" />
               {colection &&
                 colection.pickedPosts
                   .slice(0, 4)
                   .map((postId, index) => (
                     <ImageSavePost postId={postId} key={postId} index={index} />
                   ))}
-              <p className="absolute bottom-6 left-6 z-1 text-white font-semibold max-w-[233px] truncate">
+              <p className="absolute bottom-6 left-6 z-0 text-white font-semibold max-w-[233px] truncate">
                 {colection.name}
               </p>
             </div>
