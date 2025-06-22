@@ -53,7 +53,7 @@ const ProfileCollections = () => {
               .map((postId, index) => (
                 <ImageSavePost postId={postId} key={postId} index={index} />
               ))}
-          <p className="absolute bottom-6 left-6 z-0 text-white font-semibold">
+          <p className="absolute bottom-6 left-6 z-1 text-white font-semibold">
             Tất cả bài viết
           </p>
         </div>

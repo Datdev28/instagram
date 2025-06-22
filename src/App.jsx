@@ -12,6 +12,7 @@ import ModalShowPost from "./components/modal/ModalShowPost";
 import ShowPostPage from "./pages/ShowPostPage/ShowPostPage";
 import ProfileCollections from "./components/profileUser/ProfileCollections";
 import ProfileDetailCollection from "./components/profileUser/ProfileDetailCollection";
+import AdminReportsManagement from "./pages/adminPage/AdminReportsManagement";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, fireStore } from "./firebase/firebase";
@@ -93,6 +94,9 @@ function App() {
             <Route path="/p/:postId" element={<ModalShowPost />}></Route>
           </Routes>
         )}
+        <Routes>
+          <Route path="admin/report-management" element={<AdminReportsManagement/>}/>
+        </Routes>
       </PageLayout>
     </>
   );
