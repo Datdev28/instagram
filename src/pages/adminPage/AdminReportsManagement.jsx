@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, Eye, CheckCircle, XCircle, AlertTriangle, Clock, User, Calendar, Flag, MessageSquare, Heart, Share2, MoreVertical, ChevronDown } from 'lucide-react';
+import { Search, Filter, Eye, CheckCircle, XCircle, Clock, Flag, MoreVertical } from 'lucide-react';
 
 const AdminReportsManagement = () => {
   const [reports, setReports] = useState([]);
@@ -91,47 +91,10 @@ const AdminReportsManagement = () => {
       filtered = filtered.filter(report => report.status === selectedFilter);
     }
 
-    // Tìm kiếm
-    if (searchTerm) {
-      filtered = filtered.filter(report => 
-        report.reportedUser.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        report.reason.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        report.type.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
     setFilteredReports(filtered);
   }, [selectedFilter, searchTerm, reports]);
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'reviewed': return 'bg-blue-100 text-blue-800';
-      case 'resolved': return 'bg-green-100 text-green-800';
-      case 'rejected': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
 
-  const getPriorityColor = (priority) => {
-    switch (priority) {
-      case 'high': return 'text-red-600';
-      case 'medium': return 'text-yellow-600';
-      case 'low': return 'text-green-600';
-      default: return 'text-gray-600';
-    }
-  };
-
-  const getTypeIcon = (type) => {
-    switch (type) {
-      case 'harassment': return <AlertTriangle className="w-4 h-4" />;
-      case 'spam': return <MessageSquare className="w-4 h-4" />;
-      case 'impersonation': return <User className="w-4 h-4" />;
-      case 'inappropriate_content': return <Flag className="w-4 h-4" />;
-      case 'copyright': return <Share2 className="w-4 h-4" />;
-      default: return <Flag className="w-4 h-4" />;
-    }
-  };
 
   const handleStatusChange = (reportId, newStatus) => {
     setReports(prev => prev.map(report => 
@@ -139,33 +102,6 @@ const AdminReportsManagement = () => {
     ));
   };
 
-  const formatTime = (timestamp) => {
-    const now = new Date();
-    const time = new Date(timestamp);
-    const diff = Math.floor((now - time) / (1000 * 60));
-    
-    if (diff < 60) return `${diff} phút trước`;
-    if (diff < 1440) return `${Math.floor(diff / 60)} giờ trước`;
-    return `${Math.floor(diff / 1440)} ngày trước`;
-  };
-
-  const getTypeLabel = (type) => {
-    const labels = {
-      harassment: 'Quấy rối',
-      spam: 'Spam',
-      impersonation: 'Mạo danh',
-      inappropriate_content: 'Nội dung không phù hợp',
-      copyright: 'Vi phạm bản quyền'
-    };
-    return labels[type] || type;
-  };
-
-  const stats = {
-    total: reports.length,
-    pending: reports.filter(r => r.status === 'pending').length,
-    reviewed: reports.filter(r => r.status === 'reviewed').length,
-    resolved: reports.filter(r => r.status === 'resolved').length
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -203,7 +139,7 @@ const AdminReportsManagement = () => {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Tổng báo cáo</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+                <p className="text-2xl font-bold text-gray-900"></p>
               </div>
             </div>
           </div>
@@ -214,7 +150,7 @@ const AdminReportsManagement = () => {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Chờ xử lý</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.pending}</p>
+                <p className="text-2xl font-bold text-gray-900"></p>
               </div>
             </div>
           </div>
@@ -225,7 +161,7 @@ const AdminReportsManagement = () => {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Đã xem xét</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.reviewed}</p>
+                <p className="text-2xl font-bold text-gray-900"></p>
               </div>
             </div>
           </div>
@@ -236,7 +172,7 @@ const AdminReportsManagement = () => {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">Đã giải quyết</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.resolved}</p>
+                <p className="text-2xl font-bold text-gray-900"></p>
               </div>
             </div>
           </div>
@@ -330,11 +266,9 @@ const AdminReportsManagement = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 mr-2">
-                          {getTypeIcon(report.type)}
                         </div>
                         <div>
                           <div className="text-sm font-medium text-gray-900">
-                            {getTypeLabel(report.type)}
                           </div>
                           <div className="text-sm text-gray-500">
                             {report.postType}
@@ -343,14 +277,14 @@ const AdminReportsManagement = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`text-sm font-medium ${getPriorityColor(report.priority)}`}>
+                      <span className={`text-sm font-medium`}>
                         {report.priority === 'high' && 'Cao'}
                         {report.priority === 'medium' && 'Trung bình'}
                         {report.priority === 'low' && 'Thấp'}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(report.status)}`}>
+                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full `}>
                         {report.status === 'pending' && 'Chờ xử lý'}
                         {report.status === 'reviewed' && 'Đã xem xét'}
                         {report.status === 'resolved' && 'Đã giải quyết'}
@@ -358,7 +292,6 @@ const AdminReportsManagement = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {formatTime(report.timestamp)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex justify-end space-x-2">
@@ -408,7 +341,6 @@ const AdminReportsManagement = () => {
         </div>
       </div>
 
-      {/* Report Detail Modal */}
       {showModal && selectedReport && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
@@ -429,12 +361,12 @@ const AdminReportsManagement = () => {
                 {/* Report Info */}
                 <div className="border-b pb-4">
                   <div className="flex items-center justify-between mb-4">
-                    <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(selectedReport.status)}`}>
+                    <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full `}>
                       {selectedReport.status === 'pending' && 'Chờ xử lý'}
                       {selectedReport.status === 'reviewed' && 'Đã xem xét'}
                       {selectedReport.status === 'resolved' && 'Đã giải quyết'}
                     </span>
-                    <span className={`text-sm font-medium ${getPriorityColor(selectedReport.priority)}`}>
+                    <span className="text-sm font-medium">
                       Độ ưu tiên: {selectedReport.priority === 'high' && 'Cao'}
                       {selectedReport.priority === 'medium' && 'Trung bình'}
                       {selectedReport.priority === 'low' && 'Thấp'}
@@ -467,7 +399,7 @@ const AdminReportsManagement = () => {
                   <div className="bg-gray-50 p-4 rounded-lg space-y-3">
                     <div>
                       <p className="text-sm font-medium text-gray-700">Loại vi phạm:</p>
-                      <p className="text-sm text-gray-900">{getTypeLabel(selectedReport.type)}</p>
+                      <p className="text-sm text-gray-900"></p>
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-700">Lý do:</p>

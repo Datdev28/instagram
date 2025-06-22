@@ -71,6 +71,7 @@ function App() {
           <Route path="/:username" element={<ProfilePage/>}>
             <Route path="saved" element={<ProfileCollections/>}></Route>
           </Route>
+          <Route path="admin/report-management" element={<AdminReportsManagement/>}/>
           <Route
             path="/:username/saved/all-posts"
             element={<ProfileDetailCollection />}
@@ -94,9 +95,6 @@ function App() {
             <Route path="/p/:postId" element={<ModalShowPost />}></Route>
           </Routes>
         )}
-        <Routes>
-          <Route path="admin/report-management" element={<AdminReportsManagement/>}/>
-        </Routes>
       </PageLayout>
     </>
   );

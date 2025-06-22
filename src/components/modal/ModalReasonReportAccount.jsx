@@ -4,6 +4,9 @@ import { IoMdClose } from "react-icons/io";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
+import useAuthStore from "../../store/authStore";
+import userProfileStore from "../../store/userProfileStore";
+import useSubmitReport from "../../hooks/useSubmitReport";
 const ModalReasonReportAccount = ({
   isOpenModalReasonReportAccount,
   setIsOpenModalReasonReportAccount,
@@ -11,15 +14,21 @@ const ModalReasonReportAccount = ({
   setIsOpenModalReponseForReport
 }) => {
   useLockBodyScroll(isOpenModalReasonReportAccount);
+  const user = useAuthStore(state => state.user);
+  const userProfile = userProfileStore(state => state.userProfile);
+  const {handleSubmitReport} = useSubmitReport();
+  console.log("user", user);
+  console.log("userProfile", userProfile);
   const handleClickBackReportAccount = () => {
     setIsOpenModalReportAccount(true);
     setIsOpenModalReasonReportAccount(false);
     setIsOpenModalReasonReportAccount(false);
   };
-  const handleClickGiveReport = () => {
+  const handleClickGiveReport = async(reportedBy, targetId, reportType, reason) => {
     setIsOpenModalReponseForReport(true);
     setIsOpenModalReasonReportAccount(false);
-  }
+    await handleSubmitReport(reportedBy, targetId, reportType, reason)
+  };
   return (
     <div>
       <Modal
@@ -64,31 +73,31 @@ const ModalReasonReportAccount = ({
             </div>
             <div className="flex flex-col py-2">
               <div className="flex justify-between items-center cursor-pointer py-2 px-4"
-               onClick={() => handleClickGiveReport()}
+               onClick={() => handleClickGiveReport(user.uid, userProfile.uid, "user", "spam")}
               >
                 <p>Đây là spam</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
               </div>
               <div className="flex justify-between items-center cursor-pointer py-2 px-4"
-               onClick={() => handleClickGiveReport()}
+               onClick={() => handleClickGiveReport(user.uid, userProfile.uid, "user", "Thông tin sai lệch")}
               >
                 <p>Thông tin sai lệch</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
               </div>
               <div className="flex justify-between items-center cursor-pointer py-2 px-4"
-               onClick={() => handleClickGiveReport()}
+               onClick={() => handleClickGiveReport(user.uid, userProfile.uid, "user", "Tự tử hoặc tự gây thương tích")}
               >
                 <p>Tự tử hoặc tự gây thương tích</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
               </div>
               <div className="flex justify-between items-center cursor-pointer py-2 px-4"
-               onClick={() => handleClickGiveReport()}
+               onClick={() => handleClickGiveReport(user.uid, userProfile.uid, "user", "Biểu tượng hoặc ngôn từ gây thù ghét")}
               >
                 <p>Biểu tượng hoặc ngôn từ gây thù ghét</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
               </div>
               <div className="flex justify-between items-center cursor-pointer py-2 px-4"
-               onClick={() => handleClickGiveReport()}
+               onClick={() => handleClickGiveReport(user.uid, userProfile.uid, "user", "Lừa đảo hoặc gian lận")}
               >
                 <p>Lừa đảo hoặc gian lận</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
