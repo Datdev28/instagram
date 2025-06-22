@@ -11,8 +11,9 @@ import { auth } from "../../firebase/firebase";
 const PageLayout = ({ children }) => {
   const { pathname } = useLocation();
   const [user, loading] = useAuthState(auth);
-  const renderSideBar = pathname !== "/auth" && user && pathname !== "/qr";
+  const renderSideBar = pathname !== "/auth" && user && pathname !== "/qr" && pathname !== "/admin/report-management";
   const renderNavbar = !user && !loading && pathname !== "/auth";
+  const pageAdmin = pathname === "/admin/report-management"
   const { isOpenToggle } = searchToggleStore();
   return (
     <div className="flex max-sm:flex-col">
@@ -41,7 +42,7 @@ const PageLayout = ({ children }) => {
       ) : null}
       {renderNavbar ? <NavbarLogout /> : null}
       
-      <div className={`flex-1 pb-10 mt-10 ${isOpenToggle ? "lg:ml-[170px]" : "0"} ${renderNavbar ? "pt-16" : ""}`}>{children}</div>
+      <div className={`flex-1 ${pageAdmin ? "pb-0 mt-0 " : "pb-10 mt-10"}  ${isOpenToggle ? "lg:ml-[170px]" : "0"} ${renderNavbar ? "pt-16" : ""}`}>{children}</div>
     </div>
   );
 };
