@@ -197,7 +197,7 @@ const AdminReportsManagement = () => {
                           </th>
                         )}
                         {pickReportType === "resolved" && (
-                          <th className="w-1/4 px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase text-nowrap tracking-wider">
+                          <th className="w-1/4 px-6 py-3 text-xs text-center font-medium text-gray-500 uppercase text-nowrap tracking-wider">
                             Hình phạt
                           </th>
                         )}

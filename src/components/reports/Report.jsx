@@ -14,6 +14,7 @@ const Report = ({ report, index, pickReportType, fetchReports }) => {
     report.reportedBy,
     report.targetId
   );
+  console.log(report);
   const {handleBannedUser} = useBannedUser();
   const {handleActionWithReport} = useActionWithReport();
   const [isOpenModalShowDetailReport, setIsOpenModalShowDetailReport] =
@@ -30,14 +31,14 @@ const Report = ({ report, index, pickReportType, fetchReports }) => {
   };
   const handleClickBannedCommentOrPost = async(bannedType) => {
      await handleBannedUser(userTargetProfile.uid, report.reason, bannedType);
-     await handleActionWithReport(report.id, "resolved", `Cấm người dùng ${bannedType} trong 3 phút`);
+     await handleActionWithReport(report.id, "resolved", `Cấm ${bannedType === 'comment' ? 'bình luận' : 'đăng bài'}`);
      toast.success(`Đã cấm người dùng ${bannedType} trong 3 phút`);
      await fetchReports(pickReportType)
   };
   const handleClickBannedCommentAndPost = async() => {
      await handleBannedUser(userTargetProfile.uid, report.reason, 'comment');
      await handleBannedUser(userTargetProfile.uid, report.reason, 'post');
-     await handleActionWithReport(report.id, "resolved", "Cấm người dùng bình luận và đăng bài trong 3 phút");
+     await handleActionWithReport(report.id, "resolved", "Cấm đăng bài và bình luận");
      toast.success("Đã cấm người dùng bình luận và đăng bài trong 3 phút");
      await fetchReports(pickReportType);
   }
@@ -122,6 +123,11 @@ const Report = ({ report, index, pickReportType, fetchReports }) => {
           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
             {formatTimestampToVietnamTime(report.createdAt)}
           </td>
+          {pickReportType === "resolved" && (
+           <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+             {report.penatyl}
+          </td>
+          )}
           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
             <div className="flex justify-center space-x-2">
               <button className="text-blue-600 hover:text-blue-900 p-1">

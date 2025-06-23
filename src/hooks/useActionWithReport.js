@@ -11,7 +11,7 @@ const useActionWithReport = () => {
     try {
       const reportRef = doc(fireStore, "reports", reportId);
       if(newStatus === 'resolved'){
-       await updateDoc(reportRef, { status: newStatus }, {penatyl});
+       await updateDoc(reportRef, { status: newStatus, penatyl });
       }else {
        await updateDoc(reportRef, { status: newStatus });
       }

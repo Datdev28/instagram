@@ -17,6 +17,9 @@ import { FaBookmark } from "react-icons/fa";
 import includesCollection from "../../utils/includesCollection";
 import useFromCollection from "../../store/fromCollection";
 import useCollectionPostStore from "../../store/collectionSaveStore";
+import useListenCommentBan from "../../hooks/useListenCommentBan";
+import hasPassedMinutes from "../../utils/hasPassedMinutes";
+import { toast } from "react-toastify";
 const InteractWithPost = ({
   post,
   setIsOpenModalLikePostWithoutLogin,
@@ -38,6 +41,7 @@ const InteractWithPost = ({
     post?.id,
     commentInput
   );
+  const commentBan = useListenCommentBan(user?.uid);
   const ownerPost = post.createBy === user?.uid;
   const fromCollection = useFromCollection (
     (state) => state.fromCollection
@@ -45,9 +49,20 @@ const InteractWithPost = ({
   const collections = useCollectionPostStore((state) => state.collections);
   const { isSave, handleSavePost } = useSavePost(post?.id);
   const handleComment = async () => {
-    setCommentPost(false);
-    await handleCreateComment();
-    setCommentInput("");
+    if(commentBan){
+     const allowed = hasPassedMinutes(commentBan.from, 3);
+     if(allowed){
+      setCommentPost(false);
+      await handleCreateComment();
+      setCommentInput("");
+     }else {
+      toast.error('Bạn đã bị cấm bình luận trong 3 phút')
+     }
+    }else {
+      setCommentPost(false);
+      await handleCreateComment();
+      setCommentInput("");
+    }
   };
   const handleLike = () => {
     if (isLiking) return;
