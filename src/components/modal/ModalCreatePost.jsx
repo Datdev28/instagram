@@ -14,18 +14,21 @@ import { CiCirclePlus } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 import { toast } from "react-toastify";
+import useListenPostBan from "../../hooks/useListenPostBan";
+import hasPassedMinutes from "../../utils/hasPassedMinutes";
 const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
   const inputRef = useRef(null);
   const { selectedFile, handleImageChange, setSelectedFile } =
     usePreviewImage();
   const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
   const { handleImageUpload } = useUpAndGetImage();
   const [modalConfirm, setModalConfirm] = useState(false);
   const [showIsLoading, setShowIsLoading] = useState(false);
   const [isOpenStatus, setIsOpenStatus] = useState(false);
   const [checkedHideLike, setChekedHideLike] = useState(false);
   const [turnOfComment, setTurnOffComment] = useState(false);
-  const user = useAuthStore((state) => state.user);
+  const postBan = useListenPostBan(user.uid);
   const [valueText, setValueText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenContainerImage, setIsOpenContainerImage] = useState(false);
@@ -50,27 +53,36 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
     }
   };
   const handleOnClickPost = async () => {
-    if (isOpenStatus) {
-      try {
-        setShowIsLoading(true);
-        setIsOpenStatus(false);
-        setIsLoading(true);
-        const imageUrls = await handleImageUpload(selectedFile);
-        await handleCreatePost(
-          imageUrls,
-          valueText,
-          checkedHideLike,
-          turnOfComment
-        );
-      } catch {
-        toast.error("Đã xảy ra lỗi. Hãy thử lại!");
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
+    if (!isOpenStatus) {
       setIsOpenStatus(true);
+      return;
+    }
+
+    // Nếu đang mở status
+    if (postBan && !hasPassedMinutes(postBan.from, 3)) {
+      toast.error("Bạn đã bị cấm đăng bài trong 3 phút");
+      return;
+    }
+
+    try {
+      setShowIsLoading(true);
+      setIsOpenStatus(false);
+      setIsLoading(true);
+
+      const imageUrls = await handleImageUpload(selectedFile);
+      await handleCreatePost(
+        imageUrls,
+        valueText,
+        checkedHideLike,
+        turnOfComment
+      );
+    } catch {
+      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
+    } finally {
+      setIsLoading(false);
     }
   };
+
   const handleClickOutSide = (e) => {
     if (isLoading) return;
     if (
