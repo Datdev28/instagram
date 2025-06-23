@@ -6,13 +6,16 @@ import { formatTimestampToVietnamTime } from "../../utils/formatTimestampToVietn
 import ModalShowDetailReport from "../../components/modal/ModalShowDetailReport";
 import ModalConfirmDeletePost from "../modal/ModalConfirmDeletePost";
 import useBannedUser from "../../hooks/useBannedUser";
+import useActionWithReport from "../../hooks/useActionWithReport";
+import { toast } from "react-toastify";
 
-const Report = ({ report, index, pickReportType }) => {
+const Report = ({ report, index, pickReportType, fetchReports }) => {
   const { userProfile, userTargetProfile } = useGetProfileUserById(
     report.reportedBy,
     report.targetId
   );
   const {handleBannedUser} = useBannedUser();
+  const {handleActionWithReport} = useActionWithReport();
   const [isOpenModalShowDetailReport, setIsOpenModalShowDetailReport] =
     useState(false);
   const [isOpenModalConfirmDeleteReport, setIsOpenModalConfirmDeleteReport] =
@@ -27,10 +30,21 @@ const Report = ({ report, index, pickReportType }) => {
   };
   const handleClickBannedCommentOrPost = async(bannedType) => {
      await handleBannedUser(userTargetProfile.uid, report.reason, bannedType);
+     await handleActionWithReport(report.id, "resolved", `Cấm người dùng ${bannedType} trong 3 phút`);
+     toast.success(`Đã cấm người dùng ${bannedType} trong 3 phút`);
+     await fetchReports(pickReportType)
   };
   const handleClickBannedCommentAndPost = async() => {
      await handleBannedUser(userTargetProfile.uid, report.reason, 'comment');
      await handleBannedUser(userTargetProfile.uid, report.reason, 'post');
+     await handleActionWithReport(report.id, "resolved", "Cấm người dùng bình luận và đăng bài trong 3 phút");
+     toast.success("Đã cấm người dùng bình luận và đăng bài trong 3 phút");
+     await fetchReports(pickReportType);
+  }
+  const handleUpdateStatus = async(newStatus) => {
+     await handleActionWithReport(report.id, newStatus);
+     toast.success(`Đã cập nhập thành công`);
+     await fetchReports(pickReportType)
   }
   return (
     <>
@@ -45,7 +59,7 @@ const Report = ({ report, index, pickReportType }) => {
               />
               <div className="ml-3">
                 <div className="text-sm font-medium text-gray-900">
-                  Báo cáo #{index + 1}
+                  {userProfile.userName}
                 </div>
                 <div className="text-sm text-gray-500"></div>
               </div>
@@ -141,10 +155,14 @@ const Report = ({ report, index, pickReportType }) => {
                       >
                         Cấm người dùng bình luận và đăng bài trong 3 phút
                       </button>
-                      <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
+                      <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                       onClick={() => handleUpdateStatus('reviewed')}
+                      >
                         Đánh dấu đã xem xét
                       </button>
-                      <button className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left">
+                      <button className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 w-full text-left"
+                       onClick={() => handleUpdateStatus('refuse')}
+                      >
                         Từ chối báo cáo
                       </button>
                     </div>

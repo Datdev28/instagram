@@ -9,9 +9,6 @@ const useBannedUser = () => {
     if(isLoading) return toast.warning("Thao tác của bạn quá nhanh!");
     setIsLoading(true);
     const now = new Date();
-    console.log(type);
-    console.log("reason", reason);
-    console.log("userTarget", userTarget)
     try {
       const bannedRef = doc(fireStore, 'users', userTarget, 'banned', type);
       await setDoc(bannedRef, {

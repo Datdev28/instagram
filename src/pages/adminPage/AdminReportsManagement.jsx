@@ -107,7 +107,7 @@ const AdminReportsManagement = () => {
                     pickReportType === "all"
                       ? "bg-blue-700 text-white"
                       : "bg-gray-200 text-black"
-                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors`}
+                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
                   onClick={() => handleClickReportType("all")}
                 >
                   Tất cả
@@ -117,7 +117,7 @@ const AdminReportsManagement = () => {
                     pickReportType === "pending"
                       ? "bg-blue-700 text-white"
                       : "bg-gray-200 text-black"
-                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors`}
+                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
                   onClick={() => handleClickReportType("pending")}
                 >
                   Chờ xử lý
@@ -127,7 +127,7 @@ const AdminReportsManagement = () => {
                     pickReportType === "reviewed"
                       ? "bg-blue-700 text-white"
                       : "bg-gray-200 text-black"
-                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors`}
+                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
                   onClick={() => handleClickReportType("reviewed")}
                 >
                   Đã xem xét
@@ -137,7 +137,7 @@ const AdminReportsManagement = () => {
                     pickReportType === "resolved"
                       ? "bg-blue-700 text-white"
                       : "bg-gray-200 text-black"
-                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors`}
+                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
                   onClick={() => handleClickReportType("resolved")}
                 >
                   Đã giải quyết
@@ -217,6 +217,7 @@ const AdminReportsManagement = () => {
                             report={report}
                             index={index}
                             pickReportType={pickReportType}
+                            fetchReports={fetchReports}
                           />
                         ))}
                     </tbody>
