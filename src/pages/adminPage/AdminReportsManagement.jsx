@@ -6,12 +6,11 @@ const AdminReportsManagement = () => {
   const { reports, fetchReports, isGetting } = useGetReports();
   const noReports = reports.length === 0 && isGetting;
   const [pickReportType, setPickReportType] = useState("all");
-
   const handleClickReportType = async (reportType) => {
     setPickReportType(`${reportType}`);
     await fetchReports(reportType);
   };
-
+  
   return (
     <div className="h-screen bg-gray-50 overflow-y-scroll">
       {reports && (
@@ -192,9 +191,21 @@ const AdminReportsManagement = () => {
                         <th className="w-1/4 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase text-nowrap  tracking-wider">
                           Thời gian
                         </th>
-                        <th className="w-1/8 px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase text-nowrap tracking-wider">
-                          Hành động
-                        </th>
+                        {pickReportType === "all" && (
+                          <th className="w-1/8 px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase text-nowrap tracking-wider">
+                            Hành động
+                          </th>
+                        )}
+                        {pickReportType === "resolved" && (
+                          <th className="w-1/4 px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase text-nowrap tracking-wider">
+                            Hình phạt
+                          </th>
+                        )}
+                        {pickReportType !== "all" && (
+                          <th className="w-1/8 px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase text-nowrap tracking-wider">
+                            Hành động
+                          </th>
+                        )}
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
