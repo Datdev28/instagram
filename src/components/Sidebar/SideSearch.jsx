@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const SideSearch = () => {
   const [isOpenDel, setIsOpenDel] = useState(false);
   const [input, setInput] = useState("");
-  const { isOpenToggle, setIsOpenToggle } = searchToggleStore();
+  const { isOpenToggle, setIsOpenToggle, mode } = searchToggleStore();
   const { error, isLoading, getUser, user, setUser, setError } = useSearchUser();
   const handleOnChange = (e) => {
     const value = e.target.value;
@@ -18,6 +18,7 @@ const SideSearch = () => {
       setUser(null);
     }
   };
+
   const onClickDel = () => {
     setIsOpenDel(false);
     setInput("");
@@ -39,8 +40,11 @@ const SideSearch = () => {
     reState();
   }, [isOpenToggle]);
   return (
-    <div className="flex flex-col pl-4 text-white w-full gap-y-5 max-sm:hidden">
-      <p className="text-2xl font-bold px-4">Tìm kiếm</p>
+    <div className="flex flex-col pl-4 text-white w-full gap-y-5 max-sm:hidden"
+    >
+      <p className="text-2xl font-bold px-4">{mode === 'search' ? "Tìm kiếm" : "Thông báo"}</p>
+       {mode === 'search' && (
+      <>
       <div className="flex items-center px-4 gap-x-4">
         <div className="relative w-full">
           <input
@@ -95,6 +99,8 @@ const SideSearch = () => {
           </div>
         </Link>
       )}
+      </>
+       )}
     </div>
   );
 };
