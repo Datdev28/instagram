@@ -8,6 +8,7 @@ const useSubmitReport = () => {
      targetId,
      reportType,
      reason,
+     status: "pending",
      createdAt: serverTimestamp(),
     }
     try {
