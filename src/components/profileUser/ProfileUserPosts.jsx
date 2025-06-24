@@ -48,7 +48,7 @@ const OwnNoPosts = () => {
     </div>
   );
 };
-const NoPosts = () => {
+export const NoPosts = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full py-16 gap-y-2">
       <div className="w-[4.5rem] h-[4.5rem] border-2 rounded-full flex justify-center items-center">

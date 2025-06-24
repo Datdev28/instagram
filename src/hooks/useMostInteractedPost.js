@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 const useMostInteractedPost = (userId) => {
   const [post, setPost] = useState(null);
+  const [isGetting, setIsGetting] = useState(false);
   const fetchMostInteractedPost = async () => {
     try {
       const postRef = query(
@@ -21,13 +22,15 @@ const useMostInteractedPost = (userId) => {
     } catch (error) {
       console.log(error);
       toast.error("Đã xảy ra lỗi. Hãy thử lại!");
+    } finally {
+      setIsGetting(true);
     }
   };
   useEffect(() => {
     fetchMostInteractedPost();
   }, [userId]);
 
-  return { post };
+  return { post, isGetting };
 };
 
 export default useMostInteractedPost;
