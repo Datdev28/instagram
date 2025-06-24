@@ -6,6 +6,8 @@ import {
   onSnapshot,
   Timestamp,
   orderBy,
+  getDoc,
+  doc,
 } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
 import useNotificationStore from "../store/useNotificationStore";
@@ -18,7 +20,7 @@ const useRecentNotifications = (userId) => {
     const now = new Date();
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(now.getDate() - 30);
-
+    const userRef = doc(fireStore, "users", userId);
     const notiRef = collection(fireStore, "users", userId, "notifications");
     const q = query(
       notiRef,
@@ -26,16 +28,23 @@ const useRecentNotifications = (userId) => {
       orderBy("createdAt", "desc")
     );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribe = onSnapshot(q, async (snapshot) => {
       const notiList = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      console.log(notiList);
       setNotifications(notiList);
-      if (notiList.length > 0) {
-        setHasNewNoti(true);
+      if (notiList.length === 0) {
+        setHasNewNoti(false);
+        return;
       }
+      const userSnap = await getDoc(userRef);
+      const lastSeen =
+        userSnap.data()?.lastSeenNotificationAt?.toDate() || new Date(0);
+      const hasUnread = notiList.some(
+        (noti) => noti.createdAt.toDate() > lastSeen
+      );
+      setHasNewNoti(hasUnread);
     });
 
     return () => unsubscribe();

@@ -12,7 +12,7 @@ const AdminReportsManagement = () => {
   };
   
   return (
-    <div className="h-screen bg-gray-50 overflow-y-scroll">
+    <div className="h-screen bg-gray-50 overflow-x-hidden">
       {reports && (
         <div className="w-full h-full">
           <div className="bg-white shadow-sm border-b">
@@ -29,7 +29,6 @@ const AdminReportsManagement = () => {
               </div>
             </div>
           </div>
-
           <div className="px-6 py-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
               <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -155,7 +154,7 @@ const AdminReportsManagement = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm ">
               {noReports ? (
                 <div className="w-full h-64 text-3xl font-bold flex items-center justify-center text-gray-500">
                   Chưa có báo cáo nào
@@ -169,7 +168,7 @@ const AdminReportsManagement = () => {
                   />
                 </div>
               ) : (
-                <div className="overflow-y-scroll pr-[17px] max-h-[500px]">
+                <div className=" pr-[17px] max-h-[500px]">
                   <table className="min-w-full table-fixed divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>

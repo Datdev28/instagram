@@ -11,6 +11,7 @@ import ModalListOfReasonsReport from "../modal/ModalListOfReasonsReport";
 import ModalEditPost from "../modal/ModalEditPost";
 import ModalIntroduceAcc from "../modal/ModalIntroduceAcc";
 import ModalConfirmCancleSavePost from "../modal/ModalConfirmCancleSavePost";
+import ModalReponseForReport from "../modal/ModalReponseForReport";
 const CommentBox = ({
   post,
   setIsOpenModalLikePostWithoutLogin,
@@ -28,7 +29,12 @@ const CommentBox = ({
     useState(false);
   const [openSettingWithoutOwn, setOpenSettingWithoutOwn] = useState(false);
   const [isOpenModalIntroduceAcc, setIsOpenModalIntroduceAcc] = useState(false);
-  const [isOpenModalConfirmCancleSavePost, setIsOpenModalConfirmCancleSavePost] = useState(false);
+  const [
+    isOpenModalConfirmCancleSavePost,
+    setIsOpenModalConfirmCancleSavePost,
+  ] = useState(false);
+  const [isOpenModalReponseForReport, setIsOpenModalReponseForReport] =
+    useState(false);
   const [reportPost, setReportPost] = useState(false);
   const user = useAuthStore((state) => state.user);
   const ownUser = user?.uid === post?.createBy;
@@ -125,7 +131,9 @@ const CommentBox = ({
               setIsOpenModalShowLikes={setIsOpenModalShowLikes}
               setShowLikesWithoutLogin={setShowLikesWithoutLogin}
               setIsOpenModalSaveWithoutLogin={setIsOpenModalSaveWithoutLogin}
-              setIsOpenModalConfirmCancleSavePost={setIsOpenModalConfirmCancleSavePost}
+              setIsOpenModalConfirmCancleSavePost={
+                setIsOpenModalConfirmCancleSavePost
+              }
             />
           </>
         )}
@@ -155,6 +163,7 @@ const CommentBox = ({
             isOpenModalListOfReasons={isOpenModalListOfReasons}
             setIsOpenModalListOfReasons={setIsOpenModalListOfReasons}
             reportPost={reportPost}
+            setIsOpenModalReponseForReport={setIsOpenModalReponseForReport}
           />
         )}
         {isOpenModalEditPost && (
@@ -178,6 +187,12 @@ const CommentBox = ({
               setIsOpenModalConfirmCancleSavePost
             }
             postId={post.id}
+          />
+        )}
+        {isOpenModalReponseForReport && (
+          <ModalReponseForReport
+            isOpenModalReponseForReport={isOpenModalReponseForReport}
+            setIsOpenModalReponseForReport={setIsOpenModalReponseForReport}
           />
         )}
       </div>

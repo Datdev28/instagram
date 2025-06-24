@@ -27,7 +27,7 @@ const ModalSetting = ({
   const handleClickReportAcc = () => {
     setIsOpenModalReportAccount(true);
     setModalIsSetting(false);
-  }
+  };
   const isOwnerProfile = username === user.userName;
   return (
     <div>
@@ -80,24 +80,25 @@ const ModalSetting = ({
                 <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
                   Thông báo
                 </div>
+                <Link to={`/qr`}>
+                  <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
+                    Mã QR
+                  </div>
+                </Link>
               </>
             ) : (
               <>
                 <div className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
                   Chặn
                 </div>
-                <div className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
-                 onClick={handleClickReportAcc}
+                <div
+                  className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+                  onClick={handleClickReportAcc}
                 >
                   Báo cáo
                 </div>
               </>
             )}
-            <Link to={`/qr`}>
-              <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
-                Mã QR
-              </div>
-            </Link>
             <div
               className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
               onClick={handleClickIntroduceAcc}

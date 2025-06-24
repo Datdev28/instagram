@@ -6,8 +6,13 @@ import { RiArrowRightSLine } from "react-icons/ri";
 const ModalListOfReasonsReport = ({
   isOpenModalListOfReasons,
   setIsOpenModalListOfReasons,
+  setIsOpenModalReponseForReport,
   reportPost
 }) => {
+  const handleSubmitReport = () => {
+    setIsOpenModalReponseForReport(true)
+    setIsOpenModalListOfReasons(false);
+  }
   return (
     <div>
       <Modal
@@ -47,26 +52,38 @@ const ModalListOfReasonsReport = ({
               />
             </div>
             <div className="flex flex-col py-2">
-              <div className="flex justify-between items-center py-2 px-4 font-bold">
+              <div className="flex justify-between items-center py-2 px-4 font-bold"
+               onClick={handleSubmitReport}
+              >
                 <p>Tại sao bạn lại báo cáo {reportPost ? "bài viết" : "bình luận"} này?</p>
               </div>
-              <div className="flex justify-between items-center cursor-pointer py-2 px-4">
+              <div className="flex justify-between items-center cursor-pointer py-2 px-4"
+               onClick={handleSubmitReport}
+              >
                 <p>Đây là spam</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
               </div>
-              <div className="flex justify-between items-center cursor-pointer py-2 px-4">
+              <div className="flex justify-between items-center cursor-pointer py-2 px-4"
+               onClick={handleSubmitReport}
+              >
                 <p>Thông tin sai lệch</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
               </div>
-              <div className="flex justify-between items-center cursor-pointer py-2 px-4">
+              <div className="flex justify-between items-center cursor-pointer py-2 px-4"
+               onClick={handleSubmitReport}
+              >
                 <p>Bạo lực hoặc tổ chức nguy hiểm</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
               </div>
-              <div className="flex justify-between items-center cursor-pointer py-2 px-4">
+              <div className="flex justify-between items-center cursor-pointer py-2 px-4"
+               onClick={handleSubmitReport}
+              >
                 <p>Bắt nạt hoặc quấy rối</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
               </div>
-              <div className="flex justify-between items-center cursor-pointer py-2 px-4">
+              <div className="flex justify-between items-center cursor-pointer py-2 px-4"
+               onClick={handleSubmitReport}
+              >
                 <p>Chỉ là tôi không thích nội dung này</p>
                 <RiArrowRightSLine className="text-3xl text-color-note" />
               </div>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useTurnOffComment from "../../hooks/useTurnOffComment";
 import useTurnOffLikes from "../../hooks/useTurnOffLikes";
 import useFollowUser from "../../hooks/useFollowUser";
+
 const ModalSettingPost = ({
   isOpenSettingPost,
   setIsOpenSettingPost,
