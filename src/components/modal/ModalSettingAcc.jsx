@@ -93,7 +93,7 @@ const ModalSetting = ({
                 </div>
               </>
             )}
-            <Link to={`/qr/${username}`}>
+            <Link to={`/qr`}>
               <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
                 Mã QR
               </div>

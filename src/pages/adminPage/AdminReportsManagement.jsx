@@ -169,7 +169,7 @@ const AdminReportsManagement = () => {
                   />
                 </div>
               ) : (
-                <div className="overflow-y-scroll pr-[17px] min-h-[500px]">
+                <div className="overflow-y-scroll pr-[17px] max-h-[500px]">
                   <table className="min-w-full table-fixed divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>

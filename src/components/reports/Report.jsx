@@ -8,20 +8,21 @@ import ModalConfirmDeletePost from "../modal/ModalConfirmDeletePost";
 import useBannedUser from "../../hooks/useBannedUser";
 import useActionWithReport from "../../hooks/useActionWithReport";
 import { toast } from "react-toastify";
+import useSendNotifiCations from "../../hooks/useSendNotifiCations.js";
 
 const Report = ({ report, index, pickReportType, fetchReports }) => {
   const { userProfile, userTargetProfile } = useGetProfileUserById(
     report.reportedBy,
     report.targetId
   );
-  console.log(report);
   const {handleBannedUser} = useBannedUser();
   const {handleActionWithReport} = useActionWithReport();
+  const {sendNotificationBanned} = useSendNotifiCations()
   const [isOpenModalShowDetailReport, setIsOpenModalShowDetailReport] =
     useState(false);
   const [isOpenModalConfirmDeleteReport, setIsOpenModalConfirmDeleteReport] =
     useState(false);
-
+  
   const handleClickRemove = () => {
     setIsOpenModalConfirmDeleteReport(true);
   };
@@ -33,6 +34,7 @@ const Report = ({ report, index, pickReportType, fetchReports }) => {
      await handleBannedUser(userTargetProfile.uid, report.reason, bannedType);
      await handleActionWithReport(report.id, "resolved", `Cấm ${bannedType === 'comment' ? 'bình luận' : 'đăng bài'}`);
      toast.success(`Đã cấm người dùng ${bannedType} trong 3 phút`);
+     await sendNotificationBanned(userTargetProfile.uid, report.reportType, report.reason, bannedType);
      await fetchReports(pickReportType)
   };
   const handleClickBannedCommentAndPost = async() => {
@@ -40,6 +42,7 @@ const Report = ({ report, index, pickReportType, fetchReports }) => {
      await handleBannedUser(userTargetProfile.uid, report.reason, 'post');
      await handleActionWithReport(report.id, "resolved", "Cấm đăng bài và bình luận");
      toast.success("Đã cấm người dùng bình luận và đăng bài trong 3 phút");
+     await sendNotificationBanned(userTargetProfile.uid,report.reportType, report.reason, "commentAndPost");
      await fetchReports(pickReportType);
   }
   const handleUpdateStatus = async(newStatus) => {
@@ -54,7 +57,7 @@ const Report = ({ report, index, pickReportType, fetchReports }) => {
           <td className="px-6 py-4 whitespace-nowrap">
             <div className="flex items-center">
               <img
-                className="h-8 w-8 rounded-full object-cover"
+                className="h-8 w-8 rounded-full object-cover shrink-0"
                 src={userProfile?.profilePicURL || "/defaultProfilePic.jpg"}
                 alt="người gửi báo cáo"
               />
@@ -69,7 +72,7 @@ const Report = ({ report, index, pickReportType, fetchReports }) => {
           <td className="px-6 py-4 whitespace-nowrap">
             <div className="flex items-center">
               <img
-                className="h-8 w-8 rounded-full object-cover"
+                className="h-8 w-8 rounded-full object-cover shrink-0"
                 src={
                   userTargetProfile?.profilePicURL || "/defaultProfilePic.jpg"
                 }

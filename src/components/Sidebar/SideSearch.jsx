@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TiDelete } from "react-icons/ti";
 import useSearchUser from "../../hooks/useSearchUser";
 import searchToggleStore from "../../store/searchToggleStore";
 import { TbUserQuestion } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import useRecentNotifications from "../../hooks/useGetLast30DaysNotifications";
+import Notification from "../notification/Notification";
+import useAuthStore from '../../store/authStore'
 const SideSearch = () => {
   const [isOpenDel, setIsOpenDel] = useState(false);
+  const userAuth = useAuthStore(state => state.user)
   const [input, setInput] = useState("");
   const { isOpenToggle, setIsOpenToggle, mode } = searchToggleStore();
   const { error, isLoading, getUser, user, setUser, setError } = useSearchUser();
+  const {notifications} = useRecentNotifications(userAuth?.uid);
   const handleOnChange = (e) => {
     const value = e.target.value;
     setInput(value);
@@ -43,7 +48,23 @@ const SideSearch = () => {
     <div className="flex flex-col pl-4 text-white w-full gap-y-5 max-sm:hidden"
     >
       <p className="text-2xl font-bold px-4">{mode === 'search' ? "Tìm kiếm" : "Thông báo"}</p>
-       {mode === 'search' && (
+      {mode === 'notifications' && (
+        <p className="font-bold px-4">1 tháng vừa qua</p>
+      )}
+       {mode === 'notifications' && notifications && (
+         <div className="flex flex-col px-4 gap-y-2">
+          {notifications.length > 0 ? (
+            notifications.map((notification) => (
+              <Notification key={notification.id} notification={notification} notificationType={notification.notificationType}/>
+            ))   
+           ) : (
+            <div className="h-[400px] flex items-center justify-center">
+              <p className="font-bold">Không có thông báo</p>
+            </div>
+           )}
+         </div>
+       )}
+       {mode === 'search' &&  (
       <>
       <div className="flex items-center px-4 gap-x-4">
         <div className="relative w-full">

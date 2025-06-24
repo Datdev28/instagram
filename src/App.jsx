@@ -81,7 +81,7 @@ function App() {
             element={<ProfileDetailCollection isCollection={true}/>}
           ></Route>
           <Route
-            path="/qr/:username"
+            path="/qr"
             element={authUser ? <QrPage /> : <Navigate to="/auth" />}
           />
           <Route
