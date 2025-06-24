@@ -11,6 +11,9 @@ const ProfileTabs = ({ userProfile }) => {
   const handleClickCategorySave = () => {
     navigate("saved");
   };
+  const handleClickCategoryDashboard = () => {
+    navigate("dashboard");
+  }
   const ownerProfile = username === user.userName;
   const handleClickCategoryPost = () => {
     navigate(`/${userProfile.userName}`);
@@ -50,6 +53,7 @@ const ProfileTabs = ({ userProfile }) => {
                     ? "border-t-1 border-t-amber-50 text-white max-md:text-blue-500 "
                     : "text-color-text-gray"
                 } flex max-md:text-2xl gap-x-2 items-center justify-center px-2 max-md:w-full max-md:px-10 cursor-pointer py-2`}
+                onClick={handleClickCategoryDashboard}
               >
                 <FaRegChartBar />
                 <p className="max-md:hidden">Thống kê</p>

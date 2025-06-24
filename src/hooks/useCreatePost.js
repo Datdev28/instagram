@@ -30,6 +30,8 @@ const useCreatePost = () => {
       createBy: user?.uid,
       byUserName: user?.userName,
       byAvaUser: user?.profilePicURL,
+      likeCount: 0,
+      commentCount: 0,
     };
     try {
       const postDocRef = await addDoc(collection(fireStore, "posts"), newPost);

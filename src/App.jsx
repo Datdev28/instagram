@@ -13,6 +13,7 @@ import ShowPostPage from "./pages/ShowPostPage/ShowPostPage";
 import ProfileCollections from "./components/profileUser/ProfileCollections";
 import ProfileDetailCollection from "./components/profileUser/ProfileDetailCollection";
 import AdminReportsManagement from "./pages/adminPage/AdminReportsManagement";
+import ProfileDashboard from "./components/profileUser/ProfileDashboard";
 import { UserNotFound } from "./pages/ProfilePage/ProfilePage"
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -71,16 +72,17 @@ function App() {
           />
           <Route path="/:username" element={<ProfilePage/>}>
             <Route path="saved" element={<ProfileCollections/>}></Route>
+            <Route path="dashboard" element={<ProfileDashboard/>}></Route>
           </Route>
-          <Route path="admin/report-management" element={<AdminReportsManagement/>}/>
           <Route
             path="/:username/saved/all-posts"
-            element={<ProfileDetailCollection />}
+            element={<ProfileDetailCollection/>}
           ></Route>
           <Route
             path="/:username/saved/:collectionId"
             element={<ProfileDetailCollection isCollection={true}/>}
           ></Route>
+          <Route path="admin/report-management" element={<AdminReportsManagement/>}/>
           <Route path="/404" element={<UserNotFound/>}/>
           <Route path="*" element={<Navigate to="/404" />}/>
           <Route

@@ -1,4 +1,4 @@
-import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, doc, increment, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { fireStore } from "../firebase/firebase";
 import useAuthStore from "../store/authStore";
@@ -24,7 +24,9 @@ const useLikePost = (post) => {
               userName: user.userName,
               profilePicURL: user.profilePicURL,
               fullName: user.fullName,
-            }),
+              // likeCount: increment(1)
+            }), 
+        likeCount: liked ? increment(-1) : increment(1),
       });
     } catch {
       toast.error("Đã xảy ra lỗi. Hãy thử lại!");

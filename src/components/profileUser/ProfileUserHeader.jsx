@@ -73,9 +73,6 @@ const ProfileUserHeader = () => {
                   >
                     Chỉnh sửa trang cá nhân
                   </button>
-                  <button className="px-4 py-1 bg-color-btn-gray rounded-sm hover:bg-color-dash cursor-pointer max-xl:px-1">
-                    Xem kho lưu trữ
-                  </button>
                   <RiSettings4Fill
                     className="text-3xl text-white cursor-pointer"
                     onClick={() => setModalIsSetting(true)}
