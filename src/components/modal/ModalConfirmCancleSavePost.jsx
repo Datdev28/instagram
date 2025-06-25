@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { memo } from "react";
-import useFromCollection from "../../store/fromCollection";
+import useFromCollection from "../../store/fromCollectionStore";
 import useUnsaveFromAllCollections from "../../hooks/useUnsaveFromAllCollections"
 import useSavePost from "../../hooks/useSavePost";
 const ModalConfirmCancleSavePost = ({

@@ -1,7 +1,7 @@
 import { IoMdHeartEmpty } from "react-icons/io";
 import searchToggleStore from "../../store/searchToggleStore";
 import { LuDot } from "react-icons/lu";
-import useNotificationStore from "../../store/useNotificationStore";
+import useNotificationStore from "../../store/notificationStore";
 import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { fireStore } from "../../firebase/firebase";
 import useAuthStore from "../../store/authStore";

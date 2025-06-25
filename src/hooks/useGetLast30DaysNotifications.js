@@ -10,7 +10,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
-import useNotificationStore from "../store/useNotificationStore";
+import useNotificationStore from "../store/notificationStore";
 
 const useRecentNotifications = (userId) => {
   const [notifications, setNotifications] = useState([]);

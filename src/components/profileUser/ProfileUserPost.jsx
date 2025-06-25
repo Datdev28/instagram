@@ -6,7 +6,7 @@ import useAuthStore from "../../store/authStore";
 import ModalNotifiAuth from "../modal/ModalNotifiAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import useGetPostByPostId from "../../hooks/useGetPostByPostId";
-import useFromCollection from "../../store/fromCollection";
+import useFromCollection from "../../store/fromCollectionStore";
 const ProfileUserPost = ({
   post,
   postId,

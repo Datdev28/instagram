@@ -15,7 +15,7 @@ import convertDateTime from "../../utils/convertDateTime";
 import useSavePost from "../../hooks/useSavePost";
 import { FaBookmark } from "react-icons/fa";
 import includesCollection from "../../utils/includesCollection";
-import useFromCollection from "../../store/fromCollection";
+import useFromCollection from "../../store/fromCollectionStore";
 import useCollectionPostStore from "../../store/collectionSaveStore";
 import useListenCommentBan from "../../hooks/useListenCommentBan";
 import hasPassedMinutes from "../../utils/hasPassedMinutes";

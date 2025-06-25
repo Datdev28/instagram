@@ -7,13 +7,13 @@ import { IoIosCreate } from "react-icons/io";
 import CustomTooltip from "./CustomToolTip";
 const ProfileDashboard = () => {
   const user = useAuthStore((state) => state.user);
-  const { post, isGetting } = useMostInteractedPost(user?.uid);
-  const noPost = !post && isGetting;
+  const { mostPostLike, isGetting } = useMostInteractedPost(user?.uid);
+  const noPost = !mostPostLike && isGetting;
   const navigate = useNavigate();
   if (noPost) return <NoPosts />;
   const chartData = [
-    { name: "Likes", value: post?.likeCount, color: "#ec4899" },
-    { name: "Comments", value: post?.commentCount, color: "#3b82f6" },
+    { name: "Likes", value: mostPostLike?.likeCount, color: "#ec4899" },
+    { name: "Comments", value: mostPostLike?.commentCount, color: "#3b82f6" },
   ];
   return (
     <div className="flex justify-between min-h-[50vh] py-4 max-sm:flex-col max-sm:items-center">
@@ -33,10 +33,10 @@ const ProfileDashboard = () => {
             />
           ) : (
             <img
-              src={post?.imageOfPost[0]}
+              src={mostPostLike?.imageOfPost[0]}
               className="w-full h-full object-cover rounded-md cursor-pointer"
               alt="hình ảnh bài đăng"
-              onClick={() => navigate(`/p/${post.id}`)}
+              onClick={() => navigate(`/p/${mostPostLike.id}`)}
             />
           )}
         </div>
@@ -50,7 +50,7 @@ const ProfileDashboard = () => {
           <Tooltip
             content={
               <CustomTooltip
-                totalEngagement={post?.likeCount + post?.commentCount}
+                totalEngagement={mostPostLike?.likeCount + mostPostLike?.commentCount}
               />
             }
           />
@@ -74,12 +74,12 @@ const ProfileDashboard = () => {
         <div className="flex justify-center gap-8 mt-4">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-pink-500 rounded-full"></div>
-            <span className="text-white">❤️ Likes ({post?.likeCount})</span>
+            <span className="text-white">❤️ Likes ({mostPostLike?.likeCount})</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
             <span className="text-white">
-              💬 Comments ({post?.commentCount})
+              💬 Comments ({mostPostLike?.commentCount})
             </span>
           </div>
         </div>

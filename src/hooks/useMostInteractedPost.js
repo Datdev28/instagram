@@ -2,9 +2,10 @@ import { collection, getDocs, limit, orderBy, query, where } from "firebase/fire
 import { useEffect, useState } from "react";
 import { fireStore } from "../firebase/firebase";
 import { toast } from "react-toastify";
+import useMostPostLikeStore from "../store/mostPostLikeStore";
 
 const useMostInteractedPost = (userId) => {
-  const [post, setPost] = useState(null);
+  const {mostPostLike, setMostPostLike} = useMostPostLikeStore();
   const [isGetting, setIsGetting] = useState(false);
   const fetchMostInteractedPost = async () => {
     try {
@@ -17,7 +18,7 @@ const useMostInteractedPost = (userId) => {
       const snapShot = await getDocs(postRef);
       const doc = snapShot.docs[0];
       if (doc) {
-        setPost({...doc.data(), id: doc.id});
+        setMostPostLike({...doc.data(), id: doc.id});
       }
     } catch (error) {
       console.log(error);
@@ -30,7 +31,7 @@ const useMostInteractedPost = (userId) => {
     fetchMostInteractedPost();
   }, [userId]);
 
-  return { post, isGetting };
+  return { mostPostLike, isGetting };
 };
 
 export default useMostInteractedPost;
