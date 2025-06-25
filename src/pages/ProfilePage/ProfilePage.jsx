@@ -38,7 +38,7 @@ const ProfilePage = () => {
         <div className="w-full max-w-4xl">
           <Outlet />
         </div>
-        <div className="w-full text-center mt-20">
+        <div className="w-full text-center pt-20 pb-10">
           <Footer />
         </div>
       </div>

@@ -26,3 +26,7 @@
   scrollbar-width: thin;
   scrollbar-color: #5d5d5d #212121; /* thumb track */
 }
+.recharts-surface:focus,
+.recharts-sector:focus {
+  outline: none !important;
+}
