@@ -4,7 +4,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 import userProfileStore from "../../store/userProfileStore";
-import ProfileShowPostPick from "../profileUser/ProfileShowPostPick";
+import ProfileShowPostPick from "../profileUser/saveAndCollection/ProfileShowPostPick";
 import { useState } from "react";
 import useCreateCollection from "../../hooks/useCreateCollection";
 import useAddPostInCollection from "../../hooks/useAddPostInCollection";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useGetPostByPostId from "../../hooks/useGetPostByPostId";
+import useGetPostByPostId from "../../../hooks/useGetPostByPostId";
 import { ImCheckmark } from "react-icons/im";
 const ProfileShowPostPick = ({ postId, setPickPosts, pickPosts }) => {
   const { post } = useGetPostByPostId(postId);
