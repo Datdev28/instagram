@@ -21,7 +21,7 @@ const UserLike = ({ userLike }) => {
             className="cursor-pointer"
             onClick={() => navigate(`/${userLike.userName}`)}
           >
-            {userLike.userName}
+            {userLike.userName || "Người dùng Instagram"} 
           </p>
           <p className="text-color-text-gray">{userLike.fullName}</p>
         </div>

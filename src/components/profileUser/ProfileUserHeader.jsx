@@ -12,24 +12,32 @@ import ModalIntroduceAcc from "../modal/ModalIntroduceAcc";
 import ModalReportAccount from "../modal/ModalReportAccount";
 import ModalReasonReportAccount from "../modal/ModalReasonReportAccount";
 import ModalReponseForReport from "../modal/ModalReponseForReport";
+import ModalShowFollowingOrFollowers from "../modal/ModalShowFollowingOrFollowers";
 const ProfileUserHeader = () => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
   const [modalIsOpenNotifiAuth, setModalIsOpenNotifiAuth] = useState(false);
   const [modalIsOpenSetting, setModalIsSetting] = useState(false);
+
   const [isOpenModalIntroduceAcc, setIsOpenModalIntroduceAcc] = useState(false);
+  const [showType, setShowType] = useState("");
   const [isOpenModalReportAccount, setIsOpenModalReportAccount] =
     useState(false);
   const [isOpenModalReponseForReport, setIsOpenModalReponseForReport] =
     useState(false);
   const [isOpenModalReasonReportAccount, setIsOpenModalReasonReportAccount] =
     useState(false);
+  const [isOpenModalShowFollow, setIsOpenModalShowFollow] = useState(false);
   const { userProfile } = userProfileStore();
   const userAuth = useAuthStore((state) => state.user);
   const { isLoading, isFollowing, handleFollowUser } = useFollowUser(
     userProfile?.uid
   );
   const isOwnProfile = userAuth && userAuth.userName === userProfile.userName;
+  const handleClickOpenModalShowFollow = (type) => {
+    setIsOpenModalShowFollow(true);
+    setShowType(type);
+  };
   return (
     userProfile && (
       <div className="flex flex-col w-full max-sm:mt-18 mt-10">
@@ -40,22 +48,6 @@ const ProfileUserHeader = () => {
               src={userProfile.profilePicURL || "/defaultProfilePic.jpg"}
               alt="avatar"
             />
-            {isOwnProfile ? (
-              <div
-                className="absolute top-[-1.2rem] max-md:top-[-2rem] max-md:left-0 left-10 flex justify-center items-center w-[4rem] h-[2rem] rounded-xl bg-color-note py-5 cursor-pointer"
-                onClick={() => setModalIsOpenNote(!modalIsOpenNote)}
-              >
-                <p className="break-words text-color-text-gray text-[12px]">
-                  Ghi chú...
-                </p>
-                <div className="absolute bottom-[-0.5rem] left-[1rem] rounded-full  bg-color-note  w-[1rem] h-[1rem]">
-                  <div className="absolute top-[1rem] left-[0.5rem] rounded-full  bg-color-note  w-[0.5rem] h-[0.5rem]"></div>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-
             <p className="font-semibold hidden max-md:block whitespace-nowrap text-center ">
               {userProfile.fullName}
             </p>
@@ -117,13 +109,19 @@ const ProfileUserHeader = () => {
                 </span>
                 <span className="text-color-text-gray">bài viết</span>
               </p>
-              <p>
-                <span className="w-3 inline-block mx-[6px]">
+              <p
+                className="text-color-text-gray cursor-pọinter"
+                onClick={() => handleClickOpenModalShowFollow("followers")}
+              >
+                <span className="w-3 inline-block mx-[6px] text-white">
                   {userProfile.followers.length}
                 </span>
                 <span className="text-color-text-gray">người theo dõi</span>
               </p>
-              <p className="text-color-text-gray">
+              <p
+                className="text-color-text-gray cursor-pointer"
+                onClick={() => handleClickOpenModalShowFollow("following")}
+              >
                 Đang theo dõi
                 <span className="mx-[6px] inline-block text-white">
                   {userProfile.following.length}
@@ -148,13 +146,16 @@ const ProfileUserHeader = () => {
               </span>
               <span className="text-color-text-gray ">bài viết</span>
             </p>
-            <p className="text-center">
+            <p className="text-center" onClick={handleClickOpenModalShowFollow}>
               <span className="w-5 inline-block">
                 {userProfile.followers.length}
               </span>
               <span className="text-color-text-gray ">người theo dõi</span>
             </p>
-            <p className="text-color-text-gray text-center">
+            <p
+              className="text-color-text-gray text-center"
+              onClick={handleClickOpenModalShowFollow}
+            >
               Đang theo dõi <br />{" "}
               <span className="text-white w-6 inline-block">
                 {userProfile.following.length}
@@ -221,6 +222,14 @@ const ProfileUserHeader = () => {
             setIsOpenModalReponseForReport={setIsOpenModalReponseForReport}
           />
         )}
+        {isOpenModalShowFollow && (
+          <ModalShowFollowingOrFollowers
+            isOpenModalShowFollow={isOpenModalShowFollow}
+            setIsOpenModalShowFollow={setIsOpenModalShowFollow}
+            showType={showType}
+          />
+        )}
+
       </div>
     )
   );

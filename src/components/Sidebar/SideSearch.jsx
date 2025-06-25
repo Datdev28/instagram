@@ -84,7 +84,7 @@ const SideSearch = () => {
           )}
         </div>
         <button
-          className="px-2 py-1 border-2 text-md font-semibold border-color-dash hover:bg-color-note rounded-sm cursor-pointer"
+          className="px-2 py-1 border-2 w-16 h-10 text-md font-semibold border-color-dash hover:bg-color-note rounded-sm cursor-pointer"
           onClick={() => getUser(input)}
         >
           {isLoading ? (
