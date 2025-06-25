@@ -1,4 +1,4 @@
-import useGetPostByPostId from "../../hooks/useGetPostByPostId";
+import useGetPostByPostId from "../../../hooks/useGetPostByPostId";
 
 const ImageSavePost = ({ postId, index }) => {
   const { post } = useGetPostByPostId(postId);

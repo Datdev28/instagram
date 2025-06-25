@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaRegBookmark } from "react-icons/fa";
-import useAuthStore from "../../store/authStore";
-import ProfileUserPost from "./ProfileUserPost";
-import Footer from "../footer/Footer";
-import userProfileStore from "../../store/userProfileStore";
-import useGetProfileUserByUsername from "../../hooks/useGetProfileUserByUsername";
-import ModalSettingCollection from "../modal/ModalSettingCollection";
-import ModalShowPostSavesToPick from "../modal/ModalShowSavePostsToPick";
+import useAuthStore from "../../../store/authStore";
+import ProfileUserPost from "../ProfileUserPost";
+import Footer from "../../footer/Footer";
+import useGetProfileUserByUsername from "../../../hooks/useGetProfileUserByUsername";
+import ModalSettingCollection from "../../modal/ModalSettingCollection";
+import ModalShowPostSavesToPick from "../../modal/ModalShowSavePostsToPick";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import ModalConfirmDeleteCollection from "../modal/ModalConfirmDeleteCollection";
-import useGetCollectionFromCollections from "../../hooks/useGetCollectionFromCollections";
-import ModalCreateNameCollection from "../modal/ModalCreateNameCollection";
+import ModalConfirmDeleteCollection from "../../modal/ModalConfirmDeleteCollection";
+import useGetCollectionFromCollections from "../../../hooks/useGetCollectionFromCollections"
+import ModalCreateNameCollection from "../../modal/ModalCreateNameCollection"
+import userProfileStore from "../../../store/userProfileStore";
 const ProfileDetailCollection = ({ isCollection = false }) => {
   const navigate = useNavigate();
   const { collectionId, username } = useParams();

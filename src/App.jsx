@@ -10,10 +10,10 @@ import QrPage from "./pages/QrPage/QrPage";
 import SuggestedPage from "./pages/SuggestedPage/SuggestedPage";
 import ModalShowPost from "./components/modal/ModalShowPost";
 import ShowPostPage from "./pages/ShowPostPage/ShowPostPage";
-import ProfileCollections from "./components/profileUser/ProfileCollections";
-import ProfileDetailCollection from "./components/profileUser/ProfileDetailCollection";
+import ProfileCollections from "./components/profileUser/saveAndCollection/ProfileCollections";
+import ProfileDetailCollection from "./components/profileUser/saveAndCollection/ProfileDetailCollection";
 import AdminReportsManagement from "./pages/adminPage/AdminReportsManagement";
-import ProfileDashboard from "./components/profileUser/ProfileDashboard";
+import ProfileDashboard from "./components/profileUser/dashboard/ProfileDashboard";
 import { UserNotFound } from "./pages/ProfilePage/ProfilePage"
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";

@@ -17,7 +17,7 @@ const useMostInteractedPost = (userId) => {
       const snapShot = await getDocs(postRef);
       const doc = snapShot.docs[0];
       if (doc) {
-        setPost(doc.data());
+        setPost({...doc.data(), id: doc.id});
       }
     } catch (error) {
       console.log(error);

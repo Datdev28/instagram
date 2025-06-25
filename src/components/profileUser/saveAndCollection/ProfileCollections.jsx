@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
-import userProfileStore from "../../store/userProfileStore";
+import userProfileStore from "../../../store/userProfileStore";
 import ImageSavePost from "./ImageSavePost";
 import { useEffect, useState } from "react";
-import useAuthStore from "../../store/authStore";
-import ModalCreateNameCollection from "../modal/ModalCreateNameCollection";
-import ModalShowSavePostsToPick from "../modal/ModalShowSavePostsToPick";
-import useGetCollectionsOfUser from "../../hooks/useGetCollectionsOfUser";
+import ModalCreateNameCollection from "../../modal/ModalCreateNameCollection";
+import ModalShowSavePostsToPick from "../../modal/ModalShowSavePostsToPick";
+import useGetCollectionsOfUser from "../../../hooks/useGetCollectionsOfUser";
+import useAuthStore from "../../../store/authStore";
 const ProfileCollections = () => {
   const { username } = useParams();
   const navigate = useNavigate();
