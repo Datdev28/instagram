@@ -191,7 +191,7 @@ const Report = ({ report, index, pickReportType, fetchReports }) => {
       )}
 
       {isOpenModalShowDetailReport &&
-        createPortal(
+       createPortal(
           <ModalShowDetailReport
             report={report}
             userTargetProfile={userTargetProfile}
@@ -205,6 +205,7 @@ const Report = ({ report, index, pickReportType, fetchReports }) => {
       {isOpenModalConfirmDeleteReport &&
         createPortal(
           <ModalConfirmDeletePost
+            reportId={report.id}
             isOpenModalConfirmDeletePost={isOpenModalConfirmDeleteReport}
             setIsOpenModalConfirmDeletePost={setIsOpenModalConfirmDeleteReport}
             isOpenFromReport={true}

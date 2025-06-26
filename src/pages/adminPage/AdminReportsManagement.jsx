@@ -1,6 +1,7 @@
 import { Filter, Eye, CheckCircle, Clock, Flag } from "lucide-react";
 import useGetReports from "../../hooks/useGetReports";
 import Report from "../../components/reports/Report";
+import { IoRefresh } from "react-icons/io5";
 import { useState } from "react";
 const AdminReportsManagement = () => {
   const { reports, fetchReports, isGetting } = useGetReports();
@@ -10,7 +11,9 @@ const AdminReportsManagement = () => {
     setPickReportType(`${reportType}`);
     await fetchReports(reportType);
   };
-  
+  const handleClickRefresh = async() => {
+    await fetchReports()
+  }
   return (
     <div className="h-screen bg-gray-50 overflow-x-hidden">
       {reports && (
@@ -98,62 +101,67 @@ const AdminReportsManagement = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-              <div className="flex items-center space-x-4">
-                <Filter className="w-5 h-5 text-gray-500" />
-                <button
-                  className={`${
-                    pickReportType === "all"
-                      ? "bg-blue-700 text-white"
-                      : "bg-gray-200 text-black"
-                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
-                  onClick={() => handleClickReportType("all")}
+            <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm mb-6">
+                <div className="flex items-center space-x-4">
+                  <Filter className="w-5 h-5 text-gray-500" />
+                  <button
+                    className={`${
+                      pickReportType === "all"
+                        ? "bg-blue-700 text-white"
+                        : "bg-gray-200 text-black"
+                    } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
+                    onClick={() => handleClickReportType("all")}
+                  >
+                    Tất cả
+                  </button>
+                  <button
+                    className={`${
+                      pickReportType === "pending"
+                        ? "bg-blue-700 text-white"
+                        : "bg-gray-200 text-black"
+                    } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
+                    onClick={() => handleClickReportType("pending")}
+                  >
+                    Chờ xử lý
+                  </button>
+                  <button
+                    className={`${
+                      pickReportType === "reviewed"
+                        ? "bg-blue-700 text-white"
+                        : "bg-gray-200 text-black"
+                    } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
+                    onClick={() => handleClickReportType("reviewed")}
+                  >
+                    Đã xem xét
+                  </button>
+                  <button
+                    className={`${
+                      pickReportType === "resolved"
+                        ? "bg-blue-700 text-white"
+                        : "bg-gray-200 text-black"
+                    } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
+                    onClick={() => handleClickReportType("resolved")}
+                  >
+                    Đã giải quyết
+                  </button>
+                  <button
+                    className={`${
+                      pickReportType === "refuse"
+                        ? "bg-blue-700 text-white"
+                        : "bg-gray-200 text-black"
+                    } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors`}
+                    onClick={() => handleClickReportType("refuse")}
+                  >
+                    Đã từ chối
+                  </button>
+                </div>
+                <div className="flex gap-x-2 items-center cursor-pointer bg-gray-200 px-2 py-1 rounded-md"
+                 onClick={handleClickRefresh}
                 >
-                  Tất cả
-                </button>
-                <button
-                  className={`${
-                    pickReportType === "pending"
-                      ? "bg-blue-700 text-white"
-                      : "bg-gray-200 text-black"
-                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
-                  onClick={() => handleClickReportType("pending")}
-                >
-                  Chờ xử lý
-                </button>
-                <button
-                  className={`${
-                    pickReportType === "reviewed"
-                      ? "bg-blue-700 text-white"
-                      : "bg-gray-200 text-black"
-                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
-                  onClick={() => handleClickReportType("reviewed")}
-                >
-                  Đã xem xét
-                </button>
-                <button
-                  className={`${
-                    pickReportType === "resolved"
-                      ? "bg-blue-700 text-white"
-                      : "bg-gray-200 text-black"
-                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors select-none`}
-                  onClick={() => handleClickReportType("resolved")}
-                >
-                  Đã giải quyết
-                </button>
-                <button
-                  className={`${
-                    pickReportType === "refuse"
-                      ? "bg-blue-700 text-white"
-                      : "bg-gray-200 text-black"
-                  } font-semibold px-4 py-1 rounded-md cursor-pointer transition-colors`}
-                  onClick={() => handleClickReportType("refuse")}
-                >
-                  Đã từ chối
-                </button>
-              </div>
+                   <IoRefresh className="text-2xl"/>
+                   <p className="font-semibold">Làm mới</p>
+                </div>
             </div>
-
             <div className="bg-white rounded-lg shadow-sm ">
               {noReports ? (
                 <div className="w-full h-64 text-3xl font-bold flex items-center justify-center text-gray-500">

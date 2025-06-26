@@ -9,7 +9,6 @@ const ModalShowDetailReport = ({
   report,
   index,
 }) => {
-  console.log(report);
   return (
     <div>
       <Modal
