@@ -22,7 +22,7 @@ const useMostInteractedPost = (userId) => {
       );
       const snapShot = await getDocs(postRef);
       const doc = snapShot.docs[0];
-      if (doc) {
+      if (doc.data().likeCount > 0) {
         setMostPostLike({ ...doc.data(), id: doc.id });
       }
     } catch (error) {

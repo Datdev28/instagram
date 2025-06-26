@@ -3,7 +3,7 @@ import CustomTooltip from "./CustomToolTip";
 const BarChartPost = ({ mostPostLike, chartData }) => {
   return (
     <div className="flex flex-col">
-      <BarChart width={300} height={380} data={chartData}>
+      <BarChart width={400} height={380} data={chartData}>
         <Tooltip
           content={
             <CustomTooltip
@@ -14,7 +14,7 @@ const BarChartPost = ({ mostPostLike, chartData }) => {
           }
         />
         <XAxis dataKey="name" />
-        <YAxis />
+        <YAxis allowDecimals={false}/>
         <Bar
           dataKey="value"
           nameKey="name"

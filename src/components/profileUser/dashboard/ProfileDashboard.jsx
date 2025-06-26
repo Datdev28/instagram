@@ -20,7 +20,7 @@ const ProfileDashboard = () => {
       navigate(`/${username}`);
     }
   }, [username, user, navigate]);
-  if (noPost) return <NoPosts />;
+  if (noPost) return <NoPosts usedProfileDashboard={true}/>;
   const chartData = [
     { name: "Likes", value: mostPostLike?.likeCount, color: "#ec4899" },
     { name: "Comments", value: mostPostLike?.commentCount, color: "#3b82f6" },

@@ -47,7 +47,7 @@ const ProfileCollections = () => {
           onClick={handleClickGoToAllPosts}
         >
           <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-0 transition-opacity z-10" />
-          {userProfile && userProfile.length > 0 &&
+          {userProfile && 
             userProfile.savePosts
               .slice(0, 4)
               .map((postId, index) => (

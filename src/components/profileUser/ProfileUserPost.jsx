@@ -55,7 +55,7 @@ const ProfileUserPost = ({
     <div className="flex relative group">
       <img
         src={!showPostSave ? post.imageOfPost[0] : postSave.post.imageOfPost[0]}
-        className="object-cover w-full max-h-[450px] hover:opacity-40 cursor-pointer"
+        className="object-cover w-full max-h-[450px] max-sm:max-h-[220px] hover:opacity-40 cursor-pointer"
         alt="bài đăng"
         onClick={handleShowPost}
       />

@@ -48,14 +48,14 @@ const OwnNoPosts = () => {
     </div>
   );
 };
-export const NoPosts = () => {
+export const NoPosts = ({usedProfileDashboard = false}) => {
   return (
     <div className="flex flex-col items-center justify-center w-full py-16 gap-y-2">
       <div className="w-[4.5rem] h-[4.5rem] border-2 rounded-full flex justify-center items-center">
         <CiCamera className="text-5xl" />
       </div>
       <p className="text-center text-md font-bold text-3xl mt-4">
-        Chưa có bài viết
+        {usedProfileDashboard? "Chưa có bài viết hoặc bài viết chưa có lượt thích" : "Chưa có bài viết"} 
       </p>
     </div>
   );
