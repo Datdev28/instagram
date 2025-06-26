@@ -3,22 +3,29 @@ import { BsFillPieChartFill } from "react-icons/bs";
 import { IoBarChart } from "react-icons/io5";
 import useAuthStore from "../../../store/authStore";
 import { NoPosts } from "../ProfileUserPosts";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { IoIosCreate } from "react-icons/io";
 import PieChartPost from "./PieChartPost";
 import BarChartPost from "./BarChartPost";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const ProfileDashboard = () => {
   const user = useAuthStore((state) => state.user);
   const { mostPostLike, isGetting } = useMostInteractedPost(user?.uid);
   const noPost = !mostPostLike && isGetting;
   const navigate = useNavigate();
+  const { username } = useParams();
   const [pickChart, setPickChart] = useState("pie");
+  useEffect(() => {
+    if (user && username !== user.userName) {
+      navigate(`/${username}`);
+    }
+  }, [username, user, navigate]);
   if (noPost) return <NoPosts />;
   const chartData = [
     { name: "Likes", value: mostPostLike?.likeCount, color: "#ec4899" },
     { name: "Comments", value: mostPostLike?.commentCount, color: "#3b82f6" },
   ];
+
   return (
     <div className="flex justify-between min-h-[50vh] py-4 max-md:flex-col max-md:items-center max-md:gap-y-10">
       {mostPostLike && (
@@ -48,7 +55,7 @@ const ProfileDashboard = () => {
                 onClick={() => setPickChart("pie")}
               >
                 <BsFillPieChartFill />
-                <p>Pie chart</p>
+                <p>Biểu đồ tròn</p>
               </button>
               <button
                 className={`${
@@ -57,7 +64,7 @@ const ProfileDashboard = () => {
                 onClick={() => setPickChart("bar")}
               >
                 <IoBarChart />
-                <p>Bar chart</p>
+                <p>Biểu đồ cột</p>
               </button>
             </div>
             {pickChart === "bar" ? (

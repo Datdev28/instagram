@@ -46,6 +46,7 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
       setNameCollectionInput(collection.name);
     }
   }, [collection?.name]);
+
   return (
     userProfile && (
       <div className="w-full flex flex-col items-center px-2 max-sm:mt-10 mt-4 text-white">

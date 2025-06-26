@@ -6,8 +6,10 @@ import { toast } from "react-toastify";
 const useGetProfileUserById = (userId, targetUserId = null) => {
   const [userProfile, setUserProfile] = useState(null);
   const [userTargetProfile, setUserTargetProfile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const getProfileUserById = async () => {
+        setIsLoading(true)
       try {
         const userRef = doc(fireStore, "users", userId);
         const userDocument = await getDoc(userRef);
@@ -23,11 +25,13 @@ const useGetProfileUserById = (userId, targetUserId = null) => {
         }
       } catch {
         toast.error("Đã xảy ra lỗi. Hãy thử lại!");
+      } finally {
+        setIsLoading(false)
       }
     };
     getProfileUserById();
   }, [userId, targetUserId]);
-  return { userProfile, userTargetProfile };
+  return { userProfile, userTargetProfile, isLoading };
 };
 
 export default useGetProfileUserById;

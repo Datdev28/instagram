@@ -43,7 +43,7 @@ const ModalShowFollowingOrFollowers = ({
       >
         <motion.div className="bg-color-dash text-white overflow-hidden rounded-2xl w-full flex flex-col items-center gap-y-2 select-none">
           <div className="flex flex-col w-full">
-            <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer relative">
+            <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center relative">
               <p className="font-bold">
                 {showType === "followers" ? "Người theo dõi" : "Đang theo dõi"}
               </p>
@@ -52,7 +52,7 @@ const ModalShowFollowingOrFollowers = ({
                 onClick={() => setIsOpenModalShowFollow(false)}
               />
             </div>
-            <div className="flex flex-col py-2 max-h-[426px] overflow-y-auto custom-scrollbar text-white gap-y-6 px-4">
+            <div className="flex flex-col py-4 max-h-[426px] overflow-y-scroll custom-scrollbar text-white gap-y-6 px-4">
                 {showType === "followers" ? (
                   userProfile.followers.map((userFollowId) => (
                     <UserFollow userFollowId={userFollowId}/>

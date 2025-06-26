@@ -35,13 +35,13 @@ const PieChartPost = ({mostPostLike, chartData}) => {
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-pink-500 rounded-full"></div>
               <span className="text-white">
-                ❤️ Likes ({mostPostLike?.likeCount})
+                ❤️ Lượt thích ({mostPostLike?.likeCount})
               </span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
               <span className="text-white">
-                💬 Comments ({mostPostLike?.commentCount})
+                💬 Lượt bình luận ({mostPostLike?.commentCount})
               </span>
             </div>
           </div>

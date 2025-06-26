@@ -46,7 +46,7 @@ const Login = () => {
           type="submit"
           className={`w-full bg-blue-400 ${
             login.email && login.password ? "opacity-100" : "opacity-60"
-          } text-white font-medium py-1 rounded transition duration-200 cursor-pointer flex justify-center`}
+          } text-white font-medium py-1 h-10 items-center rounded transition duration-200 cursor-pointer flex justify-center`}
           onClick={() => signIn(login)}
         >
           {loading ? (

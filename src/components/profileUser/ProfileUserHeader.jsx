@@ -110,7 +110,7 @@ const ProfileUserHeader = () => {
                 <span className="text-color-text-gray">bài viết</span>
               </p>
               <p
-                className="text-color-text-gray cursor-pọinter"
+                className="text-color-text-gray cursor-pointer"
                 onClick={() => handleClickOpenModalShowFollow("followers")}
               >
                 <span className="w-3 inline-block mx-[6px] text-white">
@@ -146,15 +146,17 @@ const ProfileUserHeader = () => {
               </span>
               <span className="text-color-text-gray ">bài viết</span>
             </p>
-            <p className="text-center" onClick={handleClickOpenModalShowFollow}>
+            <p className="text-center cursor-pointer" 
+             onClick={() => handleClickOpenModalShowFollow("followers")}
+            >
               <span className="w-5 inline-block">
                 {userProfile.followers.length}
               </span>
               <span className="text-color-text-gray ">người theo dõi</span>
             </p>
             <p
-              className="text-color-text-gray text-center"
-              onClick={handleClickOpenModalShowFollow}
+              className="text-color-text-gray text-center cursor-pointer"
+              onClick={() => handleClickOpenModalShowFollow("following")}
             >
               Đang theo dõi <br />{" "}
               <span className="text-white w-6 inline-block">

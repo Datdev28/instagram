@@ -172,7 +172,7 @@ const SignUp = () => {
             inputSign.confirmPassword
               ? "opacity-100"
               : "opacity-60"
-          } text-white font-medium py-1 rounded transition duration-200 cursor-pointer flex justify-center`
+          } text-white font-medium py-1 rounded transition duration-200 h-12 items-center cursor-pointer flex justify-center`
         }
         disabled={!(inputSign.email && inputSign.password && inputSign.userName && inputSign.fullName && inputSign.confirmPassword)}
         >
