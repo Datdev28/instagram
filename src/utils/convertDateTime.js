@@ -9,7 +9,7 @@ const convertDateTime = (dateTime) => {
   if (isNaN(targetTime)) return "Thời gian không hợp lệ";
   if (diffInSeconds < 60) return "Vừa xong";
 
-  return formatDistanceToNowStrict(new Date(dateTime), { locale: vi });
+  return `${formatDistanceToNowStrict(new Date(dateTime), { locale: vi })} trước`;
 };
 
 export default convertDateTime;

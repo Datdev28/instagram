@@ -64,7 +64,7 @@ const ModalConfirmDeleteUserFollower = ({
             className="flex flex-col w-full justify-center items-center border-t border-t-color-btn-gray hover:bg-color-note cursor-pointer"
             onClick={handleClickDeleteUserFollower}
           >
-            <p className="text-red-500 font-bold">Xóa</p>
+            <p className="text-red-500 font-bold py-2">Xóa</p>
           </div>
           <div
             className="w-full py-2 border-t border-t-color-btn-gray flex justify-center cursor-pointer hover:bg-color-note"

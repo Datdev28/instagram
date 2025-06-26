@@ -203,7 +203,7 @@ const handleComment = async () => {
         )}
       </div>
       <p className="text-color-text-gray text-sm ">
-        {convertDateTime(post.createdAt)} trước
+        {convertDateTime(post.createdAt)}
       </p>
       {user ? (
         post.turnOfComment ? (
