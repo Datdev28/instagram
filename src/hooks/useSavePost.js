@@ -52,7 +52,7 @@ const useSavePost = (postId) => {
   };
   useEffect(() => {
     if (user) {
-      setIsSave(user.savePosts.includes(postId));
+      setIsSave(user?.savePosts?.includes(postId));
     }
   }, [user, postId]);
 

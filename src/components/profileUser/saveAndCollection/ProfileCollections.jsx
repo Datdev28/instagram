@@ -28,7 +28,6 @@ const ProfileCollections = () => {
       navigate(`/${username}`);
     }
   }, [username, user, navigate]);
-  console.log(userProfile.savePosts);
   return (
     <div className="w-full flex flex-col mt-4 gap-y-6">
       <div className="flex justify-between items-center max-sm:px-4 whitespace-nowrap max-sm:gap-x-4">
@@ -48,7 +47,7 @@ const ProfileCollections = () => {
           onClick={handleClickGoToAllPosts}
         >
           <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-0 transition-opacity z-10" />
-          {userProfile &&
+          {userProfile && userProfile.length > 0 &&
             userProfile.savePosts
               .slice(0, 4)
               .map((postId, index) => (

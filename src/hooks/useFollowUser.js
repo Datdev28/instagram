@@ -4,18 +4,23 @@ import useAuthStore from "../store/authStore";
 import { fireStore } from "../firebase/firebase";
 import userProfileStore from "../store/userProfileStore";
 import { toast } from "react-toastify";
+
 const useFollowUser = (userId) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { user, setUser } = useAuthStore();
   const { userProfile, setUserProfile } = userProfileStore();
+
   const handleFollowUser = async () => {
     if (!user) return;
-    if(isLoading) return
+    if (isLoading) return;
+    
     try {
       setIsLoading(true);
+      
       const currentUserRef = doc(fireStore, "users", user.uid);
       const trackedPersonRef = doc(fireStore, "users", userId);
+      
       await updateDoc(currentUserRef, {
         following: isFollowing ? arrayRemove(userId) : arrayUnion(userId),
       });
@@ -25,50 +30,46 @@ const useFollowUser = (userId) => {
       });
 
       if (isFollowing) {
-        if (userProfile) {
-          const filterFollowing = user.following.filter(
-            (uid) => uid !== userId
-          );
-          const filterFollowers = userProfile.followers.filter(
-            (uid) => uid !== user.uid
-          );
-          setUser({ ...user, following: filterFollowing });
-          setUserProfile({ ...userProfile, followers: filterFollowers });
-          localStorage.setItem(
-            "user",
-            JSON.stringify({ ...user, following: filterFollowing })
-          );
-          setIsFollowing(false);
+        const updatedFollowing = user.following.filter(uid => uid !== userId);
+        const updatedUser = { ...user, following: updatedFollowing };
+        
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        
+        if (userProfile && userProfile.uid === userId) {
+          const updatedFollowers = userProfile.followers.filter(uid => uid !== user.uid);
+          setUserProfile({ ...userProfile, followers: updatedFollowers });
         }
+        
+        setIsFollowing(false);
       } else {
-        if (userProfile) {
-          setUser({ ...user, following: [...user.following, userId] });
-          setUserProfile({
-            ...userProfile,
-            followers: [...userProfile.followers, user.uid],
-          });
-
-          localStorage.setItem(
-            "user",
-            JSON.stringify({
-              ...user,
-              following: [...user.following, userId],
-            })
-          );
-          setIsFollowing(true);
+        const updatedFollowing = [...user.following, userId];
+        const updatedUser = { ...user, following: updatedFollowing };
+        
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        
+        if (userProfile && userProfile.uid === userId) {
+          const updatedFollowers = [...userProfile.followers, user.uid];
+          setUserProfile({ ...userProfile, followers: updatedFollowers });
         }
+        
+        setIsFollowing(true);
       }
-    } catch {
+    } catch (error) {
+      console.error("Follow/Unfollow error:", error);
       toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
-    if (!user) return;
+    if (!user || !userId) return;
     const isUserFollowing = user.following.includes(userId);
     setIsFollowing(isUserFollowing);
   }, [userId, user]);
+
   return { isLoading, isFollowing, handleFollowUser };
 };
 

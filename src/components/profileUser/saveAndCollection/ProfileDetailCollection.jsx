@@ -40,7 +40,7 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
   }, [username, user, navigate]);
   const noPickedPost =
     collection?.pickedPosts?.length === 0 ||
-    userProfile?.savePosts.length === 0;
+    userProfile?.savePosts?.length === 0;
   useEffect(() => {
     if (collection?.name) {
       setNameCollectionInput(collection.name);
@@ -70,7 +70,7 @@ const ProfileDetailCollection = ({ isCollection = false }) => {
             )}
           </div>
           {(!isCollection
-            ? userProfile?.savePosts.length > 0
+            ? userProfile?.savePosts?.length > 0
             : collection?.pickedPosts?.length > 0) && (
             <div className="flex flex-col gap-y-2 min-h-[50vh] max-sm:min-h-[30vh]">
               <div className="grid grid-cols-3 gap-1 w-full">
