@@ -22,12 +22,14 @@ import { doc, getDoc } from "firebase/firestore";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
+import useGetBlockList from "./hooks/useGetBlockList";
 function App() {
   const [authUser, loading] = useAuthState(auth);
   const { progress } = useLoadingBarStore();
   const { setUser, user } = useAuthStore();
   const [loadingData, setLoadingData] = useState(false);
   const location = useLocation();
+  useGetBlockList(user?.uid);
   const renderData = async () => {
     try {
       setLoadingData(true);

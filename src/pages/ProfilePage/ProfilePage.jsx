@@ -6,8 +6,12 @@ import { useParams, Outlet, useLocation } from "react-router-dom";
 import useGetProfileUserByUsername from "../../hooks/useGetProfileUserByUsername";
 import { Link } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
+import useBlockListStore from "../../store/blockListStore";
 const ProfilePage = () => {
   const { username } = useParams();
+  const {blockerIdList, blockedIdList} = useBlockListStore();
+  console.log("blockerIdList", blockerIdList)
+  console.log("blockedIdList", blockedIdList);
   const { isLoading, userProfile } = useGetProfileUserByUsername(username);
   const [pickCategory, setPickCategory] = useState("post");
   const findUserInfo = !userProfile && isLoading;

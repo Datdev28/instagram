@@ -5,6 +5,8 @@ import useLogOut from "../../hooks/useLogOut";
 import { useNavigate } from "react-router-dom";
 import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 import useAuthStore from "../../store/authStore";
+import ModalConfirmBlock from "./ModalConfirmBlock";
+import { useState } from "react";
 const ModalSetting = ({
   modalIsOpenSetting,
   setModalIsSetting,
@@ -13,13 +15,17 @@ const ModalSetting = ({
 }) => {
   useLockBodyScroll(modalIsOpenSetting);
   const { username } = useParams();
+  const [isOpenModalConfirmBlock, setIsOpenModalConfirmBlock] = useState(false);
   const { handleLogOut } = useLogOut();
   const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
   const handleClickLogOut = async () => {
     await handleLogOut();
     navigate("/auth");
   };
-  const user = useAuthStore((state) => state.user);
+  const handleClickBlock = () => {
+    setIsOpenModalConfirmBlock(true);
+  }
   const handleClickIntroduceAcc = () => {
     setIsOpenModalIntroduceAcc(true);
     setModalIsSetting(false);
@@ -88,7 +94,9 @@ const ModalSetting = ({
               </>
             ) : (
               <>
-                <div className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
+                <div className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+                 onClick={handleClickBlock}
+                >
                   Chặn
                 </div>
                 <div
@@ -112,6 +120,13 @@ const ModalSetting = ({
               Hủy
             </div>
           </div>
+          {isOpenModalConfirmBlock && (
+            <ModalConfirmBlock
+              isOpenModalConfirmBlock={isOpenModalConfirmBlock}
+              setIsOpenModalConfirmBlock={setIsOpenModalConfirmBlock}
+              setModalIsSetting={setModalIsSetting}
+            />
+          )}
         </motion.div>
       </Modal>
     </div>
