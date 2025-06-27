@@ -75,7 +75,7 @@ const ModalShowPostSavesToPick = ({
         <div className="w-full bg-color-dash py-2 flex justify-center items-center px-4 relative">
           {!addPostFromCollection && (
             <MdKeyboardArrowLeft
-              className="text-3xl cursor-pointer"
+              className="text-3xl cursor-pointer absolute left-2 top-1"
               onClick={handleClickBackCreateName}
             />
           )}
