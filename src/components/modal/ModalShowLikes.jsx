@@ -48,7 +48,7 @@ const ModalShowLikes = ({
             </div>
             <div className="flex flex-col py-2 max-h-[426px] overflow-y-auto custom-scrollbar text-white gap-y-6 px-4">
               {post.likes.map((userLike) => (
-                <UserLike userLike={userLike} key={userLike.userId}/>
+                <UserLike userLike={userLike} key={userLike}/>
               ))}
             </div>
           </div>

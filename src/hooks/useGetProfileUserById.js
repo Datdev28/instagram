@@ -8,6 +8,7 @@ const useGetProfileUserById = (userId, targetUserId = null) => {
   const [userTargetProfile, setUserTargetProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    if(!userId) return
     const getProfileUserById = async () => {
         setIsLoading(true)
       try {
@@ -23,7 +24,8 @@ const useGetProfileUserById = (userId, targetUserId = null) => {
             setUserTargetProfile(targetUserDocument.data());
           }
         }
-      } catch {
+      } catch(error) {
+        console.log(error);
         toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       } finally {
         setIsLoading(false)

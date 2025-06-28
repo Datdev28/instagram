@@ -10,14 +10,15 @@ const useLikePost = (post) => {
     setIsLiking(true);
     try {
       const postRef = doc(fireStore, "posts", post.id);
-      const liked = post.likes.some((like) => like.userId === user.uid);
+      const liked = post.likes.some((like) => like === user.uid);
       await updateDoc(postRef, {
         likes: liked
           ? arrayRemove(user.uid)
           : arrayUnion(user.uid), 
         likeCount: liked ? increment(-1) : increment(1),
       });
-    } catch {
+    } catch(error) {
+      console.log(error)
       toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
       setIsLiking(false);

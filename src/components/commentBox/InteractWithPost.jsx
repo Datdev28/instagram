@@ -20,6 +20,7 @@ import useCollectionPostStore from "../../store/collectionSaveStore";
 import useListenCommentBan from "../../hooks/useListenCommentBan";
 import hasPassedMinutes from "../../utils/hasPassedMinutes";
 import { toast } from "react-toastify";
+import useGetProfileUserById from "../../hooks/useGetProfileUserById";
 const InteractWithPost = ({
   post,
   setIsOpenModalLikePostWithoutLogin,
@@ -46,6 +47,7 @@ const InteractWithPost = ({
   const fromCollection = useFromCollection((state) => state.fromCollection);
   const collections = useCollectionPostStore((state) => state.collections);
   const { isSave, handleSavePost } = useSavePost(post?.id);
+  const {userProfile} = useGetProfileUserById(post?.likes[0]);
   const handleComment = async () => {
     const isStillBanned = commentBan && !hasPassedMinutes(commentBan.from, 3);
     if (isStillBanned) {
@@ -104,7 +106,7 @@ const InteractWithPost = ({
   );
   useEffect(() => {
     if (post && user) {
-      setIsLike(post.likes.some((like) => like.userId === user.uid));
+      setIsLike(post.likes.some((like) => like === user.uid));
     }
   }, [post?.likes, user?.uid]);
   useEffect(() => {
@@ -153,16 +155,16 @@ const InteractWithPost = ({
           <div className="space-x-1">
             <div className="inline space-x-2">
               <img
-                src={post.likes[0].profilePicURL}
+                src={userProfile?.profilePicURL}
                 className="w-5 h-5 rounded-full object-cover inline cursor-pointer"
                 alt="hình ảnh đại diện"
-                onClick={() => navigate(`/${post.likes[0].userName}`)}
+                onClick={() => navigate(`/${userProfile.userName}`)}
               />
               <p
                 className="inline cursor-pointer"
-                onClick={() => navigate(`/${post.likes[0].userName}`)}
+                onClick={() => navigate(`/${userProfile.userName}`)}
               >
-                {post.likes[0].userName}
+                {userProfile.userName}
               </p>
             </div>
             <p

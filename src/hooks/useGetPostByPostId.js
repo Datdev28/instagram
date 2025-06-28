@@ -19,7 +19,8 @@ const useGetPostByPostId = ( postId ) => {
       setProgress(100);
       setIsLoading(false);
 
-    }, () => {
+    }, (error) => {
+      console.log(error);
       toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       setProgress(100);
       setIsLoading(false);

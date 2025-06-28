@@ -13,7 +13,7 @@ const useFollowUser = (userId) => {
 
   const handleFollowUser = async () => {
     if (!user) return;
-    if (isLoading) return;
+    if (isLoading) return toast.warning("Thao tác quá nhanh!");
     
     try {
       setIsLoading(true);
