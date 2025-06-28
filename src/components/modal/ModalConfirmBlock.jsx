@@ -10,14 +10,14 @@ const ModalConfirmBlock = ({
   setIsOpenModalConfirmBlock,
   setModalIsSetting
 }) => {
-  const userProfile = userProfileStore((state) => state.userProfile);
-  const user = useAuthStore((state) => state.user);
+  const userBlocked = userProfileStore((state) => state.userProfile);
+  const userBlocker = useAuthStore((state) => state.user);
   const { handleBlockUser } = useCreateBlockUser();
   const [isOpenModalResponseForBlock, setIsOpenModalResponseForBlock] =
     useState(false);
   const handleClickBlock = async () => {
     setIsOpenModalResponseForBlock(true);
-    await handleBlockUser(user.uid, userProfile.uid);
+    await handleBlockUser(userBlocker.uid, userBlocked.uid);
   };
   return (
     <div>

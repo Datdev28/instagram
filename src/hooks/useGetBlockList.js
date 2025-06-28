@@ -12,6 +12,7 @@ const useGetBlockList = (userId) => {
      const blockedIdListRef = query(collection(fireStore, 'blocks'), where('blockedUserId', '==', userId));
      const blockerQuerySnapshot = await getDocs(blockerIdListRef);
      const blockedQuerySnapshot = await getDocs(blockedIdListRef);
+     console.log(1);
      const newBlockerIdList = []; 
      const newBlockedIdList = [];
      if(!blockerQuerySnapshot.empty){
