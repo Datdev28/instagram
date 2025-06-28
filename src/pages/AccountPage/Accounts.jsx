@@ -12,10 +12,12 @@ const Accounts = () => {
         <p className="font-bold text-xl px-2">Cài đặt</p>
         <div className="space-y-1">
           <p className="text-color-text-gray text-xs px-2">Tài khoản của bạn</p>
-          <div className="flex gap-x-2 items-center hover:bg-color-btn-gray rounded-sm py-1 px-2 cursor-pointer">
-            <MdOutlineSecurity className="text-2xl" />
-            <p>Mật khẩu và bảo mật</p>
-          </div>
+          <Link to={"/accounts/password"}>
+            <div className="flex gap-x-2 items-center hover:bg-color-btn-gray rounded-sm py-1 px-2 cursor-pointer">
+              <MdOutlineSecurity className="text-2xl" />
+              <p>Mật khẩu và bảo mật</p>
+            </div>
+          </Link>
         </div>
         <div className="space-y-1">
           <p className="text-color-text-gray text-xs px-2">

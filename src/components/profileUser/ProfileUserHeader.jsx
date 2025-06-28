@@ -33,6 +33,7 @@ const ProfileUserHeader = () => {
   const { isLoading, isFollowing, handleFollowUser } = useFollowUser(
     userProfile?.uid
   );
+
   const isOwnProfile = userAuth && userAuth.userName === userProfile.userName;
   const handleClickOpenModalShowFollow = (type) => {
     setIsOpenModalShowFollow(true);
