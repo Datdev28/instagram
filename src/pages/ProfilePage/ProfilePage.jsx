@@ -6,41 +6,46 @@ import { useParams, Outlet, useLocation } from "react-router-dom";
 import useGetProfileUserByUsername from "../../hooks/useGetProfileUserByUsername";
 import { Link } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
-import useBlockListStore from "../../store/blockListStore";
+import useIsBlockedUser from "../../hooks/useIsBlockedUser";
 const ProfilePage = () => {
   const { username } = useParams();
-  const {blockerIdList, blockedIdList} = useBlockListStore();
   const { isLoading, userProfile } = useGetProfileUserByUsername(username);
   const [pickCategory, setPickCategory] = useState("post");
   const findUserInfo = !userProfile && isLoading;
   const localtion = useLocation();
+  const { blockedByMe, blockedByThem } = useIsBlockedUser(userProfile?.uid);
   if (findUserInfo) return <UserNotFound />;
+  if (blockedByThem) return <UserNotFound />;
   return (
     userProfile && (
       <div className="text-white flex flex-col w-full items-center gap-y-2">
         <div className="flex w-full flex-col items-center">
-          <ProfileUserHeader />
+          <ProfileUserHeader blockedByMe={blockedByMe} />
         </div>
-        <div className="flex w-full max-w-4xl flex-col">
-          <ProfileTabs
-            pickCategory={pickCategory}
-            setPickCategory={setPickCategory}
-            userProfile={userProfile}
-          />
-        </div>
+        {!blockedByMe && (
+          <>
+            <div className="flex w-full max-w-4xl flex-col">
+              <ProfileTabs
+                pickCategory={pickCategory}
+                setPickCategory={setPickCategory}
+                userProfile={userProfile}
+              />
+            </div>
 
-        <div
-          className={`${
-            localtion.pathname === `/${username}` ? "flex" : "hidden"
-          } w-full max-w-4xl justify-center min-h-[50vh]`}
-        >
-          <ProfileUserPosts />
-        </div>
+            <div
+              className={`${
+                localtion.pathname === `/${username}` ? "flex" : "hidden"
+              } w-full max-w-4xl justify-center min-h-[50vh]`}
+            >
+              <ProfileUserPosts />
+            </div>
 
-        <div className="w-full max-w-4xl">
-          <Outlet />
-        </div>
-        <div className="w-full text-center pt-20 pb-10">
+            <div className="w-full max-w-4xl">
+              <Outlet />
+            </div>
+          </>
+        )}
+        <div className={` ${blockedByMe ? "absolute bottom-10" : "w-full text-center pt-20 pb-10"}`}>
           <Footer />
         </div>
       </div>

@@ -13,7 +13,7 @@ import ModalReportAccount from "../modal/ModalReportAccount";
 import ModalReasonReportAccount from "../modal/ModalReasonReportAccount";
 import ModalReponseForReport from "../modal/ModalReponseForReport";
 import ModalShowFollowingOrFollowers from "../modal/ModalShowFollowingOrFollowers";
-const ProfileUserHeader = () => {
+const ProfileUserHeader = ({ blockedByMe }) => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
   const [modalIsOpenNotifiAuth, setModalIsOpenNotifiAuth] = useState(false);
@@ -34,8 +34,10 @@ const ProfileUserHeader = () => {
   );
   const isOwnProfile = userAuth && userAuth.userName === userProfile.userName;
   const handleClickOpenModalShowFollow = (type) => {
+    if(!blockedByMe){
     setIsOpenModalShowFollow(true);
     setShowType(type);
+    }
   };
   return (
     userProfile && (
@@ -71,26 +73,32 @@ const ProfileUserHeader = () => {
                 </div>
               ) : (
                 <div className="flex items-center break-words gap-x-2">
-                  <button
-                    className="px-2 h-9 items-center flex justify-center bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 max-xl:px-2"
-                    onClick={() =>
-                      userAuth
-                        ? handleFollowUser()
-                        : setModalIsOpenNotifiAuth(true)
-                    }
-                  >
-                    {isLoading ? (
-                      <img
-                        className="object-cover w-7 h-7 rounded-full"
-                        src="/loading.gif"
-                        alt="loading"
-                      />
-                    ) : isFollowing ? (
-                      "Đang theo dõi"
-                    ) : (
-                      "Theo dõi"
-                    )}
-                  </button>
+                  {blockedByMe ? (
+                    <button className="px-2 h-9 items-center flex justify-center bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 max-xl:px-2">
+                      Bỏ chặn
+                    </button>
+                  ) : (
+                    <button
+                      className="px-2 h-9 items-center flex justify-center bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 max-xl:px-2"
+                      onClick={() =>
+                        userAuth
+                          ? handleFollowUser()
+                          : setModalIsOpenNotifiAuth(true)
+                      }
+                    >
+                      {isLoading ? (
+                        <img
+                          className="object-cover w-7 h-7 rounded-full"
+                          src="/loading.gif"
+                          alt="loading"
+                        />
+                      ) : isFollowing ? (
+                        "Đang theo dõi"
+                      ) : (
+                        "Theo dõi"
+                      )}
+                    </button>
+                  )}
                   <button className="px-4 py-1 bg-color-btn-gray rounded-sm hover:bg-color-dash cursor-pointer max-xl:px-2">
                     Nhắn tin
                   </button>
@@ -104,7 +112,7 @@ const ProfileUserHeader = () => {
             <div className="flex items-center gap-x-10 font-semibold max-md:hidden">
               <p>
                 <span className="w-3 inline-block">
-                  {userProfile.posts.length}
+                  {blockedByMe ? "0" : userProfile.posts.length}
                 </span>
                 <span className="text-color-text-gray">bài viết</span>
               </p>
@@ -113,7 +121,7 @@ const ProfileUserHeader = () => {
                 onClick={() => handleClickOpenModalShowFollow("followers")}
               >
                 <span className="w-3 inline-block mx-[6px] text-white">
-                  {userProfile.followers.length}
+                  {blockedByMe ? "0" : userProfile.followers.length}
                 </span>
                 <span className="text-color-text-gray">người theo dõi</span>
               </p>
@@ -123,7 +131,7 @@ const ProfileUserHeader = () => {
               >
                 Đang theo dõi
                 <span className="mx-[6px] inline-block text-white">
-                  {userProfile.following.length}
+                  {blockedByMe ? "0" : userProfile.following.length}
                 </span>
                 người dùng
               </p>
@@ -141,15 +149,16 @@ const ProfileUserHeader = () => {
           <div className="flex items-center gap-x-12 justify-center text-[14px] max-md:mt-4">
             <p className="text-center">
               <span className="w-5 inline-block">
-                {userProfile.posts.length}
+                 {blockedByMe ? "0" : userProfile.posts.length}
               </span>
               <span className="text-color-text-gray ">bài viết</span>
             </p>
-            <p className="text-center cursor-pointer" 
-             onClick={() => handleClickOpenModalShowFollow("followers")}
+            <p
+              className="text-center cursor-pointer"
+              onClick={() => handleClickOpenModalShowFollow("followers")}
             >
               <span className="w-5 inline-block">
-                {userProfile.followers.length}
+               {blockedByMe ? "0" : userProfile.followers.length}
               </span>
               <span className="text-color-text-gray ">người theo dõi</span>
             </p>
@@ -159,7 +168,7 @@ const ProfileUserHeader = () => {
             >
               Đang theo dõi <br />{" "}
               <span className="text-white w-6 inline-block">
-                {userProfile.following.length}
+               {blockedByMe ? "0" : userProfile.following.length}
               </span>
               <br /> người dùng
             </p>
@@ -230,7 +239,6 @@ const ProfileUserHeader = () => {
             showType={showType}
           />
         )}
-
       </div>
     )
   );

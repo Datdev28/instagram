@@ -112,6 +112,7 @@ const CommentBox = ({
                 </div>
               ) : (
                 post.comments
+                  
                   .sort((a, b) => b.createdAt - a.createdAt)
                   .map((comment) => (
                     <Comment

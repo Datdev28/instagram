@@ -43,21 +43,21 @@ const InteractWithPost = ({
   );
   const commentBan = useListenCommentBan(user?.uid);
   const ownerPost = post.createBy === user?.uid;
-  const fromCollection = useFromCollection (
-    (state) => state.fromCollection
-  );
+  const fromCollection = useFromCollection((state) => state.fromCollection);
   const collections = useCollectionPostStore((state) => state.collections);
   const { isSave, handleSavePost } = useSavePost(post?.id);
-const handleComment = async () => {
-  const isStillBanned = commentBan && !hasPassedMinutes(commentBan.from, 3);
-  if (isStillBanned) {
-    toast.error("Bạn đã bị cấm bình luận trong 3 phút");
-    return;
-  }
-  setCommentPost(false);
-  await handleCreateComment();
-  setCommentInput("");
-};
+  const handleComment = async () => {
+    const isStillBanned = commentBan && !hasPassedMinutes(commentBan.from, 3);
+    if (isStillBanned) {
+      toast.error("Bạn đã bị cấm bình luận trong 3 phút");
+      return;
+    }
+    if (commentInput.trim().length > 0) {
+      setCommentPost(false);
+      await handleCreateComment();
+      setCommentInput("");
+    }
+  };
   const handleLike = () => {
     if (isLiking) return;
     if (!user) {

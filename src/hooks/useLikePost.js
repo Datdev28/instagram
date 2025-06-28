@@ -13,19 +13,8 @@ const useLikePost = (post) => {
       const liked = post.likes.some((like) => like.userId === user.uid);
       await updateDoc(postRef, {
         likes: liked
-          ? arrayRemove({
-              userId: user.uid,
-              userName: user.userName,
-              profilePicURL: user.profilePicURL,
-              fullName: user.fullName,
-            })
-          : arrayUnion({
-              userId: user.uid,
-              userName: user.userName,
-              profilePicURL: user.profilePicURL,
-              fullName: user.fullName,
-              // likeCount: increment(1)
-            }), 
+          ? arrayRemove(user.uid)
+          : arrayUnion(user.uid), 
         likeCount: liked ? increment(-1) : increment(1),
       });
     } catch {

@@ -49,8 +49,6 @@ const useCreateBlockUser = () => {
         setUser(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
       }
-
-      toast.success("Đã chặn người dùng và huỷ follow thành công!");
     } catch (error) {
       console.error("Block user error:", error);
       toast.error("Đã xảy ra lỗi. Hãy thử lại!");

@@ -7,6 +7,10 @@ import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 import useAuthStore from "../../store/authStore";
 import ModalConfirmBlock from "./ModalConfirmBlock";
 import { useState } from "react";
+import userProfileStore from "../../store/userProfileStore";
+import useIsBlockedUser from "../../hooks/useIsBlockedUser";
+import useUnblockUser from "../../hooks/useUnblockUser";
+import useBlockListStore from "../../store/blockListStore";
 const ModalSetting = ({
   modalIsOpenSetting,
   setModalIsSetting,
@@ -15,16 +19,26 @@ const ModalSetting = ({
 }) => {
   useLockBodyScroll(modalIsOpenSetting);
   const { username } = useParams();
+  const userProfile = userProfileStore(state => state.userProfile)
+  const { blockedByMe } = useIsBlockedUser(userProfile?.uid);
+  const removeBlockedId = useBlockListStore(state => state.removeBlockedId);
   const [isOpenModalConfirmBlock, setIsOpenModalConfirmBlock] = useState(false);
   const { handleLogOut } = useLogOut();
+  const {handleUnblockUser} = useUnblockUser();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const handleClickLogOut = async () => {
     await handleLogOut();
     navigate("/auth");
   };
-  const handleClickBlock = () => {
-    setIsOpenModalConfirmBlock(true);
+  const handleClickBlock = async() => {
+    if(blockedByMe){
+      setModalIsSetting(false);
+      await handleUnblockUser(user?.uid, userProfile?.uid);
+      removeBlockedId(userProfile?.uid);
+    }else {
+     setIsOpenModalConfirmBlock(true);
+    }
   };
   const handleClickIntroduceAcc = () => {
     setIsOpenModalIntroduceAcc(true);
@@ -100,7 +114,7 @@ const ModalSetting = ({
                   className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
                   onClick={handleClickBlock}
                 >
-                  Chặn
+                  {blockedByMe ? "Bỏ chặn" : "Chặn"}
                 </div>
                 <div
                   className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
