@@ -10,8 +10,6 @@ import useBlockListStore from "../../store/blockListStore";
 const ProfilePage = () => {
   const { username } = useParams();
   const {blockerIdList, blockedIdList} = useBlockListStore();
-  console.log("blockerIdList", blockerIdList)
-  console.log("blockedIdList", blockedIdList);
   const { isLoading, userProfile } = useGetProfileUserByUsername(username);
   const [pickCategory, setPickCategory] = useState("post");
   const findUserInfo = !userProfile && isLoading;

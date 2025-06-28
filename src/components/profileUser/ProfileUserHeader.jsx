@@ -18,7 +18,6 @@ const ProfileUserHeader = () => {
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
   const [modalIsOpenNotifiAuth, setModalIsOpenNotifiAuth] = useState(false);
   const [modalIsOpenSetting, setModalIsSetting] = useState(false);
-
   const [isOpenModalIntroduceAcc, setIsOpenModalIntroduceAcc] = useState(false);
   const [showType, setShowType] = useState("");
   const [isOpenModalReportAccount, setIsOpenModalReportAccount] =
@@ -33,7 +32,6 @@ const ProfileUserHeader = () => {
   const { isLoading, isFollowing, handleFollowUser } = useFollowUser(
     userProfile?.uid
   );
-
   const isOwnProfile = userAuth && userAuth.userName === userProfile.userName;
   const handleClickOpenModalShowFollow = (type) => {
     setIsOpenModalShowFollow(true);

@@ -1,40 +1,38 @@
-import { collection, getDocs, query, where } from 'firebase/firestore'
-import { useEffect } from 'react'
-import { fireStore } from '../firebase/firebase'
-import { toast } from 'react-toastify'
-import useBlockListStore from '../store/blockListStore'
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { useEffect } from "react";
+import { fireStore } from "../firebase/firebase";
+import { toast } from "react-toastify";
+import useBlockListStore from "../store/blockListStore";
 
 const useGetBlockList = (userId) => {
-  const {setBlockerIdList, setBlockedIdList} = useBlockListStore();
-  const fetchBlockList = async() => {
-    try {
-     const blockerIdListRef = query(collection(fireStore, 'blocks'), where('blockerUserId', '==', userId));
-     const blockedIdListRef = query(collection(fireStore, 'blocks'), where('blockedUserId', '==', userId));
-     const blockerQuerySnapshot = await getDocs(blockerIdListRef);
-     const blockedQuerySnapshot = await getDocs(blockedIdListRef);
-     console.log(1);
-     const newBlockerIdList = []; 
-     const newBlockedIdList = [];
-     if(!blockerQuerySnapshot.empty){
-       blockerQuerySnapshot.docs.forEach((doc) => {
-        newBlockerIdList.push({...doc.data(), id: doc.id});
-       })
-     }
-     if(!blockedQuerySnapshot.empty){
-        blockedQuerySnapshot.docs.forEach((doc) => {
-        newBlockedIdList.push({...doc.data(), id: doc.id});
-       })
-     }
-     setBlockerIdList(newBlockerIdList);
-     setBlockedIdList(newBlockedIdList);
-    } catch (error) {
-      console.log(error);
-      toast.error("Đã xảy ra lỗi. Hãy thử lại!");
-    }
-  }
-  useEffect(() => {
-   if(userId) fetchBlockList()
-  }, [userId])
-}
+  const { setBlockerIdList, setBlockedIdList } = useBlockListStore();
 
-export default useGetBlockList
+  const fetchBlockList = async () => {
+    try {
+      const blocksRef = collection(fireStore, "blocks");
+
+      const blockerQuery = query(blocksRef, where("blockerUserId", "==", userId));
+      const blockedQuery = query(blocksRef, where("blockedUserId", "==", userId));
+
+      const [blockerSnap, blockedSnap] = await Promise.all([
+        getDocs(blockerQuery),
+        getDocs(blockedQuery),
+      ]);
+
+      const blockedIdList = blockerSnap.docs.map(doc => doc.data().blockedUserId);
+      const blockerIdList = blockedSnap.docs.map(doc => doc.data().blockerUserId);
+
+      setBlockedIdList(blockedIdList); 
+      setBlockerIdList(blockerIdList); 
+    } catch (error) {
+      console.error("Lỗi lấy danh sách block:", error);
+      toast.error("Đã xảy ra lỗi khi tải danh sách block");
+    }
+  };
+
+  useEffect(() => {
+    if (userId) fetchBlockList();
+  }, [userId]);
+};
+
+export default useGetBlockList;
