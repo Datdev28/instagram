@@ -25,7 +25,7 @@ const ModalSetting = ({
   };
   const handleClickBlock = () => {
     setIsOpenModalConfirmBlock(true);
-  }
+  };
   const handleClickIntroduceAcc = () => {
     setIsOpenModalIntroduceAcc(true);
     setModalIsSetting(false);
@@ -83,19 +83,22 @@ const ModalSetting = ({
                 >
                   Đăng xuất
                 </div>
-                <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
-                  Thông báo
-                </div>
                 <Link to={`/qr`}>
                   <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
                     Mã QR
                   </div>
                 </Link>
+                <Link to={`/accounts`}>
+                  <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
+                    Cài đặt và quyền riêng tư
+                  </div>
+                </Link>
               </>
             ) : (
               <>
-                <div className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
-                 onClick={handleClickBlock}
+                <div
+                  className="w-full text-red-500 font-bold border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note"
+                  onClick={handleClickBlock}
                 >
                   Chặn
                 </div>

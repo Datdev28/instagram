@@ -14,6 +14,8 @@ import ProfileCollections from "./components/profileUser/saveAndCollection/Profi
 import ProfileDetailCollection from "./components/profileUser/saveAndCollection/ProfileDetailCollection";
 import AdminReportsManagement from "./pages/adminPage/AdminReportsManagement";
 import ProfileDashboard from "./components/profileUser/dashboard/ProfileDashboard";
+import Accounts from "./pages/AccountPage/Accounts";
+import BanPage from "./pages/AccountPage/banPage/BanPage";
 import { UserNotFound } from "./pages/ProfilePage/ProfilePage";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -85,12 +87,18 @@ function App() {
             element={<ProfileDetailCollection isCollection={true} />}
           ></Route>
           <Route
+            path="/accounts"
+            element={authUser ? <Accounts /> : <Navigate to="/auth" />}
+          >
+            <Route path="blocked-accounts" element={<BanPage />}></Route>
+          </Route>
+          <Route
             path="admin/report-management"
             element={
               user?.userName === "mickey" ? (
                 <AdminReportsManagement />
               ) : (
-               <Navigate to="/404" />
+                <Navigate to="/404" />
               )
             }
           />

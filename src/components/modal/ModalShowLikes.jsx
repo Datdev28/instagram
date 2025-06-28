@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
-import UserLike from "../commentBox/userLike";
+import UserLike from "../commentBox/likeUser";
 const ModalShowLikes = ({
   isOpenModalShowLikes,
   setIsOpenModalShowLikes,
