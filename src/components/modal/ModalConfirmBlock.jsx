@@ -51,16 +51,16 @@ const ModalConfirmBlock = ({
         <motion.div className="bg-color-dash text-white overflow-hidden rounded-2xl w-full flex flex-col items-center select-none">
           <div className="flex flex-col items-center text-center p-8 gap-y-4">
             <img
-              src={userProfile?.profilePicURL || "/defaultProfilePic.jpg"}
+              src={userBlocked?.profilePicURL || "/defaultProfilePic.jpg"}
               className="w-18 h-18 rounded-full object-cover"
               alt="người dùng follow"
             />
             <div className="items-center space-y-2">
-              <p className="text-xl font-bold">Chặn {userProfile?.userName}?</p>
+              <p className="text-xl font-bold">Chặn {userBlocked?.userName}?</p>
               <p className="text-sm text-color-text-gray">
                 Họ sẽ không thể tìm trang cá nhân, bài viết của bạn trên
                 Instagram. Instagram sẽ không cho{" "}
-                {userProfile?.userName || "người dùng này"} biết rằng bạn đã
+                {userBlocked?.userName || "người dùng này"} biết rằng bạn đã
                 chặn họ
               </p>
             </div>
@@ -84,7 +84,7 @@ const ModalConfirmBlock = ({
             setIsOpenModalResponseForBlock={setIsOpenModalResponseForBlock}
             setModalIsSetting={setModalIsSetting}
             setIsOpenModalConfirmBlock={setIsOpenModalConfirmBlock}
-            userProfileUserName={userProfile?.userName}
+            userProfileUserName={userBlocked?.userName}
           />
         )}
       </Modal>

@@ -6,6 +6,7 @@ import Create from "./Create";
 import Profile from "./Profile";
 import MessChat from "./MessChat";
 import ReportManager from "./ReportManager";
+import Explore from "./Explore";
 import useAuthStore from "../../store/authStore";
 const SidebarItems = () => {
   const user = useAuthStore((state) => state.user);
@@ -14,6 +15,7 @@ const SidebarItems = () => {
     <div className="flex flex-col gap-y-5 max-lg:items-center">
       <Home />
       <Search />
+      <Explore/>
       <MessChat />
       <Notifications />
       <Create />
