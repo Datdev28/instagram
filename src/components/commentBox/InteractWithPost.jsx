@@ -21,7 +21,7 @@ import useListenCommentBan from "../../hooks/useListenCommentBan";
 import hasPassedMinutes from "../../utils/hasPassedMinutes";
 import { toast } from "react-toastify";
 import useGetProfileUserById from "../../hooks/useGetProfileUserById";
-import useSendNotificationComment from "../../hooks/useSendNotificationComment";
+import useSendNotificationCommentOrLike from "../../hooks/useSendNotificationCommentOrLike";
 const InteractWithPost = ({
   post,
   setIsOpenModalLikePostWithoutLogin,
@@ -49,7 +49,7 @@ const InteractWithPost = ({
   const collections = useCollectionPostStore((state) => state.collections);
   const { isSave, handleSavePost } = useSavePost(post?.id);
   const {userProfile} = useGetProfileUserById(post?.likes[0]);
-  const {handleSendNotificationComment} = useSendNotificationComment()
+  const {handleSendNotificationComment, handleSendNotificationLike} = useSendNotificationCommentOrLike()
   const handleComment = async () => {
     const isStillBanned = commentBan && !hasPassedMinutes(commentBan.from, 3);
     if (isStillBanned) {
@@ -65,14 +65,17 @@ const InteractWithPost = ({
       }
     }
   };
-  const handleLike = () => {
+  const handleLike = async() => {
     if (isLiking) return;
     if (!user) {
       setIsOpenModalLikePostWithoutLogin(true);
       setShowLikesWithoutLogin(false);
     } else {
       setIsLike(!isLike);
-      handleLikePost();
+      await handleLikePost();
+      if(user.uid !== post?.createBy && !isLike){
+        await handleSendNotificationLike(post?.id, post?.createBy, user?.uid)
+      }
     }
   };
   const handleOpenModalUsersLike = () => {
