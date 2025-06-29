@@ -27,6 +27,8 @@ import { useEffect, useState } from "react";
 import useGetBlockList from "./hooks/useGetBlockList";
 import PasswordPage from "./pages/AccountPage/PasswordPage/PasswordPage";
 import AccountStatus from "./pages/AccountPage/accountStatus/AccountStatus";
+import RemovedContent from "./pages/AccountPage/accountStatus/RemovedContent";
+import FeatureLimits from "./pages/AccountPage/accountStatus/FeatureLimits";
 function App() {
   const [authUser, loading] = useAuthState(auth);
   const { progress } = useLoadingBarStore();
@@ -90,11 +92,13 @@ function App() {
           ></Route>
           <Route
             path="/accounts"
-            element={authUser ? <Accounts /> : <Navigate to="/auth" />}
+            element={authUser ? <Accounts/> : <Navigate to="/auth" />}
           >
-            <Route path="blocked-accounts" element={<BanPage />}></Route>
-            <Route path="password" element={<PasswordPage />}></Route>
-            <Route path="account-status" element={<AccountStatus />}></Route>
+            <Route path="blocked-accounts" element={<BanPage/>}></Route>
+            <Route path="password" element={<PasswordPage/>}></Route>
+            <Route path="account-status" element={<AccountStatus/>}></Route>
+            <Route path="account-status/removed-content" element={<RemovedContent/>}></Route>
+            <Route path="account-status/feature-limits" element={<FeatureLimits/>}></Route>
           </Route>
           <Route
             path="admin/report-management"

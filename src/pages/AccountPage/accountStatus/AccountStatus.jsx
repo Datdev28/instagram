@@ -4,8 +4,10 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaRegComment } from "react-icons/fa";
 import Footer from "../../../components/footer/Footer";
+import { useNavigate } from "react-router-dom";
 const AccountStatus = () => {
   const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate()
   return (
     <div className="flex flex-col gap-y-14">
       <h2 className="text-xl font-bold">Trạng thái tài khoản</h2>
@@ -32,7 +34,9 @@ const AccountStatus = () => {
           </div>
           <div className="flex items-center text-xl">
             <IoIosCheckmarkCircle className="text-green-500" />
-            <MdKeyboardArrowRight className="text-3xl text-color-text-gray cursor-pointer" />
+            <MdKeyboardArrowRight className="text-3xl text-color-text-gray cursor-pointer" 
+             onClick={() => navigate('/accounts/account-status/removed-content')}
+            />
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -42,7 +46,9 @@ const AccountStatus = () => {
           </div>
           <div className="flex items-center text-xl">
             <IoIosCheckmarkCircle className="text-green-500" />
-            <MdKeyboardArrowRight className="text-3xl text-color-text-gray cursor-pointer" />
+            <MdKeyboardArrowRight className="text-3xl text-color-text-gray cursor-pointer" 
+             onClick={() => navigate('/accounts/account-status/feature-limits')}
+            />
           </div>
         </div>
       </div>
