@@ -3,14 +3,14 @@ import { useState } from 'react'
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { fireStore } from '../firebase/firebase';
-const useSendNotifiCations = () => {
+const useSendNotifiCationReport = () => {
   const [isLoading, setIsLoading] = useState(false);
   const sendNotificationBanned = async(userTargetId, reportType, reason, penaltyType) => {
     if(isLoading) return;
     setIsLoading(true);
     try {
       const newId = uuidv4();
-      const notificationsRef = doc(fireStore, 'users', userTargetId, 'notifications', newId);
+      const notificationRef = doc(fireStore, 'users', userTargetId, 'notifications', newId);
       const content = penaltyType === 'comment'
       ? 'Bạn đã bị cấm bình luận trong 3 phút do vi phạm.'
       : penaltyType === 'post'
@@ -23,7 +23,7 @@ const useSendNotifiCations = () => {
         notificationType: 'admin',
         createdAt: serverTimestamp(),
       }
-      await setDoc(notificationsRef, notification);
+      await setDoc(notificationRef, notification);
     } catch (error) {
       console.log(error);
       toast.error("Đã xảy ra lỗi. Hãy thử lại!")
@@ -33,4 +33,4 @@ const useSendNotifiCations = () => {
  
 }
 
-export default useSendNotifiCations
+export default useSendNotifiCationReport

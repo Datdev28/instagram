@@ -31,8 +31,8 @@ const PageLayout = ({ children }) => {
             <Sidebar />
           </div>
           <div
-            className={`fixed top-0 left-15 max-sm:hidden h-full transition-all duration-300 z-10 overflow-hidden rounded-tr-2xl rounded-br-2xl 
-              w-[400px] bg-black pt-6 ${
+            className={`fixed top-0 left-15 max-sm:hidden h-full transition-all duration-300 z-10 overflow-auto custom-scrollbar rounded-tr-2xl rounded-br-2xl 
+              w-[430px] bg-black pt-6 ${
                 isOpenToggle ? "translate-x-0" : "-translate-x-full"
               }`}
           >

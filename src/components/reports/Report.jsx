@@ -8,7 +8,7 @@ import ModalConfirmDeletePost from "../modal/ModalConfirmDeletePost";
 import useBannedUser from "../../hooks/useBannedUser";
 import useActionWithReport from "../../hooks/useActionWithReport";
 import { toast } from "react-toastify";
-import useSendNotifiCations from "../../hooks/useSendNotifiCations.js";
+import useSendNotifiCation from "../../hooks/useSendNotifiCationReport.js";
 
 const Report = ({ report, index, pickReportType, fetchReports }) => {
   const { userProfile, userTargetProfile } = useGetProfileUserById(
@@ -17,7 +17,7 @@ const Report = ({ report, index, pickReportType, fetchReports }) => {
   );
   const {handleBannedUser} = useBannedUser();
   const {handleActionWithReport} = useActionWithReport();
-  const {sendNotificationBanned} = useSendNotifiCations()
+  const {sendNotificationBanned} = useSendNotifiCation()
   const [isOpenModalShowDetailReport, setIsOpenModalShowDetailReport] =
     useState(false);
   const [isOpenModalConfirmDeleteReport, setIsOpenModalConfirmDeleteReport] =

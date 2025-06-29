@@ -52,7 +52,7 @@ const SideSearch = () => {
         <p className="font-bold px-4">1 tháng vừa qua</p>
       )}
        {mode === 'notifications' && notifications && (
-         <div className="flex flex-col px-4 gap-y-2">
+         <div className="flex flex-col px-4 gap-y-4"> 
           {notifications.length > 0 ? (
             notifications.map((notification) => (
               <Notification key={notification.id} notification={notification} notificationType={notification.notificationType}/>
