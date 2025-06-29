@@ -26,6 +26,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import useGetBlockList from "./hooks/useGetBlockList";
 import PasswordPage from "./pages/AccountPage/PasswordPage/PasswordPage";
+import AccountStatus from "./pages/AccountPage/accountStatus/AccountStatus";
 function App() {
   const [authUser, loading] = useAuthState(auth);
   const { progress } = useLoadingBarStore();
@@ -93,6 +94,7 @@ function App() {
           >
             <Route path="blocked-accounts" element={<BanPage />}></Route>
             <Route path="password" element={<PasswordPage />}></Route>
+            <Route path="account-status" element={<AccountStatus />}></Route>
           </Route>
           <Route
             path="admin/report-management"

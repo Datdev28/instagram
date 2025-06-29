@@ -102,7 +102,7 @@ const ModalSetting = ({
                     Mã QR
                   </div>
                 </Link>
-                <Link to={`/accounts`}>
+                <Link to={`/accounts/password`}>
                   <div className="w-full border-b border-b-color-btn-gray py-2 flex justify-center cursor-pointer hover:bg-color-note">
                     Cài đặt và quyền riêng tư
                   </div>

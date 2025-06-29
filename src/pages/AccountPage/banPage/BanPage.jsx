@@ -1,5 +1,6 @@
 import useBlockListStore from "../../../store/blockListStore";
 import BannedUser from "../../../components/bannedUser/bannedUser";
+import Footer from "../../../components/footer/Footer";
 const BanPage = () => {
   const blockedIdList = useBlockListStore((state) => state.blockedIdList);
   return (
@@ -17,6 +18,7 @@ const BanPage = () => {
           </div>
         )}
       </div>
+     <Footer/>
     </div>
   );
 };

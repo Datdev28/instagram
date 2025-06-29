@@ -43,10 +43,12 @@ const Accounts = () => {
           <p className="text-color-text-gray text-xs px-2">
             Thông tin khác và hỗ trợ
           </p>
-          <div className="flex gap-x-2 items-center hover:bg-color-btn-gray rounded-sm py-1 px-1 cursor-pointer">
-            <CiUser className="text-3xl" />
-            <p>Trạng thái tài khoản</p>
-          </div>
+          <Link to="/accounts/account-status">
+            <div className="flex gap-x-2 items-center hover:bg-color-btn-gray rounded-sm py-1 px-1 cursor-pointer">
+              <CiUser className="text-3xl" />
+              <p>Trạng thái tài khoản</p>
+            </div>
+          </Link>
           <div className="flex gap-x-3 items-center hover:bg-color-btn-gray rounded-sm py-1 px-2 cursor-pointer">
             <FaUserShield className="text-2xl" />
             <p>Yêu cầu xác minh</p>
