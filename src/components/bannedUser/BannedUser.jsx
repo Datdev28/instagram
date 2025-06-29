@@ -1,8 +1,18 @@
 import React from "react";
 import useGetProfileUserById from "../../hooks/useGetProfileUserById";
+import useUnblockUser from "../../hooks/useUnblockUser";
+import useAuthStore from "../../store/authStore";
+import useBlockListStore from "../../store/blockListStore";
 
 const BannedUser = ({ bannedUserId }) => {
   const { userProfile, isLoading } = useGetProfileUserById(bannedUserId);
+  const user = useAuthStore(state => state.user);
+  const removeBlockedId = useBlockListStore(state => state.removeBlockedId)
+  const {handleUnblockUser} = useUnblockUser();
+  const handleClickUnblock = async() => {
+     await handleUnblockUser(user?.uid, userProfile?.uid);
+     removeBlockedId(userProfile?.uid);
+  }
   return (
     <div className="w-full flex items-center justify-between">
       {isLoading ? (
@@ -31,7 +41,9 @@ const BannedUser = ({ bannedUserId }) => {
               <p className="text-color-text-gray">{userProfile?.fullName}</p>
             </div>
           </div>
-          <button className="px-3 py-1 bg-color-btn-gray rounded-sm cursor-pointer">Bỏ chặn</button>
+          <button className="px-3 py-1 bg-color-btn-gray rounded-sm cursor-pointer"
+           onClick={handleClickUnblock}
+          >Bỏ chặn</button>
         </>
       )}
     </div>
