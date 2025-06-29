@@ -13,6 +13,8 @@ import ModalReportAccount from "../modal/ModalReportAccount";
 import ModalReasonReportAccount from "../modal/ModalReasonReportAccount";
 import ModalReponseForReport from "../modal/ModalReponseForReport";
 import ModalShowFollowingOrFollowers from "../modal/ModalShowFollowingOrFollowers";
+import useBlockListStore from "../../store/blockListStore";
+import useUnblockUser from "../../hooks/useUnblockUser";
 const ProfileUserHeader = ({ blockedByMe }) => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
@@ -32,6 +34,9 @@ const ProfileUserHeader = ({ blockedByMe }) => {
   const { isLoading, isFollowing, handleFollowUser } = useFollowUser(
     userProfile?.uid
   );
+  const user = useAuthStore(state => state.user);
+  const removeBlockedId = useBlockListStore(state => state.removeBlockedId);
+  const {handleUnblockUser} = useUnblockUser();
   const isOwnProfile = userAuth && userAuth.userName === userProfile.userName;
   const handleClickOpenModalShowFollow = (type) => {
     if(!blockedByMe){
@@ -39,6 +44,10 @@ const ProfileUserHeader = ({ blockedByMe }) => {
     setShowType(type);
     }
   };
+  const handleClickUnblock = async() => {
+  await handleUnblockUser(user?.uid, userProfile?.uid);
+      removeBlockedId(userProfile?.uid);
+  }
   return (
     userProfile && (
       <div className="flex flex-col w-full max-sm:mt-18 mt-10">
@@ -74,7 +83,9 @@ const ProfileUserHeader = ({ blockedByMe }) => {
               ) : (
                 <div className="flex items-center break-words gap-x-2">
                   {blockedByMe ? (
-                    <button className="px-2 h-9 items-center flex justify-center bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 max-xl:px-2">
+                    <button className="px-2 h-9 items-center flex justify-center bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 max-xl:px-2"
+                     onClick={handleClickUnblock}
+                    >
                       Bỏ chặn
                     </button>
                   ) : (

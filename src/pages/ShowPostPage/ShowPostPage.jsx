@@ -14,6 +14,7 @@ import ModalLikePostWithoutLogin from "../../components/modal/ModalLikePostWitho
 import { UserNotFound } from "../ProfilePage/ProfilePage";
 import ModalShowLikes from "../../components/modal/ModalShowLikes";
 import ModalSaveWithoutLogin from "../../components/modal/ModalSaveWithoutLogin";
+import useIsBlockedUser from "../../hooks/useIsBlockedUser";
 const ShowPostPage = () => {
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
@@ -25,12 +26,13 @@ const ShowPostPage = () => {
   const [showLikesWithoutLogin, setShowLikesWithoutLogin] = useState(false);
   const [isOpenModalSaveWithoutLogin, setIsOpenModalSaveWithoutLogin] =
     useState(false);
+  const {isBlocked} = useIsBlockedUser(post?.createBy);
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [postId]);
   const postNotFound = !post && !isLoading;
-  if (postNotFound) return <UserNotFound />;
+  if (postNotFound || isBlocked) return <UserNotFound />;
   return (
     post && (
       <div className="flex shrink-0 flex-col lg:max-w-5xl mx-auto gap-y-3 p-4 text-white">

@@ -6,11 +6,13 @@ import SlideImage from "../slideImage/SlideImage";
 import CommentBox from "../commentBox/CommentBox";
 import useGetPostByPostId from "../../hooks/useGetPostByPostId";
 import ModalShowLikes from "./ModalShowLikes";
+import useIsBlockedUser from "../../hooks/useIsBlockedUser";
 const ModalShowPost = () => {
   const navigate = useNavigate();
   const { postId } = useParams();
   const [picked, setPicked] = useState(0);
   const {post} = useGetPostByPostId(postId);
+  const {isBlocked} = useIsBlockedUser(post?.createBy);
   const [isOpenModalShowLikes, setIsOpenModalShowLikes] = useState(false);
   useEffect(() => {
   const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -23,6 +25,9 @@ const ModalShowPost = () => {
     document.body.style.paddingRight = "0px";
   };
 }, []);
+  useEffect(() => {
+    if(isBlocked && post) navigate('/404');
+  },[isBlocked, post])
   return (
     <div>
       <Modal
