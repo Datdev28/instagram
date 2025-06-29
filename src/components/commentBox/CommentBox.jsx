@@ -12,6 +12,7 @@ import ModalEditPost from "../modal/ModalEditPost";
 import ModalIntroduceAcc from "../modal/ModalIntroduceAcc";
 import ModalConfirmCancleSavePost from "../modal/ModalConfirmCancleSavePost";
 import ModalReponseForReport from "../modal/ModalReponseForReport";
+import useFilteredComments from "../../hooks/useFilteredComment";
 const CommentBox = ({
   post,
   setIsOpenModalLikePostWithoutLogin,
@@ -46,6 +47,7 @@ const CommentBox = ({
       setIsOpenSettingPost(true);
     }
   };
+  const filteredComment = useFilteredComments(post?.comments);
   return (
     post && (
       <div className="w-full flex flex-col relative bg-black text-white">
@@ -105,14 +107,13 @@ const CommentBox = ({
                 post.caption ? "max-h-[337px]" : "max-h-[440px]"
               }  flex-1 flex-col overflow-y-auto custom-scrollbar p-4 gap-y-6`}
             >
-              {post.comments.length === 0 ? (
+              {filteredComment.length === 0 ? (
                 <div className="h-full w-full flex flex-col justify-center items-center">
                   <p className="font-bold text-3xl">Chưa có bình luận nào.</p>
                   <p>Bắt đầu trò chuyện</p>
                 </div>
               ) : (
-                post.comments
-                  
+                filteredComment
                   .sort((a, b) => b.createdAt - a.createdAt)
                   .map((comment) => (
                     <Comment

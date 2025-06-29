@@ -3,11 +3,14 @@ import Modal from "react-modal";
 import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import UserLike from "../commentBox/likeUser";
+import useFilteredLike from "../../hooks/useFilteredLike";
 const ModalShowLikes = ({
   isOpenModalShowLikes,
   setIsOpenModalShowLikes,
   post,
 }) => {
+  const filteredLike = useFilteredLike(post?.likes);
+  console.log("filteredLike", filteredLike)
   return (
     <div>
       <Modal
@@ -47,7 +50,7 @@ const ModalShowLikes = ({
               />
             </div>
             <div className="flex flex-col py-2 max-h-[426px] overflow-y-auto custom-scrollbar text-white gap-y-6 px-4">
-              {post.likes.map((userLike) => (
+              {filteredLike.map((userLike) => (
                 <UserLike userLike={userLike} key={userLike}/>
               ))}
             </div>
