@@ -74,7 +74,7 @@ const InteractWithPost = ({
       setIsLike(!isLike);
       await handleLikePost();
       if(user.uid !== post?.createBy && !isLike){
-        await handleSendNotificationLike(post?.id, post?.createBy, user?.uid)
+        await handleSendNotificationLike(post?.id, post?.createBy, user?.uid);
       }
     }
   };

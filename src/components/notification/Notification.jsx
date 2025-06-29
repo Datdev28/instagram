@@ -50,7 +50,7 @@ const Notification = ({ notification, notificationType }) => {
         />
       )}
 
-      <p className="whitespace-pre-wrap break-words text-md">
+      <p className="whitespace-pre-wrap break-words text-sm">
         <span className="font-semibold">{userProfile?.userName}</span>
         {isComment && " đã bình luận bài viết của bạn."}
         {isLike && " đã thích bài viết của bạn."}

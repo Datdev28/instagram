@@ -44,6 +44,13 @@ const ProfileUserHeader = ({ blockedByMe }) => {
     setShowType(type);
     }
   };
+  const handleClickFollow = async() => {
+    if(userAuth){
+     await handleFollowUser()
+    }else {
+      setModalIsOpenNotifiAuth(true)
+    }
+  }
   const handleClickUnblock = async() => {
   await handleUnblockUser(user?.uid, userProfile?.uid);
       removeBlockedId(userProfile?.uid);
@@ -91,11 +98,7 @@ const ProfileUserHeader = ({ blockedByMe }) => {
                   ) : (
                     <button
                       className="px-2 h-9 items-center flex justify-center bg-blue-500 rounded-sm cursor-pointer hover:bg-blue-600 max-xl:px-2"
-                      onClick={() =>
-                        userAuth
-                          ? handleFollowUser()
-                          : setModalIsOpenNotifiAuth(true)
-                      }
+                      onClick={handleClickFollow}
                     >
                       {isLoading ? (
                         <img
