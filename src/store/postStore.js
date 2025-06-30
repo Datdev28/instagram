@@ -1,7 +1,6 @@
 import { create } from "zustand";
 
 const usePostStore = create((set) => ({
-  // === Profile posts ===
   posts: [],
   setPosts: (posts) => set({ posts }),
   createPost: (post) =>
@@ -12,10 +11,13 @@ const usePostStore = create((set) => ({
     set((state) => ({
       posts: state.posts.filter((post) => id !== post.id),
     })),
-
-  // === Feed posts ===
+    
   feedPosts: [],
   setFeedPosts: (posts) => set({ feedPosts: posts }),
+  appendFeedPosts: (newPosts) =>
+    set((state) => ({
+      feedPosts: [...state.feedPosts, ...newPosts],
+    })),
   deleteFeedPost: (id) =>
     set((state) => ({
       feedPosts: state.feedPosts.filter((post) => id !== post.id),

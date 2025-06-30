@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { collection, query, orderBy, limit, startAfter, getDocs } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
-import usePostStore from "../store/usePostStore";
+import usePostStore from "../store/postStore"
 
 const useGetFeedPosts = () => {
-  const { feedPosts, setFeedPosts, appendFeedPosts } = usePostStore();
+  const { feedPosts, setFeedPosts, appendFeedPosts } = usePostStore()
   const [lastDoc, setLastDoc] = useState(null);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
