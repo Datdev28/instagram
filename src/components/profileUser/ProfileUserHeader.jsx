@@ -15,6 +15,7 @@ import ModalReponseForReport from "../modal/ModalReponseForReport";
 import ModalShowFollowingOrFollowers from "../modal/ModalShowFollowingOrFollowers";
 import useBlockListStore from "../../store/blockListStore";
 import useUnblockUser from "../../hooks/useUnblockUser";
+import useSendNotificationCommentOrLike from "../../hooks/useSendNotificationCommentOrLike";
 const ProfileUserHeader = ({ blockedByMe }) => {
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
@@ -36,6 +37,7 @@ const ProfileUserHeader = ({ blockedByMe }) => {
   );
   const user = useAuthStore(state => state.user);
   const removeBlockedId = useBlockListStore(state => state.removeBlockedId);
+  const {handleSendNotificationFollow} = useSendNotificationCommentOrLike()
   const {handleUnblockUser} = useUnblockUser();
   const isOwnProfile = userAuth && userAuth.userName === userProfile.userName;
   const handleClickOpenModalShowFollow = (type) => {
@@ -45,8 +47,10 @@ const ProfileUserHeader = ({ blockedByMe }) => {
     }
   };
   const handleClickFollow = async() => {
-    if(userAuth){
-     await handleFollowUser()
+    if(userAuth){ 
+      const wasFollowing = isFollowing; 
+     await handleFollowUser();
+     if(!wasFollowing) await handleSendNotificationFollow(userProfile?.uid, user?.uid)
     }else {
       setModalIsOpenNotifiAuth(true)
     }

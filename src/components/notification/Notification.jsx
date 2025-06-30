@@ -4,13 +4,17 @@ import useGetPostByPostId from "../../hooks/useGetPostByPostId";
 import { useNavigate } from "react-router-dom";
 
 const Notification = ({ notification, notificationType }) => {
-  const { userProfile, isLoading } = useGetProfileUserById(notification?.InteractUserId);
-  const { post, isLoading: isLoadingPost } = useGetPostByPostId(notification?.postId);
+  const { userProfile, isLoading } = useGetProfileUserById(
+    notification?.InteractUserId
+  );
+  const { post, isLoading: isLoadingPost } = useGetPostByPostId(
+    notification?.postId
+  );
   const navigate = useNavigate();
 
   const handleClickGoToPost = () => {
-    if(!post){
-      navigate('/404');
+    if (!post) {
+      navigate("/404");
     }
     if (post?.id) navigate(`/p/${post.id}`);
   };
@@ -37,6 +41,7 @@ const Notification = ({ notification, notificationType }) => {
 
   const isComment = notification?.notificationType === "comment";
   const isLike = notification?.notificationType === "like";
+  const isFollow = notification?.notificationType === "follow";
 
   return (
     <div
@@ -55,20 +60,20 @@ const Notification = ({ notification, notificationType }) => {
 
       <p className="whitespace-pre-wrap break-words text-sm">
         <span className="font-semibold">{userProfile?.userName}</span>
+        {isFollow && " đã bắt đầu theo dõi bạn."}
         {isComment && " đã bình luận bài viết của bạn."}
-        {isLike && (
-          post?.likeCount > 1 ? (
-            ` và ${post.likeCount - 1} người khác đã thích bài viết của bạn`
-          ) : (
-           " đã thích bài viết của bạn."
-          )
-        )}
+        {isLike &&
+          (post?.likeCount > 1
+            ? ` và ${post.likeCount - 1} người khác đã thích bài viết của bạn`
+            : " đã thích bài viết của bạn.")}
         <span className="text-sm text-color-text-gray ml-1">
           {convertDateTimestampAgo(notification.createdAt)}
         </span>
       </p>
-
-      {isLoadingPost ? (
+       {!isFollow && (
+      isLoadingPost ? (
+        <div className="bg-color-note w-12 h-12 rounded-sm shrink-0"></div>
+      ) : !post ? (
         <div className="bg-color-note w-12 h-12 rounded-sm shrink-0"></div>
       ) : (
         <img
@@ -76,7 +81,8 @@ const Notification = ({ notification, notificationType }) => {
           className="w-12 h-12 object-cover rounded-sm shrink-0"
           alt="bài đăng"
         />
-      )}
+      )
+       )}
     </div>
   );
 };

@@ -16,7 +16,6 @@ const useSendNotificationCommentOrLike = () => {
     setIsSending(true);
 
     try {
-      // ✅ Chỉ dùng postId và type để tạo ID
       const notificationId = `${postId}_${type}`;
       const notificationRef = doc(
         fireStore,
@@ -48,7 +47,40 @@ const useSendNotificationCommentOrLike = () => {
   const handleSendNotificationLike = (postId, posterId, InteractUserId) =>
     handleSendNotification(postId, posterId, InteractUserId, "like");
 
-  return { handleSendNotificationComment, handleSendNotificationLike };
+  const handleSendNotificationFollow = async (userId, InteractUserId) => {
+    if (isSending) return toast.warning("Thao tác quá nhanh!");
+    setIsSending(true);
+
+    try {
+      const notificationId = `follow_${InteractUserId}`;
+      const notificationRef = doc(
+        fireStore,
+        "users",
+        userId,
+        "notifications",
+        notificationId
+      );
+
+      const notification = {
+        InteractUserId,
+        notificationType: "follow",
+        createdAt: serverTimestamp(),
+      };
+
+      await setDoc(notificationRef, notification, { merge: true });
+    } catch (error) {
+      console.log(error);
+      toast.error("Đã xảy ra lỗi khi gửi thông báo follow");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  return {
+    handleSendNotificationComment,
+    handleSendNotificationLike,
+    handleSendNotificationFollow,
+  };
 };
 
 export default useSendNotificationCommentOrLike;
