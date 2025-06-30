@@ -11,8 +11,8 @@ const FeatureLimits = () => {
   const commentBan = useListenCommentBan(user?.uid);
   const postBan = useListenPostBan(user?.uid)
   const navigate = useNavigate();
-  const isStillBannedComment = commentBan && !hasPassedMinutes(commentBan.from, 3);
-  const isStillBannedCreatePost = commentBan && !hasPassedMinutes(postBan.from, 3);
+  const isStillBannedComment = commentBan && !hasPassedMinutes(commentBan?.from, 3);
+  const isStillBannedCreatePost = commentBan && !hasPassedMinutes(postBan?.from, 3);
   return (
     <div className="flex flex-col gap-y-14">
       <div className="flex items-center gap-x-2">

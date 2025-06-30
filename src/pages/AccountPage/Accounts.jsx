@@ -30,15 +30,6 @@ const Accounts = () => {
             </div>
           </Link>
         </div>
-        <div className="space-y-1">
-          <p className="text-color-text-gray text-xs px-2">
-            Dành cho chuyên gia{" "}
-          </p>
-          <div className="flex gap-x-2 items-center hover:bg-color-btn-gray rounded-sm py-1 px-2 cursor-pointer">
-            <BsPatchCheck className="text-3xl" />
-            <p>Khoe trang cá nhân đã xác minh</p>
-          </div>
-        </div>
         <div className="space-y-2">
           <p className="text-color-text-gray text-xs px-2">
             Thông tin khác và hỗ trợ
@@ -49,10 +40,6 @@ const Accounts = () => {
               <p>Trạng thái tài khoản</p>
             </div>
           </Link>
-          <div className="flex gap-x-3 items-center hover:bg-color-btn-gray rounded-sm py-1 px-2 cursor-pointer">
-            <FaUserShield className="text-2xl" />
-            <p>Yêu cầu xác minh</p>
-          </div>
         </div>
       </div>
       <div className="w-full max-w-3xl mx-auto">

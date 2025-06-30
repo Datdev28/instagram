@@ -9,6 +9,9 @@ const Notification = ({ notification, notificationType }) => {
   const navigate = useNavigate();
 
   const handleClickGoToPost = () => {
+    if(!post){
+      navigate('/404');
+    }
     if (post?.id) navigate(`/p/${post.id}`);
   };
 
@@ -63,7 +66,7 @@ const Notification = ({ notification, notificationType }) => {
         <div className="bg-color-note w-12 h-12 rounded-sm shrink-0"></div>
       ) : (
         <img
-          src={post?.imageOfPost?.[0]}
+          src={post?.imageOfPost[0]}
           className="w-12 h-12 object-cover rounded-sm shrink-0"
           alt="bài đăng"
         />

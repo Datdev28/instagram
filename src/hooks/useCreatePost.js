@@ -13,6 +13,7 @@ const useCreatePost = () => {
   const user = useAuthStore((state) => state.user);
   const userProfile = userProfileStore((state) => state.userProfile);
   const addPost = userProfileStore((state) => state.addPost);
+  const randomId = Math.random(); 
   const handleCreatePost = async (
     imageUrls,
     caption,
@@ -32,6 +33,7 @@ const useCreatePost = () => {
       byAvaUser: user?.profilePicURL,
       likeCount: 0,
       commentCount: 0,
+      randomId
     };
     try {
       const postDocRef = await addDoc(collection(fireStore, "posts"), newPost);
