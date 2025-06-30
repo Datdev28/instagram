@@ -4,7 +4,7 @@ import useSearchUser from "../../hooks/useSearchUser";
 import searchToggleStore from "../../store/searchToggleStore";
 import { TbUserQuestion } from "react-icons/tb";
 import { Link } from "react-router-dom";
-import useRecentNotifications from "../../hooks/useGetLast30DaysNotifications";
+import useRecentNotifications from "../../hooks/useGetLast7DaysNotifications";
 import Notification from "../notification/Notification";
 import useAuthStore from '../../store/authStore'
 const SideSearch = () => {

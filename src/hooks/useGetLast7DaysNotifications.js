@@ -19,7 +19,7 @@ const useRecentNotifications = (userId) => {
     if (!userId) return;
     const now = new Date();
     const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(now.getDate() - 30);
+    thirtyDaysAgo.setDate(now.getDate() - 7);
     const userRef = doc(fireStore, "users", userId);
     const notiRef = collection(fireStore, "users", userId, "notifications");
     const q = query(
