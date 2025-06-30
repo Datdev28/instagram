@@ -1,50 +1,54 @@
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { useState } from 'react'
-import { toast } from 'react-toastify';
-import { fireStore } from '../firebase/firebase';
-import { v4 as uuidv4 } from 'uuid';
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { fireStore } from "../firebase/firebase";
 
 const useSendNotificationCommentOrLike = () => {
   const [isSending, setIsSending] = useState(false);
-  const handleSendNotificationComment = async(postId, posterId, InteractUserId) => {
-    if(isSending) return toast.warning("Thao tác quá nhanh!");
-    try {
-      const newId = uuidv4();
-      const notificationRef = doc(fireStore, 'users', posterId, 'notifications', newId);
-      const notification = {
-        postId,
-        InteractUserId,
-        notificationType: 'comment',
-        createdAt: serverTimestamp(),
-      }
-      await setDoc(notificationRef, notification);
-    } catch (error) {
-       console.log(error);
-      toast.error("Đã xảy ra lỗi. Hãy thử lại")
-    } finally {
-      setIsSending(false);
-    }
-  }
-   const handleSendNotificationLike = async(postId, posterId, InteractUserId) => {
-    if(isSending) return toast.warning("Thao tác quá nhanh!");
-    try {
-      const newId = uuidv4();
-      const notificationRef = doc(fireStore, 'users', posterId, 'notifications', newId);
-      const notification = {
-        postId,
-        InteractUserId,
-        notificationType: 'like',
-        createdAt: serverTimestamp(),
-      }
-      await setDoc(notificationRef, notification);
-    } catch (error) {
-       console.log(error);
-      toast.error("Đã xảy ra lỗi. Hãy thử lại")
-    } finally {
-      setIsSending(false);
-    }
-  }
-  return {handleSendNotificationComment, handleSendNotificationLike}
-}
 
-export default useSendNotificationCommentOrLike
+  const handleSendNotification = async (
+    postId,
+    posterId,
+    InteractUserId,
+    type = "like" // or 'comment'
+  ) => {
+    if (isSending) return toast.warning("Thao tác quá nhanh!");
+    setIsSending(true);
+
+    try {
+      // ✅ Chỉ dùng postId và type để tạo ID
+      const notificationId = `${postId}_${type}`;
+      const notificationRef = doc(
+        fireStore,
+        "users",
+        posterId,
+        "notifications",
+        notificationId
+      );
+
+      const notification = {
+        postId,
+        InteractUserId,
+        notificationType: type,
+        createdAt: serverTimestamp(),
+      };
+
+      await setDoc(notificationRef, notification, { merge: true });
+    } catch (error) {
+      console.log(error);
+      toast.error("Đã xảy ra lỗi. Hãy thử lại");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const handleSendNotificationComment = (postId, posterId, InteractUserId) =>
+    handleSendNotification(postId, posterId, InteractUserId, "comment");
+
+  const handleSendNotificationLike = (postId, posterId, InteractUserId) =>
+    handleSendNotification(postId, posterId, InteractUserId, "like");
+
+  return { handleSendNotificationComment, handleSendNotificationLike };
+};
+
+export default useSendNotificationCommentOrLike;

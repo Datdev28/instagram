@@ -49,7 +49,7 @@ const SideSearch = () => {
     >
       <p className="text-2xl font-bold px-4">{mode === 'search' ? "Tìm kiếm" : "Thông báo"}</p>
       {mode === 'notifications' && (
-        <p className="font-bold px-4">1 tháng vừa qua</p>
+        <p className="font-bold px-4">1 tuần vừa qua</p>
       )}
        {mode === 'notifications' && notifications && (
          <div className="flex flex-col px-4 gap-y-4"> 

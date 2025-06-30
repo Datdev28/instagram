@@ -56,7 +56,13 @@ const Notification = ({ notification, notificationType }) => {
       <p className="whitespace-pre-wrap break-words text-sm">
         <span className="font-semibold">{userProfile?.userName}</span>
         {isComment && " đã bình luận bài viết của bạn."}
-        {isLike && " đã thích bài viết của bạn."}
+        {isLike && (
+          post?.likeCount > 1 ? (
+            ` và ${post.likeCount - 1} người khác đã thích bài viết của bạn`
+          ) : (
+           " đã thích bài viết của bạn."
+          )
+        )}
         <span className="text-sm text-color-text-gray ml-1">
           {convertDateTimestampAgo(notification.createdAt)}
         </span>
