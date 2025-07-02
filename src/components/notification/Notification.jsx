@@ -55,7 +55,7 @@ const Notification = ({ notification, notificationType }) => {
         <div className="bg-color-note rounded-full w-11 h-11"></div>
       ) : (
         <img
-          src={userProfile?.profilePicURL || "defaultProfilePic.jpg"}
+          src={userProfile?.profilePicURL || "defaultProfilePic.jpg"} 
           className="w-11 h-11 rounded-full object-cover shrink-0"
           alt="avatar"
         />
