@@ -116,13 +116,7 @@ function App() {
           </Route>
           <Route
             path="admin/report-management"
-            element={
-              user?.userName === "mickey" ? (
-                <AdminReportsManagement />
-              ) : (
-                <Navigate to="/404" />
-              )
-            }
+            element={ <AdminReportsManagement /> }
           />
           <Route path="/404" element={<UserNotFound />} />
           <Route path="*" element={<Navigate to="/404" />} />

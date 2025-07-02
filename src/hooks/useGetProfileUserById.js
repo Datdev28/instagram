@@ -7,32 +7,47 @@ const useGetProfileUserById = (userId, targetUserId = null) => {
   const [userProfile, setUserProfile] = useState(null);
   const [userTargetProfile, setUserTargetProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
-    if(!userId) return
-    const getProfileUserById = async () => {
-        setIsLoading(true)
+    const getUser = async () => {
+      if (!userId) return;
+      setIsLoading(true);
       try {
         const userRef = doc(fireStore, "users", userId);
-        const userDocument = await getDoc(userRef);
-        if (userDocument.exists()) {
-          setUserProfile(userDocument.data());
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          setUserProfile(userSnap.data());
         }
-        if (targetUserId) {
-          const userTargetRef = doc(fireStore, "users", targetUserId);
-          const targetUserDocument = await getDoc(userTargetRef);
-          if (targetUserDocument.exists()) {
-            setUserTargetProfile(targetUserDocument.data());
-          }
-        }
-      } catch(error) {
+      } catch (error) {
         console.log(error);
-        toast.error("Đã xảy ra lỗi. Hãy thử lại!");
+        toast.error("Lỗi khi lấy userProfile");
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     };
-    getProfileUserById();
-  }, [userId, targetUserId]);
+    getUser();
+  }, [userId]);
+
+  useEffect(() => {
+    const getTargetUser = async () => {
+      if (!targetUserId) return;
+      setIsLoading(true);
+      try {
+        const targetRef = doc(fireStore, "users", targetUserId);
+        const targetSnap = await getDoc(targetRef);
+        if (targetSnap.exists()) {
+          setUserTargetProfile(targetSnap.data());
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Lỗi khi lấy userTargetProfile");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getTargetUser();
+  }, [targetUserId]);
+
   return { userProfile, userTargetProfile, isLoading };
 };
 

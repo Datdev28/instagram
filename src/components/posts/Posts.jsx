@@ -21,11 +21,10 @@ const Posts = () => {
                 selectedFile={item.imageOfPost}
                 fromModalShow={true}
               />
-          <PostFooter post={item} />
+          <PostFooter post={item}/>
           <hr className="border-1 border-color-dash my-8"/>
         </React.Fragment>
       ))}
-
       <div ref={ref} className="h-10 flex justify-center items-center">
         {loading && (
           <img

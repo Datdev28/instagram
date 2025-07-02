@@ -9,11 +9,11 @@ const PostHeader = ({ poster, createdAt }) => {
   return (
     <div className="flex justify-between text-white text-md items-center ">
       {isLoading ? (
-        <div className="h-[34px]">
+        <div className="h-[33px]">
         <div className="w-8 h-8 rounded-full bg-color-note"></div>
         </div>
       ) : (
-        <div className="flex gap-x-2 items-center">
+        <div className="flex gap-x-2 items-center h-[33px]">
           <img
             src={userProfile?.profilePicURL || `defaultProfilePic.jpg`}
             className="w-8 h-8 rounded-full object-cover cursor-pointer"

@@ -42,8 +42,7 @@ const useGetFeedPosts = () => {
   };
 
   useEffect(() => {
-    if(feedPosts.length === 0);
-    fetchInitialPosts();
+    if(feedPosts.length === 0) fetchInitialPosts();
   }, []);
 
   return { feedPosts, fetchMorePosts, loading, hasMore };
