@@ -13,10 +13,13 @@ const Notification = ({ notification, notificationType }) => {
   const navigate = useNavigate();
 
   const handleClickGoToPost = () => {
-    if (!post) {
-      navigate("/404");
-    }
-    if (post?.id) navigate(`/p/${post.id}`);
+    if(!isFollow){
+      if (!post) {
+        navigate("/404");
+      } else {
+         navigate(`/p/${post.id}`);
+      }
+    } 
   };
 
   if (notificationType === "admin") {
