@@ -15,16 +15,19 @@ import useNotificationStore from "../store/notificationStore";
 const useRecentNotifications = (userId) => {
   const [notifications, setNotifications] = useState([]);
   const { setHasNewNoti } = useNotificationStore();
+
   useEffect(() => {
     if (!userId) return;
+
     const now = new Date();
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(now.getDate() - 7);
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(now.getDate() - 7);
+
     const userRef = doc(fireStore, "users", userId);
     const notiRef = collection(fireStore, "users", userId, "notifications");
     const q = query(
       notiRef,
-      where("createdAt", ">=", Timestamp.fromDate(thirtyDaysAgo)),
+      where("createdAt", ">=", Timestamp.fromDate(sevenDaysAgo)),
       orderBy("createdAt", "desc")
     );
 
@@ -34,16 +37,26 @@ const useRecentNotifications = (userId) => {
         ...doc.data(),
       }));
       setNotifications(notiList);
+
       if (notiList.length === 0) {
         setHasNewNoti(false);
         return;
       }
+
       const userSnap = await getDoc(userRef);
+      const rawLastSeen = userSnap.data()?.lastSeenNotificationAt;
+
       const lastSeen =
-        userSnap.data()?.lastSeenNotificationAt?.toDate() || new Date(0);
+        rawLastSeen instanceof Timestamp
+          ? rawLastSeen.toDate()
+          : new Date(0); // fallback nếu không có hoặc sai định dạng
+
       const hasUnread = notiList.some(
-        (noti) => noti.createdAt.toDate() > lastSeen
+        (noti) =>
+          noti.createdAt instanceof Timestamp &&
+          noti.createdAt.toDate() > lastSeen
       );
+
       setHasNewNoti(hasUnread);
     });
 

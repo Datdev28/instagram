@@ -35,13 +35,14 @@ const useGetFeedPosts = () => {
     );
     const snap = await getDocs(q);
     const newPosts = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    appendFeedPosts(newPosts); // ✅ thêm vào mảng cũ
+    appendFeedPosts(newPosts); 
     setLastDoc(snap.docs[snap.docs.length - 1]);
     setHasMore(snap.docs.length === 6);
     setLoading(false);
   };
 
   useEffect(() => {
+    if(feedPosts.length === 0);
     fetchInitialPosts();
   }, []);
 

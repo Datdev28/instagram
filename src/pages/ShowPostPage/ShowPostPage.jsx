@@ -8,7 +8,6 @@ import { FaHeart } from "react-icons/fa6";
 import { FaComment } from "react-icons/fa";
 import { IoMdImages } from "react-icons/io";
 import Footer from "../../components/footer/Footer";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import InteractWithPost from "../../components/commentBox/InteractWithPost";
 import ModalLikePostWithoutLogin from "../../components/modal/ModalLikePostWithoutLogin";
 import { UserNotFound } from "../ProfilePage/ProfilePage";

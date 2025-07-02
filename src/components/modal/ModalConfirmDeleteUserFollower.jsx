@@ -1,10 +1,9 @@
-import React from "react";
 import Modal from "react-modal";
 import { motion } from "framer-motion";
 const ModalConfirmDeleteUserFollower = ({
   isOpenModalConfirmDeleteUserFollower,
   setIsOpenModalConfirmDeleteUserFollower,
-  handleDelelteFollower,
+  handleDeleteFollower,
   userFollow,
   userId,
   setIsDeleted,
@@ -13,7 +12,7 @@ const ModalConfirmDeleteUserFollower = ({
   const handleClickDeleteUserFollower = async () => {
     setIsOpenModalConfirmDeleteUserFollower(false);
     setIsDeleted(true);
-    await handleDelelteFollower(userFollow?.uid, userId);
+    await handleDeleteFollower(userFollow?.uid, userId);
   };
   return (
     <div>

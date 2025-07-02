@@ -1,69 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import PostHeader from "./PostHeader";
 import PostFooter from "./postFooter";
+import { useInView } from "react-intersection-observer";
+import useGetFeedPosts from "../../hooks/useGetFeedPosts";
+import SlideImage from "../slideImage/SlideImage";
 const Posts = () => {
-  const postUser = [
-    {
-      name: "messi10",
-      post: "vietnam.jpg",
-      numberOfLikes: "1022",
-    },
-    {
-      name: "ronaldo",
-      post: "image2.jpg",
-      numberOfLikes: "1000",
-    },
-    {
-      name: "mbape",
-      post: "image3.jpg",
-      numberOfLikes: "2219",
-    },
-    {
-      name: "lukamodric",
-      post: "image4.jpg",
-      numberOfLikes: "3000",
-    },
-    {
-      name: "neymar10",
-      post: "image5.jpg",
-      numberOfLikes: "2000",
-    },
-    {
-      name: "dav.beckham",
-      post: "image6.jpg",
-      numberOfLikes: "5000",
-    },
-    {
-      name: "linus",
-      post: "image7.jpg",
-      numberOfLikes: "420",
-    },
-    {
-      name: "snoopdog",
-      post: "image8.jpg",
-      numberOfLikes: "140",
-    },
-    {
-      name: "rooney9",
-      post: "image9.jpg",
-      numberOfLikes: "500",
-    },
-  ];
+  const { feedPosts, fetchMorePosts, loading, hasMore } = useGetFeedPosts();
+  const { ref, inView } = useInView();
+  React.useEffect(() => {
+    if (inView && hasMore && !loading) {
+      fetchMorePosts();
+    }
+  }, [inView]);
   return (
     <div className="flex flex-col w-full max-w-lg gap-y-3 text-white">
-      {postUser.map((item) => (
-        <>
-          <PostHeader name={item.name}/>
-          <div className="w-full h-0 pb-[120%] relative overflow-hidden">
-            <img
-              className="absolute inset-0 object-cover w-full h-full rounded-sm"
-              src={item.post}
-              alt="hình ảnh"
-            />
-          </div>
-          <PostFooter numberOfLikes={item.numberOfLikes}/>
-        </>
+      {feedPosts.map((item, idx) => (
+        <React.Fragment key={item.id || idx}>
+          <PostHeader poster={item.createBy} createdAt={item.createdAt} />
+              <SlideImage
+                selectedFile={item.imageOfPost}
+                fromModalShow={true}
+              />
+          <PostFooter post={item} />
+          <hr className="border-1 border-color-dash my-8"/>
+        </React.Fragment>
       ))}
+
+      <div ref={ref} className="h-10 flex justify-center items-center">
+        {loading && (
+          <img
+            className="object-cover w-12 h-12 rounded-full"
+            src="/loading.gif"
+            alt="gif"
+          />
+        )}
+      </div>
+      {!hasMore && !loading && (
+        <div className="text-center text-xl font-bold py-4">
+          Bạn đã xem hết tin
+        </div>
+      )}
     </div>
   );
 };

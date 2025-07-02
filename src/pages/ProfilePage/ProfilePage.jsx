@@ -16,6 +16,7 @@ const ProfilePage = () => {
   const { blockedByMe, blockedByThem } = useIsBlockedUser(userProfile?.uid);
   if (findUserInfo) return <UserNotFound />;
   if (blockedByThem) return <UserNotFound />;
+  console.log(userProfile?.userName)
   return (
     userProfile && (
       <div className="text-white flex flex-col w-full items-center gap-y-2">

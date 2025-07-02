@@ -1,4 +1,4 @@
-  import { useNavigate } from "react-router-dom";
+  import { useNavigate, useParams } from "react-router-dom";
   import useAuthStore from "../../store/authStore";
   import useGetProfileUserById from "../../hooks/useGetProfileUserById";
   import useDeleteUserFollowers from "../../hooks/useDeleteUserFollowers";
@@ -6,9 +6,10 @@
   import ModalConfirmDeleteUserFollower from "../modal/ModalConfirmDeleteUserFollower";
   import useFollowUser from "../../hooks/useFollowUser";
   const UserFollower = ({ userFollowerId }) => {
+    const { username } = useParams();
     const navigate = useNavigate();
     const user = useAuthStore((state) => state.user);
-    const { handleDelelteFollower } = useDeleteUserFollowers();
+    const { handleDeleteFollower } = useDeleteUserFollowers();
     const {
       isLoading: isLoadingFollow,
       isFollowing,
@@ -19,7 +20,7 @@
       isOpenModalConfirmDeleteUserFollower,
       setIsOpenModalConfirmDeleteUserFollower,
     ] = useState(false);
-    const notOwnProfileUser = user.userName !== userProfile?.userName;
+    const notOwnProfileUser = user.userName !== username;
     const [isDeleted, setIsDeleted] = useState(false);
     return (
       <div className="flex justify-between items-center">
@@ -77,7 +78,7 @@
                 )}
               </button>
             ) : (
-              notOwnProfileUser &&
+              !notOwnProfileUser &&
               (isDeleted ? (
                 <button
                   className={`w-22 h-8 px-2 bg-color-note opacity-50 font-semibold rounded-md `}
@@ -104,7 +105,7 @@
             setIsOpenModalConfirmDeleteUserFollower={
               setIsOpenModalConfirmDeleteUserFollower
             }
-            handleDelelteFollower={handleDelelteFollower}
+            handleDeleteFollower={handleDeleteFollower}
             userId={user.uid}
             userFollow={userProfile}
             setIsDeleted={setIsDeleted}

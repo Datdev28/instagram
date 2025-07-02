@@ -3,7 +3,6 @@ import { collection, getDocs } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
 import useAuthStore from "../store/authStore";
 import { toast } from "react-toastify";
-import useLoadingBarStore from "../store/loadingBarStore";
 import useBlockListStore from "../store/blockListStore";
 
 const useGetSuggestedUsers = () => {
@@ -11,11 +10,9 @@ const useGetSuggestedUsers = () => {
   const [suggestedUsers, setSuggestedUsers] = useState([]);
   const { blockerIdList, blockedIdList } = useBlockListStore();
   const { user } = useAuthStore();
-  const setProgress = useLoadingBarStore(state => state.setProgress);
   useEffect(() => {
     const getSuggestedUsers = async () => {
       if (!user) return;
-      setProgress(30);
       try {
         const snapshot = await getDocs(collection(fireStore, "users"));
         const allUsers = snapshot.docs.map((doc) => doc.data());
@@ -34,7 +31,6 @@ const useGetSuggestedUsers = () => {
         console.error(error);
         toast.error("Đã xảy ra lỗi. Hãy thử lại!");
       } finally {
-        setProgress(100);
         setIsLoading(true);
       }
     };

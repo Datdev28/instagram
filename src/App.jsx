@@ -36,6 +36,20 @@ function App() {
   const [loadingData, setLoadingData] = useState(false);
   const location = useLocation();
   useGetBlockList(user?.uid);
+  useEffect(() => {
+  const fetchCurrentUser = async () => {
+    const docRef = doc(fireStore, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const freshUser = { uid: docSnap.id, ...docSnap.data() };
+      setUser(freshUser);
+      localStorage.setItem("user", JSON.stringify(freshUser));
+    }
+  };
+
+  fetchCurrentUser();
+}, []);
   const renderData = async () => {
     try {
       setLoadingData(true);

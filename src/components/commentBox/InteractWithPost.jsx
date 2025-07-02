@@ -166,13 +166,13 @@ const InteractWithPost = ({
                 src={userProfile?.profilePicURL}
                 className="w-5 h-5 rounded-full object-cover inline cursor-pointer"
                 alt="hình ảnh đại diện"
-                onClick={() => navigate(`/${userProfile.userName}`)}
+                onClick={() => navigate(`/${userProfile?.userName}`)}
               />
               <p
                 className="inline cursor-pointer"
-                onClick={() => navigate(`/${userProfile.userName}`)}
+                onClick={() => navigate(`/${userProfile?.userName}`)}
               >
-                {userProfile.userName}
+                {userProfile?.userName}
               </p>
             </div>
             <p

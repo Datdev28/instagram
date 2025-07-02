@@ -1,10 +1,18 @@
-import React, { memo } from "react";
+import { memo, useState } from "react";
 
-const SlideImage = ({ selectedFile, picked, setPicked, fromModalShow }) => {
+const SlideImage = ({
+  selectedFile,
+  picked: externalPicked,
+  setPicked: externalSetPicked,
+  fromModalShow,
+}) => {
+  const [internalPicked, setInternalPicked] = useState(0);
+
+  const picked = externalPicked ?? internalPicked;
+  const setPicked = externalSetPicked ?? setInternalPicked;
+
   const handleLeft = () => {
-    setPicked((prev) =>
-      prev === 0 ? selectedFile.length - 1 : prev - 1
-    );
+    setPicked((prev) => (prev === 0 ? selectedFile.length - 1 : prev - 1));
   };
 
   const handleRight = () => {
@@ -81,7 +89,7 @@ const SlideImage = ({ selectedFile, picked, setPicked, fromModalShow }) => {
               className={`w-2 h-2 rounded-full border border-white ${
                 index === picked ? "bg-white" : "bg-transparent"
               }`}
-              onClick={() => setPicked(picked)}
+              onClick={() => setPicked(index)}
             />
           ))}
         </div>

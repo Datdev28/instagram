@@ -76,13 +76,13 @@ const ModalShowFollowingOrFollowers = ({
                     : "Đang theo dõi"}
                 </p>
                 {showType === "following" ? (
-                  <p className="text-center text-md break-words">
+                  <p className="text-center text-md break-words px-4">
                     Tất cả những người{" "}
                     {ownProfile ? "bạn" : userProfile.userName} theo dõi sẽ xuất
                     hiện ở đây.
                   </p>
                 ) : (
-                  <p className="text-center text-md break-words">
+                  <p className="text-center text-md break-words px-4">
                     Tất cả những người theo dõi{" "}
                     {ownProfile ? "bạn" : userProfile.userName} sẽ xuất hiện ở
                     đây.

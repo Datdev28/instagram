@@ -63,8 +63,8 @@ const Notification = ({ notification, notificationType }) => {
         {isFollow && " đã bắt đầu theo dõi bạn."}
         {isComment && " đã bình luận bài viết của bạn."}
         {isLike &&
-          (post?.likeCount > 1
-            ? ` và ${post.likeCount - 1} người khác đã thích bài viết của bạn`
+          (post?.likes.length > 1
+            ? ` và ${post?.likes.length - 1} người khác đã thích bài viết của bạn`
             : " đã thích bài viết của bạn.")}
         <span className="text-sm text-color-text-gray ml-1">
           {convertDateTimestampAgo(notification.createdAt)}
