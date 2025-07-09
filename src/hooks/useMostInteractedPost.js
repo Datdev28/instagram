@@ -21,9 +21,11 @@ const useMostInteractedPost = (userId) => {
         limit(1)
       );
       const snapShot = await getDocs(postRef);
-      const doc = snapShot.docs[0];
-      if (doc.data().likeCount > 0) {
-        setMostPostLike({ ...doc.data(), id: doc.id });
+      if (!snapShot.empty) {
+        const doc = snapShot.docs[0];
+        if (doc.data().likeCount > 0) {
+          setMostPostLike({ ...doc.data(), id: doc.id });
+        }
       }
     } catch (error) {
       console.log(error);

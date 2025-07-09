@@ -3,6 +3,7 @@ import ModalShowLikes from "../modal/ModalShowLikes";
 import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
 import useGetProfileUserById from "../../hooks/useGetProfileUserById";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
@@ -13,6 +14,7 @@ const PostFooter = ({ post }) => {
   const user = useAuthStore((state) => state.user);
   const ownerPost = post.createBy === user?.uid;
   const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const [isOpenModalShowLikes, setIsOpenModalShowLikes] = useState(false);
   const { userProfile, userTargetProfile } = useGetProfileUserById(
     post?.likes[0],
@@ -30,8 +32,9 @@ const PostFooter = ({ post }) => {
     setIsOpenModalShowLikes(true);
   };
   useEffect(() => {
-    setIsLiked(post.likes.includes(user.uid))
-  }, [])
+    setIsLiked(post.likes.includes(user?.uid));
+    setIsSaved(user?.savePosts.includes(post.id));
+  }, []);
   const captionText = post?.caption || "";
   const shouldTruncate = captionText.length > 50 && !isExpanded;
   const displayText = shouldTruncate ? captionText.slice(0, 50) : captionText;
@@ -43,11 +46,27 @@ const PostFooter = ({ post }) => {
           {isLiked ? (
             <FaHeart className="text-2xl cursor-pointer text-red-500" />
           ) : (
-           <FaRegHeart className="text-2xl cursor-pointer" onClick={handleInteractWithPost}/>
+            <FaRegHeart
+              className="text-2xl cursor-pointer"
+              onClick={handleInteractWithPost}
+            />
           )}
-          <FaRegComment className="text-2xl cursor-pointer" onClick={handleInteractWithPost}/>
+          <FaRegComment
+            className="text-2xl cursor-pointer"
+            onClick={handleInteractWithPost}
+          />
         </div>
-        <FaRegBookmark className="text-2xl cursor-pointer" onClick={handleInteractWithPost}/>
+        {isSaved ? (
+          <FaBookmark
+            className="text-2xl cursor-pointer"
+            onClick={handleInteractWithPost}
+          />
+        ) : (
+          <FaRegBookmark
+            className="text-2xl cursor-pointer"
+            onClick={handleInteractWithPost}
+          />
+        )}
       </div>
       <div>
         {post.checkedHideLike && !ownerPost ? (

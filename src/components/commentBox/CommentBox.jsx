@@ -13,7 +13,6 @@ import ModalIntroduceAcc from "../modal/ModalIntroduceAcc";
 import ModalConfirmCancleSavePost from "../modal/ModalConfirmCancleSavePost";
 import ModalReponseForReport from "../modal/ModalReponseForReport";
 import useFilteredComments from "../../hooks/useFilteredComment";
-import useGetProfileUserById from "../../hooks/useGetProfileUserById";
 const CommentBox = ({
   post,
   setIsOpenModalLikePostWithoutLogin,
@@ -49,32 +48,25 @@ const CommentBox = ({
     }
   };
   const filteredComment = useFilteredComments(post?.comments);
-  const { userProfile, isLoading } = useGetProfileUserById(post?.createBy);
   return (
     post && (
       <div className="w-full flex flex-col relative bg-black text-white">
         <div className="flex px-4 sm:py-3 justify-between items-center">
           <div className="flex gap-x-2 items-center">
-            {isLoading ? (
-              <>
-                <div className="w-8 h-8 bg-color-note rounded-full"></div>
-              </>
-            ) : (
               <>
                 <img
-                  src={userProfile?.profilePicURL || "/defaultProfilePic.jpg"}
+                  src={post?.byAvaUser || "/defaultProfilePic.jpg"}
                   className="w-8 h-8 rounded-full object-cover cursor-pointer"
                   alt="hình ảnh đại diện"
-                  onClick={() => navigate(`/${userProfile?.userName}`)}
+                  onClick={() => navigate(`/${post?.userName}`)}
                 />
                 <p
                   className="text-sm cursor-pointer font-bold hover:text-color-text-gray"
-                  onClick={() => navigate(`/${userProfile?.userName}`)}
+                  onClick={() => navigate(`/${post?.byUserName}`)}
                 >
-                  {userProfile?.userName}
+                  {post?.byUserName}
                 </p>
               </>
-            )}
           </div>
           {user && (
             <HiOutlineDotsHorizontal
@@ -88,25 +80,20 @@ const CommentBox = ({
             <hr className="border-color-note" />
             {post.caption && (
               <div className="flex gap-x-2 px-4 py-4">
-                {isLoading ? (
-                  <>
-                    <div className="w-8 h-8 bg-color-note rounded-full"></div>
-                  </>
-                ) : (
+
                   <img
-                    src={userProfile?.profilePicURL || "/defaultProfilePic.jpg"}
+                    src={post?.byAvaUser || "/defaultProfilePic.jpg"}
                     className="w-8 h-8 rounded-full shrink-0 object-cover cursor-pointer"
                     alt="hình ảnh đại diện"
-                    onClick={() => navigate(`/${userProfile?.userName}`)}
+                    onClick={() => navigate(`/${post?.byUserName}`)}
                   />
-                )}
                 <div className="flex flex-col gap-x-2 w-full">
                   <div className="w-full">
                     <span
                       className="text-sm mr-2 cursor-pointer font-bold hover:text-color-text-gray"
-                      onClick={() => navigate(`/${userProfile?.userName}`)}
+                      onClick={() => navigate(`/${post?.byUserName}`)}
                     >
-                      {userProfile?.userName}
+                      {post?.byUserName}
                     </span>
                     <span className="font-normal break-words whitespace-pre-wrap text-sm">
                       {post.caption}

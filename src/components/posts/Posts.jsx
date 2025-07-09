@@ -16,7 +16,7 @@ const Posts = () => {
     <div className="flex flex-col w-full max-w-lg gap-y-3 text-white">
       {feedPosts.map((item, idx) => (
         <React.Fragment key={item.id || idx}>
-          <PostHeader poster={item.createBy} createdAt={item.createdAt} />
+          <PostHeader poster={item} createdAt={item} />
               <SlideImage
                 selectedFile={item.imageOfPost}
                 fromModalShow={true}
