@@ -63,7 +63,6 @@ const Comment = ({ comment, setIsOpenModalListOfReasons, setReportPost }) => {
             {comment.likesOfComment.length > 0 && (
               <span>{comment.likesOfComment.length} lượt thích</span>
             )}
-            <span className="cursor-pointer">Trả lời</span>
             {user && (
               <BsThreeDots
                 className="text-xl cursor-pointer opacity-0 group-hover:opacity-100"
