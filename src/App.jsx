@@ -29,6 +29,7 @@ import PasswordPage from "./pages/AccountPage/PasswordPage/PasswordPage";
 import AccountStatus from "./pages/AccountPage/accountStatus/AccountStatus";
 import RemovedContent from "./pages/AccountPage/accountStatus/RemovedContent";
 import FeatureLimits from "./pages/AccountPage/accountStatus/FeatureLimits";
+import ExplorePostPage from "./pages/ExplorePostPage/ExplorePostPage";
 function App() {
   const [authUser, loading] = useAuthState(auth);
   const { progress } = useLoadingBarStore();
@@ -126,6 +127,10 @@ function App() {
           />
           <Route
             path="/explore"
+            element={authUser ? <ExplorePostPage /> : <Navigate to="/auth" />}
+          />
+          <Route
+            path="/explore/people"
             element={authUser ? <SuggestedPage /> : <Navigate to="/auth" />}
           />
           <Route path="p/:postId" element={<ShowPostPage />}></Route>

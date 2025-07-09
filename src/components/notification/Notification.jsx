@@ -52,7 +52,7 @@ const Notification = ({ notification, notificationType }) => {
       onClick={handleClickGoToPost}
     >
       {isLoading ? (
-        <div className="bg-color-note rounded-full w-11 h-11"></div>
+        <div className="bg-color-note rounded-full w-11 h-11 shrink-0"></div>
       ) : (
         <img
           src={userProfile?.profilePicURL || "defaultProfilePic.jpg"} 

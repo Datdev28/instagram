@@ -48,8 +48,9 @@ const InteractWithPost = ({
   const fromCollection = useFromCollection((state) => state.fromCollection);
   const collections = useCollectionPostStore((state) => state.collections);
   const { isSave, handleSavePost } = useSavePost(post?.id);
-  const {userProfile} = useGetProfileUserById(post?.likes[0]);
-  const {handleSendNotificationComment, handleSendNotificationLike} = useSendNotificationCommentOrLike()
+  const { userProfile, isLoading } = useGetProfileUserById(post?.likes[0]);
+  const { handleSendNotificationComment, handleSendNotificationLike } =
+    useSendNotificationCommentOrLike();
   const handleComment = async () => {
     const isStillBanned = commentBan && !hasPassedMinutes(commentBan.from, 3);
     if (isStillBanned) {
@@ -60,12 +61,16 @@ const InteractWithPost = ({
       setCommentPost(false);
       setCommentInput("");
       await handleCreateComment();
-      if(user?.uid !== post?.createBy){
-      await handleSendNotificationComment(post?.id, post?.createBy, user?.uid);
+      if (user?.uid !== post?.createBy) {
+        await handleSendNotificationComment(
+          post?.id,
+          post?.createBy,
+          user?.uid
+        );
       }
     }
   };
-  const handleLike = async() => {
+  const handleLike = async () => {
     if (isLiking) return;
     if (!user) {
       setIsOpenModalLikePostWithoutLogin(true);
@@ -73,7 +78,7 @@ const InteractWithPost = ({
     } else {
       setIsLike(!isLike);
       await handleLikePost();
-      if(user.uid !== post?.createBy && !isLike){
+      if (user.uid !== post?.createBy && !isLike) {
         await handleSendNotificationLike(post?.id, post?.createBy, user?.uid);
       }
     }
@@ -160,21 +165,26 @@ const InteractWithPost = ({
       </div>
       {post.likes.length > 0 ? (
         post.checkedHideLike && !ownerPost ? (
-          <div className="space-x-1">
-            <div className="inline space-x-2">
-              <img
-                src={userProfile?.profilePicURL}
-                className="w-5 h-5 rounded-full object-cover inline cursor-pointer"
-                alt="hình ảnh đại diện"
-                onClick={() => navigate(`/${userProfile?.userName}`)}
-              />
-              <p
-                className="inline cursor-pointer"
-                onClick={() => navigate(`/${userProfile?.userName}`)}
-              >
-                {userProfile?.userName}
-              </p>
-            </div>
+          <div className="flex space-x-1 items-center">
+            {isLoading ? (
+              <div className="w-5 h-5 bg-color-note rounded-full space-x-2"></div>
+            ) : (
+              <div className="inline space-x-2">
+                <img
+                  src={userProfile?.profilePicURL}
+                  className="w-5 h-5 rounded-full object-cover inline cursor-pointer"
+                  alt="hình ảnh đại diện"
+                  onClick={() => navigate(`/${userProfile?.userName}`)}
+                />
+                <p
+                  className="inline cursor-pointer"
+                  onClick={() => navigate(`/${userProfile?.userName}`)}
+                >
+                  {userProfile?.userName}
+                </p>
+              </div>
+            )}
+
             <p
               className="inline cursor-pointer"
               onClick={handleOpenModalUsersLike}

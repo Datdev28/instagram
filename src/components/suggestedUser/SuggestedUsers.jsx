@@ -12,7 +12,7 @@ const SuggestedUsers = () => {
         <div className="flex flex-col">
           <div className="flex items-center justify-between">
             <p className="text-color-text-gray font-bold ">Gợi ý cho bạn</p>
-            <Link to="/explore">
+            <Link to="/explore/people">
               <span className="font-semibold cursor-pointer">Xem tất cả</span>
             </Link>
           </div>

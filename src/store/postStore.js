@@ -11,7 +11,7 @@ const usePostStore = create((set) => ({
     set((state) => ({
       posts: state.posts.filter((post) => id !== post.id),
     })),
-    
+
   feedPosts: [],
   setFeedPosts: (posts) => set({ feedPosts: posts }),
   appendFeedPosts: (newPosts) =>
@@ -21,6 +21,17 @@ const usePostStore = create((set) => ({
   deleteFeedPost: (id) =>
     set((state) => ({
       feedPosts: state.feedPosts.filter((post) => id !== post.id),
+    })),
+
+  randomPosts: [],
+  setRandomPosts: (posts) => set({ randomPosts: posts }),
+  appendRandomPosts: (newPosts) =>
+    set((state) => ({
+      randomPosts: [...state.randomPosts, ...newPosts],
+    })),
+  deleteRandomPost: (id) =>
+    set((state) => ({
+      randomPosts: state.randomPosts.filter((post) => id !== post.id),
     })),
 }));
 

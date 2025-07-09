@@ -17,9 +17,9 @@ import { toast } from "react-toastify";
 const useDeletePost = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const user = useAuthStore((state) => state.user);
-  const deletePostInUserProfile = userProfileStore((state) => state.deletePost);
-  const deletePostInPosts = usePostStore((state) => state.deletePost);
-
+  const deletePostInUserProfile = userProfileStore(state => state.deletePost);
+  const deletePostInPosts = usePostStore(state => state.deletePost);
+  const deleteRandomPost = usePostStore(state => state.deleteRandomPost)
   const handleDeletePost = async (postId) => {
     if (!user?.uid || !postId) {
       return;
@@ -97,6 +97,7 @@ const useDeletePost = () => {
 
       deletePostInUserProfile(postId);
       deletePostInPosts(postId);
+      deleteRandomPost(postId);
     } catch {
       toast.error("Đã xảy ra lỗi. Hãy thử lại!");
     } finally {
