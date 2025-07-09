@@ -44,7 +44,9 @@ const PostFooter = ({ post }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
           {isLiked ? (
-            <FaHeart className="text-2xl cursor-pointer text-red-500" />
+            <FaHeart className="text-2xl cursor-pointer text-red-500" 
+            onClick={handleInteractWithPost}
+            />
           ) : (
             <FaRegHeart
               className="text-2xl cursor-pointer"

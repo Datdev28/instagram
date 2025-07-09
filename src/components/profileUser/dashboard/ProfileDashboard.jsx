@@ -22,8 +22,8 @@ const ProfileDashboard = () => {
   }, [username, user, navigate]);
   if (noPost) return <NoPosts usedProfileDashboard={true}/>;
   const chartData = [
-    { name: "Likes", value: mostPostLike?.likeCount, color: "#ec4899" },
-    { name: "Comments", value: mostPostLike?.commentCount, color: "#3b82f6" },
+    { name: "Yêu thích", value: mostPostLike?.likeCount, color: "#ec4899" },
+    { name: "Bình luận", value: mostPostLike?.commentCount, color: "#3b82f6" },
   ];
 
   return (

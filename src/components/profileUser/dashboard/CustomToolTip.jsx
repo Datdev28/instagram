@@ -6,7 +6,7 @@ const CustomTooltip = ({ active, payload, totalEngagement }) => {
     return (
       <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg text-sm">
         <p className="font-semibold" style={{ color }}>
-          {data.name}: <span className="font-bold">{data.value}</span>
+          Giá trị: <span className="font-bold">{data.value}</span>
         </p>
         <p className="text-gray-500">
           {(totalEngagement > 0

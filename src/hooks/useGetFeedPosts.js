@@ -23,7 +23,6 @@ const useGetFeedPosts = () => {
   const { blockedIdList, blockerIdList, isLoading: blockListLoading } = useBlockListStore();
 
   const filterBlockedPosts = (posts) => {
-    if (blockedIdList.length === 0 && blockerIdList.length === 0) return posts;
     const blockedSet = new Set([...blockedIdList, ...blockerIdList]);
     return posts.filter((post) => !blockedSet.has(post.createBy));
   };
@@ -65,6 +64,11 @@ const useGetFeedPosts = () => {
       );
 
       const snap = await getDocs(q);
+      if (snap.empty) {
+        setHasMore(false);
+        return;
+      }
+
       const rawPosts = snap.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -82,31 +86,19 @@ const useGetFeedPosts = () => {
   };
 
   useEffect(() => {
-    if (feedPosts.length > 0 && initialFetched) {
+    if (initialFetched && feedPosts.length > 0) {
       const filtered = filterBlockedPosts(feedPosts);
       if (filtered.length !== feedPosts.length) {
         setFeedPosts(filtered);
       }
     }
-  }, [blockedIdList, blockerIdList, initialFetched]);
+  }, [blockedIdList, blockerIdList]);
 
   useEffect(() => {
-    if (blockListLoading === false && feedPosts.length === 0 && !initialFetched) {
+    if (!blockListLoading && !initialFetched) {
       fetchInitialPosts();
     }
-    else if (blockListLoading === undefined && feedPosts.length === 0 && !initialFetched) {
-      const timer = setTimeout(() => {
-        fetchInitialPosts();
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [blockListLoading, feedPosts.length, initialFetched]);
-
-  useEffect(() => {
-    return () => {
-      setInitialFetched(false);
-    };
-  }, []);
+  }, [blockListLoading, initialFetched]);
 
   return { feedPosts, fetchMorePosts, loading, hasMore };
 };

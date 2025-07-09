@@ -3,7 +3,7 @@ import CustomTooltip from "./CustomToolTip";
 const BarChartPost = ({ mostPostLike, chartData }) => {
   return (
     <div className="flex flex-col">
-      <BarChart width={400} height={380} data={chartData}>
+      <BarChart width={420} height={380} data={chartData}>
         <Tooltip
           content={
             <CustomTooltip

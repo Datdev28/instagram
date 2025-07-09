@@ -4,13 +4,14 @@ import { motion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 import UserLike from "../commentBox/likeUser";
 import useFilteredLike from "../../hooks/useFilteredLike";
+import useLockBodyScroll from "../../hooks/useLockBodyScroll";
 const ModalShowLikes = ({
   isOpenModalShowLikes,
   setIsOpenModalShowLikes,
   post,
 }) => {
   const filteredLike = useFilteredLike(post?.likes);
-  console.log("filteredLike", filteredLike)
+  useLockBodyScroll(isOpenModalShowLikes)
   return (
     <div>
       <Modal
