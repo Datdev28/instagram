@@ -107,7 +107,7 @@ const CommentBox = ({
             )}
             <div
               className={`flex w-full h-full ${
-                post.caption ? "max-h-[337px]" : "max-h-[440px]"
+                post.caption ? "h-[337px]" : "h-[440px]"
               }  flex-1 flex-col overflow-y-auto custom-scrollbar p-4 gap-y-6`}
             >
               {filteredComment.length === 0 ? (
