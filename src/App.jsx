@@ -30,6 +30,7 @@ import AccountStatus from "./pages/AccountPage/accountStatus/AccountStatus";
 import RemovedContent from "./pages/AccountPage/accountStatus/RemovedContent";
 import FeatureLimits from "./pages/AccountPage/accountStatus/FeatureLimits";
 import ExplorePostPage from "./pages/ExplorePostPage/ExplorePostPage";
+import InboxPage from "./pages/InboxPage/InboxPage";
 function App() {
   const [authUser, loading] = useAuthState(auth);
   const { progress } = useLoadingBarStore();
@@ -133,6 +134,10 @@ function App() {
             path="/explore/people"
             element={authUser ? <SuggestedPage /> : <Navigate to="/auth" />}
           />
+          <Route
+            path="/direct/inbox"
+            element={authUser ? <InboxPage /> : <Navigate to="/auth" />}
+          ></Route>
           <Route path="p/:postId" element={<ShowPostPage />}></Route>
         </Routes>
         {background && (

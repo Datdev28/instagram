@@ -16,16 +16,17 @@ const PageLayout = ({ children }) => {
     user &&
     pathname !== `/qr` &&
     pathname !== "/admin/report-management";
+  const { isOpenToggle } = searchToggleStore();
   const renderNavbar = !user && !loading && pathname !== "/auth";
   const pageAdmin = pathname === "/admin/report-management";
-  const { isOpenToggle } = searchToggleStore();
+  const pageInbox = pathname === "/direct/inbox";
   return (
     <div className="flex max-sm:flex-col">
       {renderSideBar ? (
         <>
           <div
             className={`max-lg:w-[70px] z-20 relative flex max-lg:justify-center min-h-screen border border-r-color-dash bg-black pt-10 max-sm:hidden
-            ${isOpenToggle ? "w-[70px] lg:border-none" : "w-[240px]"}
+            ${isOpenToggle ? "w-[70px]" : "w-[240px]"}
               `}
           >
             <Sidebar />
@@ -49,7 +50,7 @@ const PageLayout = ({ children }) => {
       {renderNavbar ? <NavbarLogout /> : null}
 
       <div
-        className={`flex-1 ${pageAdmin ? "pb-0 mt-0 " : "pb-10 mt-10"}  ${
+        className={`flex-1 ${pageAdmin || pageInbox ? "pb-0 mt-0" : "pb-10 mt-10"}  ${
           isOpenToggle ? "lg:ml-[170px]" : "0"
         } ${renderNavbar ? "pt-16" : ""}`}
       >
