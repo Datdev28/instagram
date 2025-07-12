@@ -31,6 +31,7 @@ import RemovedContent from "./pages/AccountPage/accountStatus/RemovedContent";
 import FeatureLimits from "./pages/AccountPage/accountStatus/FeatureLimits";
 import ExplorePostPage from "./pages/ExplorePostPage/ExplorePostPage";
 import InboxPage from "./pages/InboxPage/InboxPage";
+import Chat from "./pages/InboxPage/chat/Chat";
 function App() {
   const [authUser, loading] = useAuthState(auth);
   const { progress } = useLoadingBarStore();
@@ -137,7 +138,9 @@ function App() {
           <Route
             path="/direct/inbox"
             element={authUser ? <InboxPage /> : <Navigate to="/auth" />}
-          ></Route>
+          >
+            <Route path=":chatId" element={<Chat/>}></Route>
+          </Route>
           <Route path="p/:postId" element={<ShowPostPage />}></Route>
         </Routes>
         {background && (

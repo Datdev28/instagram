@@ -1,6 +1,9 @@
 import React from 'react'
-
+import { useParams, Outlet } from 'react-router-dom';
 const InboxPage = () => {
+    const { chatId } = useParams(); // 👈 Lấy chatId từ URL
+
+  const isChatOpen = Boolean(chatId); // Nếu có chatId → đang mở chat 
   return (
     <div className='flex h-screen text-white overflow-y-scroll custom-scrollbar'>
       <div className='flex flex-3 flex-col px-4 gap-y-6 border-r border-r-color-dash pt-10'>
@@ -13,6 +16,7 @@ const InboxPage = () => {
           </div>
         </div>
       </div>
+      {!isChatOpen ? (
       <div className='flex flex-7 flex-col items-center justify-center'>
         <div className='flex flex-col text-center justify-center items-center'>
            <img src="/mess.jpg" className='w-26 h-26 rounded-full object-cover' alt="Tin nhắn" />
@@ -20,6 +24,11 @@ const InboxPage = () => {
            <p className='text-color-text-gray text-sm'>Gửi ảnh và tin nhắn riêng tư cho bạn bè hoặc nhóm</p>
         </div>
       </div>
+      ) : (
+      <div className="flex flex-7 flex-col items-center justify-center">
+        <Outlet />
+      </div>
+      )}
     </div>
   )
 }

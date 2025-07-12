@@ -16,7 +16,10 @@ import ModalShowFollowingOrFollowers from "../modal/ModalShowFollowingOrFollower
 import useBlockListStore from "../../store/blockListStore";
 import useUnblockUser from "../../hooks/useUnblockUser";
 import useSendNotificationCommentOrLike from "../../hooks/useSendNotificationCommentOrLike";
+import {generateChatId} from '../../utils/generateChatId';
+import { useNavigate } from "react-router-dom";
 const ProfileUserHeader = ({ blockedByMe }) => {
+  const navigate = useNavigate();
   const [modalIsOpenNote, setModalIsOpenNote] = useState(false);
   const [modalIsOpenEditProfile, setModalIsOpenEditProfile] = useState(false);
   const [modalIsOpenNotifiAuth, setModalIsOpenNotifiAuth] = useState(false);
@@ -57,7 +60,12 @@ const ProfileUserHeader = ({ blockedByMe }) => {
   }
   const handleClickUnblock = async() => {
   await handleUnblockUser(user?.uid, userProfile?.uid);
-      removeBlockedId(userProfile?.uid);
+  await removeBlockedId(userProfile?.uid);
+  }
+  const handleClickChat = () => {
+    const chatId = generateChatId(user?.uid, userProfile?.uid);
+    console.log(chatId);
+    navigate(`/direct/inbox/${chatId}`);
   }
   return (
     userProfile && (
@@ -117,7 +125,9 @@ const ProfileUserHeader = ({ blockedByMe }) => {
                       )}
                     </button>
                   )}
-                  <button className="px-4 py-1 bg-color-btn-gray rounded-sm hover:bg-color-dash cursor-pointer max-xl:px-2">
+                  <button className="px-4 py-1 bg-color-btn-gray rounded-sm hover:bg-color-dash cursor-pointer max-xl:px-2"
+                   onClick={handleClickChat}
+                  >
                     Nhắn tin
                   </button>
                   <HiDotsHorizontal

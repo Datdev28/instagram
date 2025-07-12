@@ -19,7 +19,7 @@ const PageLayout = ({ children }) => {
   const { isOpenToggle } = searchToggleStore();
   const renderNavbar = !user && !loading && pathname !== "/auth";
   const pageAdmin = pathname === "/admin/report-management";
-  const pageInbox = pathname === "/direct/inbox";
+  const isInboxPage = pathname.startsWith("/direct/inbox");
   return (
     <div className="flex max-sm:flex-col">
       {renderSideBar ? (
@@ -50,7 +50,7 @@ const PageLayout = ({ children }) => {
       {renderNavbar ? <NavbarLogout /> : null}
 
       <div
-        className={`flex-1 ${pageAdmin || pageInbox ? "pb-0 mt-0" : "pb-10 mt-10"}  ${
+        className={`flex-1 ${pageAdmin || isInboxPage ? "pb-0 mt-0" : "pb-10 mt-10"}  ${
           isOpenToggle ? "lg:ml-[170px]" : "0"
         } ${renderNavbar ? "pt-16" : ""}`}
       >
