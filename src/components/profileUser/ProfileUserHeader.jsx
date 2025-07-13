@@ -64,7 +64,6 @@ const ProfileUserHeader = ({ blockedByMe }) => {
   }
   const handleClickChat = () => {
     const chatId = generateChatId(user?.uid, userProfile?.uid);
-    console.log(chatId);
     navigate(`/direct/inbox/${chatId}`);
   }
   return (

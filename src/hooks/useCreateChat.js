@@ -6,7 +6,7 @@ import { fireStore } from "../firebase/firebase";
 const useCreateChat = (chatId, currentUserId) => {
   const navigate = useNavigate();
   const [otherUserId, setOtherUserId] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const [id1, id2] = chatId.split("_");
@@ -29,7 +29,7 @@ const useCreateChat = (chatId, currentUserId) => {
         }
       }
 
-      setLoading(false);
+      setIsLoading(false);
     };
 
     if (currentUserId && _otherUserId) {
@@ -37,6 +37,6 @@ const useCreateChat = (chatId, currentUserId) => {
     }
   }, [chatId, currentUserId, navigate]);
 
-  return { otherUserId, loading };
+  return { otherUserId, isLoading };
 };
 export default useCreateChat

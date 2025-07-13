@@ -6,7 +6,7 @@ const InboxPage = () => {
   const isChatOpen = Boolean(chatId); // Nếu có chatId → đang mở chat 
   return (
     <div className='flex h-screen text-white overflow-y-scroll custom-scrollbar'>
-      <div className='flex flex-3 flex-col px-4 gap-y-6 border-r border-r-color-dash pt-10'>
+      <div className='flex flex-2 flex-col px-4 gap-y-6 border-r border-r-color-dash pt-10'>
         <p className='font-bold'>Tin nhắn</p>
         <div className='flex items-center gap-x-2'>
           <img src="/defaultProfilePic.jpg" className='w-12 h-12 rounded-full object-cover' alt="ảnh đại diện"/>
@@ -25,7 +25,7 @@ const InboxPage = () => {
         </div>
       </div>
       ) : (
-      <div className="flex flex-7 flex-col items-center justify-center">
+      <div className="flex flex-8">
         <Outlet />
       </div>
       )}
