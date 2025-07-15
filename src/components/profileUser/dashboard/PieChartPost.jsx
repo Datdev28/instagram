@@ -4,7 +4,7 @@ import CustomTooltip from "./CustomToolTip";
 const PieChartPost = ({mostPostLike, chartData}) => {
   return (
           <div className="flex flex-col">
-          <PieChart width={420} height={380}>
+          <PieChart width={460} height={380}>
             <Tooltip
               content={
                 <CustomTooltip

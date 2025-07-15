@@ -12,7 +12,7 @@ const AdminReportsManagement = () => {
     await fetchReports(reportType);
   };
   const handleClickRefresh = async() => {
-    await fetchReports()
+    await fetchReports(pickReportType)
   }
   return (
     <div className="h-screen bg-gray-50 overflow-x-hidden">

@@ -7,7 +7,7 @@ const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost, hand
     const textarea = textareaRef.current;
     if (textarea) {
       textarea.style.height = "auto"; 
-      const maxHeight = 24 * 2; 
+      const maxHeight = 24 * 4; 
       textarea.style.height = `${Math.min(textarea.scrollHeight, maxHeight)}px`;
     }
   };
@@ -34,9 +34,9 @@ const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost, hand
       onChange={handleOnChage}
       onKeyDown={handleOnKeyDown}
       value={commentInput}
-      maxLength={300}
+      maxLength={1000}
       onInput={handleInput}
-      className="placeholder:text-color-text-gray custom-scrollbar text-white outline-none resize-none "
+      className="placeholder:text-color-text-gray custom-scrollbar text-white outline-none resize-none w-full"
       style={{ lineHeight: "24px", maxHeight: "120px" }}
     />
   );
