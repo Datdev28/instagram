@@ -1,12 +1,14 @@
 import React from "react";
 import { BsInfoCircle } from "react-icons/bs";
 import { BsInfoCircleFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 const ChatHeader = ({
   toggleInfo,
   loadingProfile,
   otherUserProfile,
   isInfoOpen,
 }) => {
+  const navigate = useNavigate();
   return (
     <div className="flex justify-between items-center border border-color-dash py-4 px-4 border-l-0 border-r-0">
       {loadingProfile ? (
@@ -18,7 +20,9 @@ const ChatHeader = ({
           </div>
         </div>
       ) : (
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-center gap-x-2 cursor-pointer"
+          onClick={() => navigate(`/${otherUserProfile.userName}`)}
+        >
           <img
             src={otherUserProfile?.profilePicURL}
             className="w-12 h-12 rounded-full object-cover"

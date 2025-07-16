@@ -1,6 +1,6 @@
 import React, { memo, useRef } from "react";
 
-const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost, handleComment}) => {
+const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost, handleComment,  isMess = false}) => {
   const textareaRef = useRef(null);
 
   const handleInput = () => {
@@ -28,13 +28,13 @@ const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost, hand
   return (
     <textarea
       ref={textareaRef}
-      placeholder="Bình luận..."
+      placeholder={`${isMess ? "Nhắn tin..." : "Bình luận..."}`}
       rows={1}
       cols={32}
       onChange={handleOnChage}
       onKeyDown={handleOnKeyDown}
       value={commentInput}
-      maxLength={1000}
+      maxLength={isMess ? 1000 : 300}
       onInput={handleInput}
       className="placeholder:text-color-text-gray custom-scrollbar text-white outline-none resize-none w-full"
       style={{ lineHeight: "24px", maxHeight: "120px" }}

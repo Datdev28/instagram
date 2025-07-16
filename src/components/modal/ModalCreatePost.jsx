@@ -58,7 +58,6 @@ const ModalCreatePost = ({ modalIsOpenCreate, setModalIsOpenCreate }) => {
       return;
     }
 
-    // Nếu đang mở status
     if (postBan && !hasPassedMinutes(postBan.from, 3)) {
       toast.error("Bạn đã bị cấm đăng bài trong 3 phút");
       return;

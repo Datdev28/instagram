@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import useCreateChat from "../../../hooks/useCreateChat";
 import useAuthStore from "../../../store/authStore";
@@ -13,6 +13,7 @@ const Chat = () => {
     chatId,
     currentUser?.uid
   );
+  const navigate = useNavigate();
   const { userProfile: otherUserProfile, isLoading: loadingProfile } =
     useGetProfileUserById(otherUserId);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
@@ -36,7 +37,9 @@ const Chat = () => {
           <div className="flex-1 h-screen overflow-y-auto p-4 space-y-4">
             <div className="flex items-start flex-col">
               <div className="flex gap-x-2 items-center max-w-xs">
-                <div className="flex items-end h-full">
+                <div className="flex items-end h-full cursor-pointer" 
+                 onClick={() => navigate(`/${otherUserProfile.userName}`)}
+                >
                   <img
                     src={otherUserProfile?.profilePicURL}
                     className="w-8 h-8 rounded-full object-cover shrink-0"
@@ -51,18 +54,6 @@ const Chat = () => {
             <div className="flex justify-end">
               <div className="flex flex-col gap-x-2 items-center max-w-xs break-words bg-blue-500">
                 <p>
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
                   Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
                   Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
                   Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád

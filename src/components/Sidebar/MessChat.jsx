@@ -4,10 +4,10 @@ import searchToggleStore from "../../store/searchToggleStore";
 import { RiMessengerFill } from "react-icons/ri";
 import { useLocation, useNavigate } from "react-router-dom";
 const MessChat = () => {
-  const {isOpenToggle, setIsOpenToggle} = searchToggleStore();
+  const {isOpenToggle} = searchToggleStore();
   const navigate = useNavigate();
   const location = useLocation();
-  const isActive = location.pathname === "/direct/inbox";
+  const isActive = location.pathname.startsWith("/direct/inbox");
   const handleClickMessChat = () => {
     navigate("/direct/inbox");
   }
