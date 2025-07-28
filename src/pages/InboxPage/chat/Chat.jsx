@@ -6,6 +6,7 @@ import useGetProfileUserById from "../../../hooks/useGetProfileUserById";
 import ChatDetail from "./ChatDetail";
 import ChatHeader from "./ChatHeader";
 import ChatFooter from "./ChatFooter";
+import ListMessages from "./ListMessages";
 const Chat = () => {
   const { chatId } = useParams();
   const { user: currentUser } = useAuthStore();
@@ -13,7 +14,6 @@ const Chat = () => {
     chatId,
     currentUser?.uid
   );
-  const navigate = useNavigate();
   const { userProfile: otherUserProfile, isLoading: loadingProfile } =
     useGetProfileUserById(otherUserId);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
@@ -34,35 +34,8 @@ const Chat = () => {
             otherUserProfile={otherUserProfile}
             isInfoOpen={isInfoOpen}
           />
-          <div className="flex-1 h-screen overflow-y-auto p-4 space-y-4">
-            <div className="flex items-start flex-col">
-              <div className="flex gap-x-2 items-center max-w-xs">
-                <div className="flex items-end h-full cursor-pointer" 
-                 onClick={() => navigate(`/${otherUserProfile.userName}`)}
-                >
-                  <img
-                    src={otherUserProfile?.profilePicURL}
-                    className="w-8 h-8 rounded-full object-cover shrink-0"
-                    alt="ảnh đại diện"
-                  />
-                </div>
-                <div className="bg-color-dash p-3 rounded-r-2xl rounded-tl">
-                  Hôm quaasd adsad sad sad sad sad sadsa đá sa
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-end">
-              <div className="flex flex-col gap-x-2 items-center max-w-xs break-words bg-blue-500">
-                <p>
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                  Hôm qua đi chơi Măng Đenasdsad asdsad sadsa dsad sad sad ád
-                </p>
-              </div>
-            </div>
+          <div className="flex-1 h-screen overflow-y-auto space-y-4 mb-20 pb-4">
+             <ListMessages chatId={chatId} otherUserProfile={otherUserProfile}/>
           </div>
            <ChatFooter isInfoOpen={isInfoOpen}/>
         </div>

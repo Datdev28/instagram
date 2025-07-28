@@ -1,9 +1,16 @@
 import { useRef, useState, useEffect } from "react";
 import { Play, Pause, X } from "lucide-react";
+import useSendMessage from "../../../hooks/useSendMess";
+import useUploadAudio from "../../../hooks/useUploadAudio";
+import { useParams } from "react-router-dom";
+import useAuthStore from "../../../store/authStore";
 
 const VoiceChat = ({ setRecording }) => {
   const [isRecording, setIsRecording] = useState(false);
+  const {chatId} = useParams();
+  const user = useAuthStore(state => state.user);
   const [audioURL, setAudioURL] = useState(null);
+  const [audioFile, setAudioFile] = useState(null);
   const [recordingTime, setRecordingTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -16,7 +23,8 @@ const VoiceChat = ({ setRecording }) => {
   const streamRef = useRef(null);
   const audioRef = useRef(null);
   const animationRef = useRef(null);
-
+  const {sendMessage} = useSendMessage();
+  const {uploadAudio} = useUploadAudio();
   useEffect(() => {
     if (isRecording) {
       timerRef.current = setInterval(() => {
@@ -95,7 +103,7 @@ const VoiceChat = ({ setRecording }) => {
         const file = new File([blob], `voice-${Date.now()}.webm`, {
           type: "audio/webm",
         });
-        console.log("File audio:", file);
+        setAudioFile(file);
         if (streamRef.current) {
           streamRef.current.getTracks().forEach((track) => track.stop());
         }
@@ -176,6 +184,16 @@ const VoiceChat = ({ setRecording }) => {
     }
   };
 
+ const handleClickSendVoice = async () => {
+  if (!audioFile) return;
+      setAudioURL(null);
+    setAudioFile(null);
+    setRecording(false);
+  const uploadedUrl = await uploadAudio(audioFile); 
+  if (uploadedUrl) {
+    await sendMessage(chatId, user?.uid, "", [], uploadedUrl); 
+  }
+};
   if (isRecording) {
     return (
       <div className="text-white rounded-3xl h-10 w-full">
@@ -197,7 +215,9 @@ const VoiceChat = ({ setRecording }) => {
             {formatTime(recordingTime)}
           </div>
 
-          <button className=" text-blue-500 px-4 py-1 rounded-full text-sm font-medium cursor-pointer">
+          <button className=" text-blue-500 px-4 py-1 rounded-full text-sm font-medium cursor-pointer"
+           onClick={handleClickSendVoice}
+          >
             Send
           </button>
         </div>
@@ -281,7 +301,9 @@ const VoiceChat = ({ setRecording }) => {
               className="hidden"
             />
           </div>
-          <p className=" text-blue-500 px-4 rounded-full text-sm font-medium cursor-pointer">
+          <p className=" text-blue-500 px-4 rounded-full text-sm font-medium cursor-pointer"
+           onClick={handleClickSendVoice}
+          >
             Send
           </p>
         </div>

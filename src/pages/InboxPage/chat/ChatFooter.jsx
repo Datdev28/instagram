@@ -6,6 +6,10 @@ import Emoj from "../../../components/emojPicker/Emoj";
 import { BsEmojiSmile } from "react-icons/bs";
 import VoiceChat from "../voiceChat/VoiceChat";
 import usePreviewImage from "../../../hooks/usePreviewImage";
+import useSendMessage from "../../../hooks/useSendMess";
+import { useParams } from "react-router-dom";
+import useAuthStore from "../../../store/authStore";
+import useUpAndGetImage from "../../../hooks/useUpAndGetImage";
 const ChatFooter = ({ isInfoOpen }) => {
   const [showEmoj, setShowEmoj] = useState(false);
   const [recording, setRecording] = useState(false);
@@ -13,9 +17,28 @@ const ChatFooter = ({ isInfoOpen }) => {
   const { selectedFile, handleImageChange, setSelectedFile } =
     usePreviewImage();
   const [messInput, setMessInput] = useState("");
+  const { handleImageUpload } = useUpAndGetImage();
   const [messSend, setMessSend] = useState(false);
+  const user = useAuthStore((state) => state.user);
   const emojiRef = useRef(null);
-
+  const { sendMessage } = useSendMessage();
+  const { chatId } = useParams();
+  const handleClickSendMess = async () => {
+    if (selectedFile.length > 0) {
+      setSelectedFile([]);
+      setMessSend(false);
+      const imageURLs = await handleImageUpload(selectedFile);
+      await sendMessage(chatId, user.uid, messInput, imageURLs, "");
+    } else {
+      if (messInput.length === 0) {
+        await sendMessage(chatId, user.uid, "❤️", [], "");
+      } else {
+        setMessInput("");
+        setMessSend(false);
+        await sendMessage(chatId, user.uid, messInput, [], "");
+      }
+    }
+  };
   const handleClickEmoj = useCallback(
     (emojiData) => {
       if (messInput.length + emojiData.native.length <= 300) {
@@ -31,12 +54,12 @@ const ChatFooter = ({ isInfoOpen }) => {
     setSelectedFile(selectedImg);
   };
   const handleClickPickedImage = () => {
-    if(inputRef.current) {
-      inputRef.current.value = ""; 
-      inputRef.current.click();   
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      inputRef.current.click();
     }
-  }
-    useEffect(() => {
+  };
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (emojiRef.current && !emojiRef.current.contains(event.target)) {
         setShowEmoj(false);
@@ -47,7 +70,7 @@ const ChatFooter = ({ isInfoOpen }) => {
   }, []);
   return (
     <div
-      className={`p-4 w-full absolute bottom-0 bg-black z-50 ${
+      className={`pb-4 w-full absolute bottom-0 bg-black z-50 ${
         isInfoOpen ? "pr-82" : "pr-4"
       } `}
     >
@@ -114,11 +137,15 @@ const ChatFooter = ({ isInfoOpen }) => {
                 setCommentInput={setMessInput}
                 setCommentPost={setMessSend}
                 isMess={true}
+                handleClickSendMess={handleClickSendMess}
               />
             </div>
           )}
           {messSend || selectedFile.length > 0 ? (
-            <p className="text-blue-500 font-semibold cursor-pointer py-[6px]">
+            <p
+              className="text-blue-500 font-semibold cursor-pointer py-[6px]"
+              onClick={handleClickSendMess}
+            >
               Send
             </p>
           ) : (
@@ -127,14 +154,19 @@ const ChatFooter = ({ isInfoOpen }) => {
                 recording ? "flex-1" : ""
               }`}
             >
-              <VoiceChat setRecording={setRecording} />
+              <VoiceChat
+                setRecording={setRecording}
+                handleClickSendMess={handleClickSendMess}
+              />
               {!recording && (
                 <>
                   <FaRegImage
                     className="cursor-pointer text-4xl"
                     onClick={handleClickPickedImage}
                   />
-                  <FaRegHeart className="cursor-pointer text-4xl" />
+                  <FaRegHeart className="cursor-pointer text-4xl" 
+                   onClick={handleClickSendMess}
+                  />
                 </>
               )}
             </div>

@@ -1,6 +1,6 @@
 import React, { memo, useRef } from "react";
 
-const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost, handleComment,  isMess = false}) => {
+const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost, handleComment, handleClickSendMess, isMess = false}) => {
   const textareaRef = useRef(null);
 
   const handleInput = () => {
@@ -14,7 +14,11 @@ const AutoResizeTextarea = ({setCommentInput, commentInput, setCommentPost, hand
   const handleOnKeyDown = (e) => {
      if(e.key === "Enter"){
       e.preventDefault();
+      if(!isMess){
       handleComment();
+      }else {
+        handleClickSendMess();
+      }
      }
   }
   const handleOnChage = (e) => {
