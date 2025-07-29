@@ -8,19 +8,33 @@ const useSendMessage = () => {
     senderId,
     content = "",
     imageUrls = [],
-    voiceUrl = "",
+    voiceUrl = ""
   ) => {
     console.log(imageUrls);
     try {
-      const messageCollection = collection(fireStore, "chats", chatId, "messages");
+      const messageCollection = collection(
+        fireStore,
+        "chats",
+        chatId,
+        "messages"
+      );
 
       if (content.trim()) {
-        await addDoc(messageCollection, {
-          senderId,
-          type: "text",
-          content,
-          createdAt: serverTimestamp(),
-        });
+        if (content === "❤️") {
+          await addDoc(messageCollection, {
+            senderId,
+            type: "icon",
+            content,
+            createdAt: serverTimestamp(),
+          });
+        } else {
+          await addDoc(messageCollection, {
+            senderId,
+            type: "text",
+            content,
+            createdAt: serverTimestamp(),
+          });
+        }
       }
 
       for (const url of imageUrls) {
@@ -40,7 +54,6 @@ const useSendMessage = () => {
           createdAt: serverTimestamp(),
         });
       }
-
     } catch (error) {
       toast.error("Gửi tin nhắn thất bại!");
       console.error("Lỗi gửi message:", error);
@@ -49,6 +62,5 @@ const useSendMessage = () => {
 
   return { sendMessage };
 };
-
 
 export default useSendMessage;

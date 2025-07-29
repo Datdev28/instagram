@@ -5,7 +5,8 @@ import MessageBubble from "./MessageBubble";
 
 const ListMessages = ({ chatId, otherUserProfile }) => {
   const { user: currentUser } = useAuthStore();
-  const { messages, loading, fetchMore, loadingMore, hasMore } = useListenMessages(chatId);
+  const { messages, loading, fetchMore, loadingMore, hasMore } =
+    useListenMessages(chatId);
   const scrollRef = useRef(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const lastMsgIdRef = useRef(null);
@@ -33,7 +34,7 @@ const ListMessages = ({ chatId, otherUserProfile }) => {
 
   const handleScroll = (e) => {
     const scrollTop = e.target.scrollTop;
-    const threshold = 100; 
+    const threshold = 100;
 
     if (scrollTop <= threshold && hasMore && !loadingMore) {
       const prevHeight = scrollRef.current.scrollHeight;
@@ -65,20 +66,23 @@ const ListMessages = ({ chatId, otherUserProfile }) => {
 
       {messages.map((msg, index) => {
         const isOwn = msg.senderId === currentUser?.uid;
-
         const showAvatar =
           !isOwn &&
           (index === messages.length - 1 ||
             messages[index + 1]?.senderId !== msg.senderId);
 
+        const prevMsg = messages[index - 1] || null;
+
         return (
-          <MessageBubble
-            key={msg.id}
-            msg={msg}
-            isOwn={isOwn}
-            showAvatar={showAvatar}
-            otherUserProfile={otherUserProfile}
-          />
+          <div key={msg.id} className="flex flex-col gap-1">
+            <MessageBubble
+              msg={msg}
+              isOwn={isOwn}
+              showAvatar={showAvatar}
+              otherUserProfile={otherUserProfile}
+              prevMsg={prevMsg}
+            />
+          </div>
         );
       })}
 
