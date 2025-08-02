@@ -5,7 +5,6 @@ export const formatTimestampToVietnamTime = (timestamp) => {
 
   const date = timestamp.toDate();
 
-  // Hiển thị chính xác theo múi giờ Việt Nam
   return date.toLocaleString("vi-VN", {
     timeZone: "Asia/Ho_Chi_Minh",
     day: "2-digit",

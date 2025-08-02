@@ -35,6 +35,7 @@ const useSendMessage = () => {
           content,
           createdAt: serverTimestamp(),
           seenBy: [],
+          isReaded: false
         });
       }
 
@@ -45,6 +46,7 @@ const useSendMessage = () => {
           imageUrls: [url],
           createdAt: serverTimestamp(),
           seenBy: [],
+          isReaded: false
         });
       }
 
@@ -55,6 +57,7 @@ const useSendMessage = () => {
           voiceUrl,
           createdAt: serverTimestamp(),
           seenBy: [],
+          isReaded: false
         });
       }
 
@@ -70,6 +73,7 @@ const useSendMessage = () => {
             content: lastMessageData.content || "",
             createdAt: lastMessageData.createdAt,
             seenBy: [],
+            isReaded: false
           },
         });
       }

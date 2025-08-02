@@ -1,26 +1,21 @@
 const convertDateTimestampAgo = (timestamp) => {
-  // Trường hợp không có timestamp
   if (!timestamp) return "Không xác định";
 
   let date;
 
-  // Trường hợp là Firebase Timestamp (có toDate)
   if (typeof timestamp.toDate === "function") {
     date = timestamp.toDate();
   }
-  // Trường hợp là object có seconds
   else if (
     typeof timestamp === "object" &&
     typeof timestamp.seconds === "number"
   ) {
     date = new Date(timestamp.seconds * 1000);
   }
-  // Trường hợp là date string hoặc JS timestamp
   else {
     date = new Date(timestamp);
   }
 
-  // Kiểm tra ngày hợp lệ
   if (isNaN(date.getTime())) return "Thời gian không hợp lệ";
 
   const now = Date.now();
