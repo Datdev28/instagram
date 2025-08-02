@@ -6,6 +6,7 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import weekday from "dayjs/plugin/weekday";
 import localeData from "dayjs/plugin/localeData";
 import "dayjs/locale/vi"; 
+import { useNavigate } from "react-router-dom";
 
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
@@ -20,26 +21,31 @@ const getTimestampLabel = (current, prev) => {
   const currentTime = dayjs(current);
   const prevTime = prev ? dayjs(prev) : null;
 
-  const isNewDay = !prevTime || !currentTime.isSame(prevTime, "day");
+  if (!prevTime) return currentTime.format("HH:mm - DD/MM/YYYY");
 
-  if (!isNewDay) return null;
+  const isDifferentDay = !currentTime.isSame(prevTime, "day");
+  const isMoreThan1Hour = currentTime.diff(prevTime, "minute") > 60;
 
-  if (currentTime.isToday()) {
-    return currentTime.format("HH:mm");
+  if (isDifferentDay || isMoreThan1Hour) {
+    if (currentTime.isToday()) {
+      return currentTime.format("HH:mm");
+    }
+
+    const now = dayjs();
+    const isInSameWeek = currentTime.startOf("week").isSame(now.startOf("week"));
+
+    if (isInSameWeek) {
+      const weekdayName = currentTime.format("dddd");
+      return `${weekdayName}, ${currentTime.format("HH:mm")}`;
+    }
+
+    return currentTime.format("HH:mm - DD/MM/YYYY");
   }
 
-  const now = dayjs();
-  const isInSameWeek = currentTime.startOf("week").isSame(now.startOf("week"));
-
-  if (isInSameWeek) {
-    const weekdayName = currentTime.format("dddd"); 
-    return `${weekdayName}, ${currentTime.format("HH:mm")}`;
-  }
-
-  return currentTime.format("HH:mm - DD/MM/YYYY");
+  return null;
 };
-
 const MessageBubble = ({ msg, isOwn, showAvatar, otherUserProfile, prevMsg }) => {
+const navigate = useNavigate();
   const bubbleClass = `max-w-[60%] rounded-xl text-sm break-words ${
     msg.type === "text"
       ? isOwn
@@ -49,7 +55,6 @@ const MessageBubble = ({ msg, isOwn, showAvatar, otherUserProfile, prevMsg }) =>
   }`;
 
   const containerClass = `flex gap-2 ${isOwn ? "justify-end" : "justify-start"}`;
-
   const timestampLabel = getTimestampLabel(
     msg.createdAt?.seconds ? msg.createdAt.seconds * 1000 : null,
     prevMsg?.createdAt?.seconds ? prevMsg.createdAt.seconds * 1000 : null
@@ -69,7 +74,8 @@ const MessageBubble = ({ msg, isOwn, showAvatar, otherUserProfile, prevMsg }) =>
             <img
               src={otherUserProfile?.profilePicURL || "/defaultProfilePic.jpg"}
               alt="avatar"
-              className="w-8 h-8 rounded-full self-end object-cover"
+              className="w-8 h-8 rounded-full self-end object-cover cursor-pointer"
+               onClick={() => navigate(`/${otherUserProfile?.userName}`)}
             />
           ) : (
             <div className="w-8 h-8" />

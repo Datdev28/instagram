@@ -214,12 +214,6 @@ const VoiceChat = ({ setRecording }) => {
           <div className="bg-gray-700 rounded-full px-3 py-1 text-sm font-mono">
             {formatTime(recordingTime)}
           </div>
-
-          <button className=" text-blue-500 px-4 py-1 rounded-full text-sm font-medium cursor-pointer"
-           onClick={handleClickSendVoice}
-          >
-            Send
-          </button>
         </div>
       </div>
     );

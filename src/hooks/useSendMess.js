@@ -1,4 +1,11 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
 import { toast } from "react-toastify";
 
@@ -10,7 +17,6 @@ const useSendMessage = () => {
     imageUrls = [],
     voiceUrl = ""
   ) => {
-    console.log(imageUrls);
     try {
       const messageCollection = collection(
         fireStore,
@@ -19,44 +25,57 @@ const useSendMessage = () => {
         "messages"
       );
 
+      let lastMessageRef = null;
+
       if (content.trim()) {
-        if (content === "❤️") {
-          await addDoc(messageCollection, {
-            senderId,
-            type: "icon",
-            content,
-            createdAt: serverTimestamp(),
-          });
-        } else {
-          await addDoc(messageCollection, {
-            senderId,
-            type: "text",
-            content,
-            createdAt: serverTimestamp(),
-          });
-        }
+        const type = content === "❤️" ? "icon" : "text";
+        lastMessageRef = await addDoc(messageCollection, {
+          senderId,
+          type,
+          content,
+          createdAt: serverTimestamp(),
+          seenBy: [],
+        });
       }
 
       for (const url of imageUrls) {
-        await addDoc(messageCollection, {
+        lastMessageRef = await addDoc(messageCollection, {
           senderId,
           type: "image",
           imageUrls: [url],
           createdAt: serverTimestamp(),
+          seenBy: [],
         });
       }
 
       if (voiceUrl) {
-        await addDoc(messageCollection, {
+        lastMessageRef = await addDoc(messageCollection, {
           senderId,
           type: "voice",
           voiceUrl,
           createdAt: serverTimestamp(),
+          seenBy: [],
+        });
+      }
+
+      if (lastMessageRef) {
+        const snap = await getDoc(lastMessageRef);
+        const lastMessageData = snap.data();
+
+        const chatDocRef = doc(fireStore, "chats", chatId);
+        await updateDoc(chatDocRef, {
+          lastMessage: {
+            senderId: lastMessageData.senderId,
+            type: lastMessageData.type,
+            content: lastMessageData.content || "",
+            createdAt: lastMessageData.createdAt,
+            seenBy: [],
+          },
         });
       }
     } catch (error) {
+      console.error(error);
       toast.error("Gửi tin nhắn thất bại!");
-      console.error("Lỗi gửi message:", error);
     }
   };
 

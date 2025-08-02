@@ -27,10 +27,12 @@ const ChatFooter = ({ isInfoOpen }) => {
     if (selectedFile.length > 0) {
       setSelectedFile([]);
       setMessSend(false);
+      setMessInput("");
       const imageURLs = await handleImageUpload(selectedFile);
       await sendMessage(chatId, user.uid, messInput, imageURLs, "");
     } else {
       if (messInput.length === 0) {
+        setMessInput("");
         await sendMessage(chatId, user.uid, "❤️", [], "");
       } else {
         setMessInput("");
