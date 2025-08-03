@@ -10,7 +10,7 @@ const InboxPage = () => {
   const isChatOpen = Boolean(chatId);
   return (
     <div className="flex h-screen text-white overflow-y-scroll custom-scrollbar">
-      <div className="flex flex-2 flex-col px-4 gap-y-2 border-r border-r-color-dash pt-10">
+      <div className="flex flex-2 flex-col px-4 gap-y-2 border-r border-r-color-dash pt-10 w-[380px]">
         <p className="font-bold">Tin nhắn</p>
         <div className="flex flex-col gap-y-4">
           {conversations &&

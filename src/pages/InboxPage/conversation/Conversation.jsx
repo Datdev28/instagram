@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { generateChatId } from "../../../utils/generateChatId";
 import convertDateTimestampAgo from "../../../utils/convertDateTimestampAgo";
 import { LuDot } from "react-icons/lu";
+import markLastMessageAsRead from "../../../hooks/useMarkLastMessageAsRead";
+
 const Conversation = ({ conversation, currentUserId }) => {
   const navigate = useNavigate();
   const { chatId: currentChatId } = useParams();
@@ -17,7 +19,22 @@ const Conversation = ({ conversation, currentUserId }) => {
 
   const thisChatId = generateChatId(currentUserId, otherUserId);
   const isActive = thisChatId === currentChatId;
-  const isUnReaded = conversation?.lastMessage?.senderId !== currentUserId && !conversation?.lastMessage?.isReaded
+  const isUnReaded =
+    conversation?.lastMessage?.senderId !== currentUserId &&
+    !conversation?.lastMessage?.isReaded;
+
+  const handleClickChat = async () => {
+    const isUnread =
+      conversation?.lastMessage?.senderId !== currentUserId &&
+      !conversation?.lastMessage?.isReaded;
+
+    if (isUnread) {
+      await markLastMessageAsRead(thisChatId);
+    }
+
+    navigate(`/direct/inbox/${thisChatId}`);
+  };
+
   useEffect(() => {
     if (!isLoading && !hasLoadedOnce) {
       setHasLoadedOnce(true);
@@ -27,10 +44,6 @@ const Conversation = ({ conversation, currentUserId }) => {
   useEffect(() => {
     setHasLoadedOnce(false);
   }, [otherUserId]);
-
-  const handleClickChat = () => {
-    navigate(`/direct/inbox/${thisChatId}`);
-  };
 
   if (isLoading && !hasLoadedOnce) {
     return (
@@ -64,7 +77,11 @@ const Conversation = ({ conversation, currentUserId }) => {
           {userProfile?.fullName}
         </p>
         <div className="flex items-center whitespace-nowrap">
-          <p className={`${isUnReaded ? "text-white" : "text-color-text-gray"} text-xs truncate max-w-[140px]`}>
+          <p
+            className={`${
+              isUnReaded ? "text-white" : "text-color-text-gray"
+            } text-xs truncate max-w-[140px]`}
+          >
             {isOwnLastMess
               ? "Bạn: "
               : `${userProfile?.fullName?.split(" ")?.[0]}: `}
@@ -75,8 +92,10 @@ const Conversation = ({ conversation, currentUserId }) => {
               "đã gửi đoạn hội thoại"}
             {conversation?.lastMessage?.type === "icon" && "đã gửi nhãn dán"}
           </p>
-          <LuDot className="text-color-text-gray"/>
-          <p className="text-xs text-color-text-gray">{convertDateTimestampAgo(conversation?.lastMessage?.createdAt)}</p>
+          <LuDot className="text-color-text-gray" />
+          <p className="text-xs text-color-text-gray">
+            {convertDateTimestampAgo(conversation?.lastMessage?.createdAt)}
+          </p>
         </div>
       </div>
     </div>

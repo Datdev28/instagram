@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import useListenMessages from "../../../hooks/useListenMessages";
 import useAuthStore from "../../../store/authStore";
 import MessageBubble from "./MessageBubble";
-
+import markLastMessageAsRead from "../../../hooks/useMarkLastMessageAsRead";
 const ListMessages = ({ chatId, otherUserProfile }) => {
   const { user: currentUser } = useAuthStore();
   const { messages, loading, fetchMore, loadingMore, hasMore } =
@@ -31,6 +31,16 @@ const ListMessages = ({ chatId, otherUserProfile }) => {
       lastMsgIdRef.current = lastMsg.id;
     }
   }, [messages]);
+  useEffect(() => {
+    if (!loading && messages.length > 0) {
+      const lastMsg = messages[messages.length - 1];
+      const isFromOther = lastMsg.senderId !== currentUser?.uid;
+
+      if (isFromOther && !lastMsg.isReaded) {
+        markLastMessageAsRead(chatId);
+      }
+    }
+  }, [chatId, loading, messages, currentUser?.uid]);
 
   const handleScroll = (e) => {
     const scrollTop = e.target.scrollTop;
@@ -77,7 +87,9 @@ const ListMessages = ({ chatId, otherUserProfile }) => {
         return (
           <div
             key={msg.id}
-            className={`flex flex-col gap-1 ${isDifferentSender ? "mt-10" : ""}`}
+            className={`flex flex-col gap-1 ${
+              isDifferentSender ? "mt-10" : ""
+            }`}
           >
             <MessageBubble
               msg={msg}
