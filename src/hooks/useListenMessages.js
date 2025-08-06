@@ -9,6 +9,7 @@ import {
   getDocs,
   where,
   Timestamp,
+  doc,
 } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
 
@@ -21,7 +22,8 @@ const useListenMessages = (chatId) => {
   const [hasMore, setHasMore] = useState(true);
   const firstVisibleRef = useRef(null);
   const lastTimestampRef = useRef(null);
-  const unsubscribeRef = useRef(null); // để hủy listener cũ
+  const unsubscribeRef = useRef(null);
+  const [chatData, setChatData] = useState(null);
 
   useEffect(() => {
     if (!chatId) return;
@@ -29,7 +31,6 @@ const useListenMessages = (chatId) => {
     const fetchInitial = async () => {
       setLoading(true);
 
-      // Hủy listener cũ nếu có
       if (unsubscribeRef.current) {
         unsubscribeRef.current();
       }
@@ -56,7 +57,6 @@ const useListenMessages = (chatId) => {
       lastTimestampRef.current =
         reversed[reversed.length - 1]?.createdAt || Timestamp.now();
 
-      // ✅ Setup onSnapshot đúng lúc, sau khi có dữ liệu ban đầu
       const listenQuery = query(
         collection(fireStore, "chats", chatId, "messages"),
         orderBy("createdAt", "asc"),
@@ -71,11 +71,12 @@ const useListenMessages = (chatId) => {
 
         setMessages((prev) => {
           const existingIds = new Set(prev.map((msg) => msg.id));
-          const filtered = newMessages.filter((msg) => !existingIds.has(msg.id));
+          const filtered = newMessages.filter(
+            (msg) => !existingIds.has(msg.id)
+          );
 
           if (filtered.length > 0) {
-            lastTimestampRef.current =
-              filtered[filtered.length - 1].createdAt;
+            lastTimestampRef.current = filtered[filtered.length - 1].createdAt;
             return [...prev, ...filtered];
           }
 
@@ -94,7 +95,24 @@ const useListenMessages = (chatId) => {
       }
     };
   }, [chatId]);
+  useEffect(() => {
+    if (!chatId) return;
 
+    const unsubscribeChat = onSnapshot(
+      doc(fireStore, "chats", chatId),
+      (docSnap) => {
+        if (docSnap.exists()) {
+          setChatData({ id: docSnap.id, ...docSnap.data() });
+        } else {
+          setChatData(null);
+        }
+      }
+    );
+
+    return () => {
+      unsubscribeChat();
+    };
+  }, [chatId]);
   const fetchMore = async () => {
     if (!chatId || !firstVisibleRef.current || !hasMore || loadingMore) return;
 
@@ -122,7 +140,7 @@ const useListenMessages = (chatId) => {
     setLoadingMore(false);
   };
 
-  return { messages, loading, loadingMore, fetchMore, hasMore };
+  return { messages, loading, loadingMore, fetchMore, hasMore, chatData};
 };
 
 export default useListenMessages;

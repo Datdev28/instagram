@@ -5,8 +5,13 @@ import isYesterday from "dayjs/plugin/isYesterday";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import weekday from "dayjs/plugin/weekday";
 import localeData from "dayjs/plugin/localeData";
-import "dayjs/locale/vi"; 
+import "dayjs/locale/vi";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsEmojiSmile } from "react-icons/bs";
+import { FaRegCopy } from "react-icons/fa";
+import { IoReturnUpBack } from "react-icons/io5";
 
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
@@ -24,7 +29,7 @@ const getTimestampLabel = (current, prev) => {
   if (!prevTime) return currentTime.format("HH:mm - DD/MM/YYYY");
 
   const isDifferentDay = !currentTime.isSame(prevTime, "day");
-  const isMoreThan1Hour = currentTime.diff(prevTime, "minute") > 60;
+  const isMoreThan1Hour = currentTime.diff(prevTime, "minute") > 20;
 
   if (isDifferentDay || isMoreThan1Hour) {
     if (currentTime.isToday()) {
@@ -32,7 +37,9 @@ const getTimestampLabel = (current, prev) => {
     }
 
     const now = dayjs();
-    const isInSameWeek = currentTime.startOf("week").isSame(now.startOf("week"));
+    const isInSameWeek = currentTime
+      .startOf("week")
+      .isSame(now.startOf("week"));
 
     if (isInSameWeek) {
       const weekdayName = currentTime.format("dddd");
@@ -44,8 +51,18 @@ const getTimestampLabel = (current, prev) => {
 
   return null;
 };
-const MessageBubble = ({ msg, isOwn, showAvatar, otherUserProfile, prevMsg }) => {
-const navigate = useNavigate();
+const MessageBubble = ({
+  msg,
+  isOwn,
+  showAvatar,
+  otherUserProfile,
+  prevMsg,
+}) => {
+  const navigate = useNavigate();
+  const [showEmoj, setShowEmoj] = useState(false);
+  const [isSettingMess, setIsSettingMess] = useState(false);
+  const dotRef = useRef();
+  const [menuPosition, setMenuPosition] = useState("bottom");
   const bubbleClass = `max-w-[60%] rounded-xl text-sm break-words ${
     msg.type === "text"
       ? isOwn
@@ -53,13 +70,60 @@ const navigate = useNavigate();
         : "bg-color-dash text-white rounded-bl-none px-3 py-2"
       : ""
   }`;
+  const handleClickSetting = () => {
+    if (!dotRef.current) return;
 
-  const containerClass = `flex gap-2 ${isOwn ? "justify-end" : "justify-start"}`;
+    const rect = dotRef.current.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const menuHeight = 200;
+    const direction = spaceBelow < menuHeight ? "top" : "bottom";
+    setMenuPosition(direction);
+
+    // Gửi sự kiện toàn cục thông báo msg nào được bật menu
+    window.dispatchEvent(
+      new CustomEvent("open-message-menu", {
+        detail: { id: msg.id },
+      })
+    );
+
+    setIsSettingMess((prev) => !prev);
+  };
+
+  const containerClass = `flex gap-2 ${
+    isOwn ? "justify-end" : "justify-start"
+  }`;
   const timestampLabel = getTimestampLabel(
     msg.createdAt?.seconds ? msg.createdAt.seconds * 1000 : null,
     prevMsg?.createdAt?.seconds ? prevMsg.createdAt.seconds * 1000 : null
   );
+  const timestampMess = msg.createdAt?.seconds
+    ? dayjs(msg.createdAt.seconds * 1000).format("HH:mm - DD/MM/YYYY")
+    : null;
+  useEffect(() => {
+    const handleOutsideOpen = (e) => {
+      if (e.detail.id !== msg.id) {
+        setIsSettingMess(false);
+      }
+    };
 
+    window.addEventListener("open-message-menu", handleOutsideOpen);
+
+    return () => {
+      window.removeEventListener("open-message-menu", handleOutsideOpen);
+    };
+  }, [msg.id]);
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dotRef.current && !dotRef.current.contains(e.target)) {
+        setIsSettingMess(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <>
       {timestampLabel && (
@@ -68,14 +132,59 @@ const navigate = useNavigate();
         </div>
       )}
 
-      <div className={containerClass}>
+      <div className={`${containerClass} group`}>
+        {isOwn && (
+          <div
+            className={`group-hover:opacity-100 ${
+              isSettingMess ? "opacity-100" : "opacity-0"
+            }  flex items-center gap-x-1 text-white`}
+          >
+            <div
+              ref={dotRef}
+              className="rounded-full bg-transparent hover:bg-color-input-gray p-1 relative"
+            >
+              <BsThreeDotsVertical
+                className="cursor-pointer"
+                onClick={handleClickSetting}
+              />
+
+              {isSettingMess && (
+                <div
+                  className="w-[140px] bg-color-dash z-10 rounded-xl absolute left-[-140px] text-center py-2 space-y-2"
+                  style={{
+                    top: menuPosition === "bottom" ? "100%" : undefined,
+                    bottom: menuPosition === "top" ? "100%" : undefined,
+                    marginTop: menuPosition === "bottom" ? "8px" : undefined,
+                    marginBottom: menuPosition === "top" ? "8px" : undefined,
+                  }}
+                >
+                  <span className="text-xs text-gray-400">{timestampMess}</span>
+                  <hr className="border-color-input-gray mt-2" />
+                  <div className="flex items-center justify-between rounded-md px-1 hover:bg-color-note py-1 mx-2 cursor-pointer">
+                    <p>Sao chép</p>
+                    <FaRegCopy />
+                  </div>
+                  <div className="flex items-center justify-between rounded-md px-1 hover:bg-color-note py-1 mx-2 cursor-pointer">
+                    <p className="text-red-600">Thu hồi</p>
+                    <IoReturnUpBack className="text-red-600" />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="rounded-full bg-transparent hover:bg-color-input-gray p-1">
+              <BsEmojiSmile className="cursor-pointer " />
+            </div>
+          </div>
+        )}
+
         {!isOwn &&
           (showAvatar ? (
             <img
               src={otherUserProfile?.profilePicURL || "/defaultProfilePic.jpg"}
               alt="avatar"
               className="w-8 h-8 rounded-full self-end object-cover cursor-pointer"
-               onClick={() => navigate(`/${otherUserProfile?.userName}`)}
+              onClick={() => navigate(`/${otherUserProfile?.userName}`)}
             />
           ) : (
             <div className="w-8 h-8" />
@@ -86,12 +195,55 @@ const navigate = useNavigate();
           {msg.type === "icon" && <p className="text-5xl">{msg.content}</p>}
           {msg.type === "image" &&
             msg.imageUrls?.map((url, i) => (
-              <img key={i} src={url} className="rounded-lg w-[300px] h-[400px]" />
+              <img
+                key={i}
+                src={url}
+                className="rounded-lg w-[300px] h-[400px] object-cover"
+              />
             ))}
           {msg.type === "voice" && (
             <VoicePlayer controls src={msg.voiceUrl} isOwn={isOwn} />
           )}
         </div>
+        {!isOwn && (
+          <div
+            className={`group-hover:opacity-100 ${
+              isSettingMess ? "opacity-100" : "opacity-0"
+            }  flex items-center gap-x-1 text-white`}
+          >
+            <div className="rounded-full bg-transparent hover:bg-color-input-gray p-1">
+              <BsEmojiSmile className="cursor-pointer " />
+            </div>
+            <div
+              ref={dotRef}
+              className="rounded-full bg-transparent hover:bg-color-input-gray p-1 relative"
+            >
+              <BsThreeDotsVertical
+                className="cursor-pointer"
+                onClick={handleClickSetting}
+              />
+
+              {isSettingMess && (
+                <div
+                  className="w-[140px] bg-color-dash z-10 rounded-xl absolute  text-center py-2 space-y-2"
+                  style={{
+                    top: menuPosition === "bottom" ? "100%" : undefined,
+                    bottom: menuPosition === "top" ? "100%" : undefined,
+                    marginTop: menuPosition === "bottom" ? "8px" : undefined,
+                    marginBottom: menuPosition === "top" ? "8px" : undefined,
+                  }}
+                >
+                  <span className="text-xs text-gray-400">{timestampMess}</span>
+                  <hr className="border-color-input-gray mt-2" />
+                  <div className="flex items-center justify-between rounded-md px-1 hover:bg-color-btn-gray py-1 mx-2 cursor-pointer">
+                    <p>Sao chép</p>
+                    <FaRegCopy />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

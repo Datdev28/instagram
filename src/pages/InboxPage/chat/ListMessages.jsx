@@ -5,12 +5,11 @@ import MessageBubble from "./MessageBubble";
 import markLastMessageAsRead from "../../../hooks/useMarkLastMessageAsRead";
 const ListMessages = ({ chatId, otherUserProfile }) => {
   const { user: currentUser } = useAuthStore();
-  const { messages, loading, fetchMore, loadingMore, hasMore } =
+  const { messages, loading, fetchMore, loadingMore, hasMore, chatData} =
     useListenMessages(chatId);
   const scrollRef = useRef(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const lastMsgIdRef = useRef(null);
-
   useEffect(() => {
     if (!loading && isInitialLoad && scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -21,7 +20,6 @@ const ListMessages = ({ chatId, otherUserProfile }) => {
       }
     }
   }, [loading, messages.length]);
-
   useEffect(() => {
     if (!scrollRef.current || messages.length === 0) return;
 
@@ -88,7 +86,7 @@ const ListMessages = ({ chatId, otherUserProfile }) => {
           <div
             key={msg.id}
             className={`flex flex-col gap-1 ${
-              isDifferentSender ? "mt-10" : ""
+              isDifferentSender ? "mt-10" : "mt-1"
             }`}
           >
             <MessageBubble
@@ -101,9 +99,10 @@ const ListMessages = ({ chatId, otherUserProfile }) => {
           </div>
         );
       })}
-
-      {loading && (
-        <p className="text-center text-sm text-gray-500 mt-2">Đang tải...</p>
+      {chatData?.lastMessage?.isReaded && chatData?.lastMessage?.senderId === currentUser.uid &&(
+      <div className="w-full flex justify-end text-color-text-gray pr-4 text-sm">
+       <p>Đã xem</p>
+      </div>
       )}
     </div>
   );
