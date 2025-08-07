@@ -95,6 +95,7 @@ const ListMessages = ({ chatId, otherUserProfile }) => {
               showAvatar={showAvatar}
               otherUserProfile={otherUserProfile}
               prevMsg={prevMsg}
+              chatId={chatId}
             />
           </div>
         );

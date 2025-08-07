@@ -12,7 +12,8 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { BsEmojiSmile } from "react-icons/bs";
 import { FaRegCopy } from "react-icons/fa";
 import { IoReturnUpBack } from "react-icons/io5";
-
+import { IoCheckmarkCircleOutline } from "react-icons/io5";
+import useDeleteMessage from "../../../hooks/useDeleteMessage";
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
 dayjs.extend(isSameOrAfter);
@@ -56,11 +57,14 @@ const MessageBubble = ({
   isOwn,
   showAvatar,
   otherUserProfile,
+  chatId,
   prevMsg,
 }) => {
   const navigate = useNavigate();
   const [showEmoj, setShowEmoj] = useState(false);
   const [isSettingMess, setIsSettingMess] = useState(false);
+  const [showCopiedText, setShowCopiedText] = useState(false);
+  const { deleteMessage } = useDeleteMessage();
   const dotRef = useRef();
   const [menuPosition, setMenuPosition] = useState("bottom");
   const bubbleClass = `max-w-[60%] rounded-xl text-sm break-words ${
@@ -89,6 +93,15 @@ const MessageBubble = ({
     setIsSettingMess((prev) => !prev);
   };
 
+  const handleCopy = async (text) => {
+    await navigator.clipboard.writeText(text);
+    setShowCopiedText(true);
+    setIsSettingMess(false);
+    setTimeout(() => setShowCopiedText(false), 1000);
+  };
+  const handleClickRemoveMess = async () => {
+    await deleteMessage(chatId, msg?.id);
+  };
   const containerClass = `flex gap-2 ${
     isOwn ? "justify-end" : "justify-start"
   }`;
@@ -160,11 +173,20 @@ const MessageBubble = ({
                 >
                   <span className="text-xs text-gray-400">{timestampMess}</span>
                   <hr className="border-color-input-gray mt-2" />
-                  <div className="flex items-center justify-between rounded-md px-1 hover:bg-color-note py-1 mx-2 cursor-pointer">
-                    <p>Sao chép</p>
-                    <FaRegCopy />
-                  </div>
-                  <div className="flex items-center justify-between rounded-md px-1 hover:bg-color-note py-1 mx-2 cursor-pointer">
+                  {(msg?.type === "text" || msg?.type === "icon") && (
+                    <div
+                      className="flex items-center justify-between rounded-md px-1 hover:bg-color-note py-1 mx-2 cursor-pointer"
+                      onClick={() => handleCopy(msg?.content)}
+                    >
+                      <p>Sao chép</p>
+                      <FaRegCopy />
+                    </div>
+                  )}
+
+                  <div
+                    className="flex items-center justify-between rounded-md px-1 hover:bg-color-note py-1 mx-2 cursor-pointer"
+                    onClick={handleClickRemoveMess}
+                  >
                     <p className="text-red-600">Thu hồi</p>
                     <IoReturnUpBack className="text-red-600" />
                   </div>
@@ -234,16 +256,31 @@ const MessageBubble = ({
                   }}
                 >
                   <span className="text-xs text-gray-400">{timestampMess}</span>
-                  <hr className="border-color-input-gray mt-2" />
-                  <div className="flex items-center justify-between rounded-md px-1 hover:bg-color-btn-gray py-1 mx-2 cursor-pointer">
-                    <p>Sao chép</p>
-                    <FaRegCopy />
-                  </div>
+                  {(msg?.type === "text" || msg?.type === "icon") && (
+                    <>
+                      <hr className="border-color-input-gray mt-2" />
+                      <div
+                        className="flex items-center justify-between rounded-md px-1 hover:bg-color-note py-1 mx-2 cursor-pointer"
+                        onClick={() => handleCopy(msg?.content)}
+                      >
+                        <p>Sao chép</p>
+                        <FaRegCopy />
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
             </div>
           </div>
         )}
+        <div
+          className={`absolute top-1/2 left-1/3 ${
+            showCopiedText ? "opacity-100" : "opacity-0"
+          } flex items-center transition-all bg-color-dash space-x-2 p-4 rounded-md`}
+        >
+          <IoCheckmarkCircleOutline className="inline text-3xl" />
+          <span>Đã sao chép</span>
+        </div>
       </div>
     </>
   );

@@ -7,8 +7,6 @@ import {
   startAfter,
   onSnapshot,
   getDocs,
-  where,
-  Timestamp,
   doc,
 } from "firebase/firestore";
 import { fireStore } from "../firebase/firebase";
@@ -20,10 +18,10 @@ const useListenMessages = (chatId) => {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const firstVisibleRef = useRef(null);
-  const lastTimestampRef = useRef(null);
-  const unsubscribeRef = useRef(null);
   const [chatData, setChatData] = useState(null);
+
+  const firstVisibleRef = useRef(null);
+  const unsubscribeRef = useRef(null);
 
   useEffect(() => {
     if (!chatId) return;
@@ -43,44 +41,53 @@ const useListenMessages = (chatId) => {
 
       const snapshot = await getDocs(q);
       const docs = snapshot.docs;
-
       const fetched = docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-
       const reversed = fetched.reverse();
 
       setMessages(reversed);
       setHasMore(docs.length === PAGE_SIZE);
       firstVisibleRef.current = docs[docs.length - 1];
-      lastTimestampRef.current =
-        reversed[reversed.length - 1]?.createdAt || Timestamp.now();
 
+      // ✅ Real-time listener (full range)
       const listenQuery = query(
         collection(fireStore, "chats", chatId, "messages"),
-        orderBy("createdAt", "asc"),
-        where("createdAt", ">", lastTimestampRef.current)
+        orderBy("createdAt", "asc")
       );
 
       unsubscribeRef.current = onSnapshot(listenQuery, (snapshot) => {
-        const newMessages = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        setMessages((prevMessages) => {
+          const updated = [...prevMessages];
 
-        setMessages((prev) => {
-          const existingIds = new Set(prev.map((msg) => msg.id));
-          const filtered = newMessages.filter(
-            (msg) => !existingIds.has(msg.id)
+          snapshot.docChanges().forEach((change) => {
+            const changedMsg = { id: change.doc.id, ...change.doc.data() };
+
+            if (change.type === "added") {
+              if (!updated.find((msg) => msg.id === changedMsg.id)) {
+                updated.push(changedMsg);
+              }
+            }
+
+            if (change.type === "modified") {
+              const index = updated.findIndex((msg) => msg.id === changedMsg.id);
+              if (index !== -1) {
+                updated[index] = changedMsg;
+              }
+            }
+
+            if (change.type === "removed") {
+              const index = updated.findIndex((msg) => msg.id === changedMsg.id);
+              if (index !== -1) {
+                updated.splice(index, 1);
+              }
+            }
+          });
+
+          return [...updated].sort(
+            (a, b) => a.createdAt?.seconds - b.createdAt?.seconds
           );
-
-          if (filtered.length > 0) {
-            lastTimestampRef.current = filtered[filtered.length - 1].createdAt;
-            return [...prev, ...filtered];
-          }
-
-          return prev;
         });
       });
 
@@ -95,6 +102,7 @@ const useListenMessages = (chatId) => {
       }
     };
   }, [chatId]);
+
   useEffect(() => {
     if (!chatId) return;
 
@@ -113,10 +121,12 @@ const useListenMessages = (chatId) => {
       unsubscribeChat();
     };
   }, [chatId]);
+
   const fetchMore = async () => {
     if (!chatId || !firstVisibleRef.current || !hasMore || loadingMore) return;
 
     setLoadingMore(true);
+
     const q = query(
       collection(fireStore, "chats", chatId, "messages"),
       orderBy("createdAt", "desc"),
@@ -140,7 +150,7 @@ const useListenMessages = (chatId) => {
     setLoadingMore(false);
   };
 
-  return { messages, loading, loadingMore, fetchMore, hasMore, chatData};
+  return { messages, loading, loadingMore, fetchMore, hasMore, chatData };
 };
 
 export default useListenMessages;
