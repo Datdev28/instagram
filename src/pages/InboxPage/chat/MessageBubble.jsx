@@ -9,7 +9,6 @@ import "dayjs/locale/vi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { BsEmojiSmile } from "react-icons/bs";
 import { FaRegCopy } from "react-icons/fa";
 import { IoReturnUpBack } from "react-icons/io5";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
@@ -193,10 +192,6 @@ const MessageBubble = ({
                 </div>
               )}
             </div>
-
-            <div className="rounded-full bg-transparent hover:bg-color-input-gray p-1">
-              <BsEmojiSmile className="cursor-pointer " />
-            </div>
           </div>
         )}
 
@@ -233,9 +228,6 @@ const MessageBubble = ({
               isSettingMess ? "opacity-100" : "opacity-0"
             }  flex items-center gap-x-1 text-white`}
           >
-            <div className="rounded-full bg-transparent hover:bg-color-input-gray p-1">
-              <BsEmojiSmile className="cursor-pointer " />
-            </div>
             <div
               ref={dotRef}
               className="rounded-full bg-transparent hover:bg-color-input-gray p-1 relative"

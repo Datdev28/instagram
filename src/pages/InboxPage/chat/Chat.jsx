@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 import useCreateChat from "../../../hooks/useCreateChat";
 import useAuthStore from "../../../store/authStore";
@@ -10,7 +10,7 @@ import ListMessages from "./ListMessages";
 const Chat = () => {
   const { chatId } = useParams();
   const { user: currentUser } = useAuthStore();
-  const { otherUserId, loading: loadingChat } = useCreateChat(
+  const { otherUserId } = useCreateChat(
     chatId,
     currentUser?.uid
   );
@@ -40,6 +40,7 @@ const Chat = () => {
            <ChatFooter isInfoOpen={isInfoOpen}/>
         </div>
         <ChatDetail
+          chatId={chatId}
           otherUserProfile={otherUserProfile}
           isInfoOpen={isInfoOpen}
         />
